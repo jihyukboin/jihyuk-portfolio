@@ -10,6 +10,7 @@ fi
 revision="$1"
 archive="$2"
 app_root="/opt/jihyuk-portfolio"
+environment_file="$app_root/shared/production.env"
 release_dir="$app_root/releases/$revision"
 build_dir="$app_root/builds/$revision"
 next_link="$app_root/.current-$revision"
@@ -25,6 +26,11 @@ if [[ "$archive" != "/tmp/jihyuk-portfolio-$revision.tar.gz" || ! -f "$archive" 
   exit 66
 fi
 
+if [[ ! -r "$environment_file" ]]; then
+  echo "production environment file is missing or unreadable" >&2
+  exit 66
+fi
+
 cleanup() {
   rm -rf -- "$build_dir"
   rm -f -- "$archive" "$next_link"
@@ -37,6 +43,7 @@ mkdir -p "$build_dir"
 tar -xzf "$archive" -C "$build_dir"
 
 cd "$build_dir"
+ln -s "$environment_file" .env.production
 npm ci
 npm run build
 
