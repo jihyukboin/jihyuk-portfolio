@@ -21,7 +21,6 @@ export function SiteHeader() {
           >
             <span className="inline-flex min-w-0 items-end gap-1 whitespace-nowrap leading-none">
               <span className="text-lg font-bold leading-none tracking-normal">정지혁</span>
-              <span className="mb-[1.28px] inline-block text-[12.48px] font-semibold leading-none text-slate-400">.dev</span>
             </span>
           </Link>
         </div>

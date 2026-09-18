@@ -20,22 +20,17 @@ fi
 install -d -o "$deploy_user" -g "$deploy_user" -m 0755 \
   "$app_root" \
   "$app_root/builds" \
-  "$app_root/releases" \
+  "$app_root/releases"
+install -d -o "$deploy_user" -g "$deploy_user" -m 0700 \
+  "$app_root/shared"
+install -d -o "$deploy_user" -g "$deploy_user" -m 0755 \
   "$deploy_home/.config" \
   "$deploy_home/.config/systemd" \
   "$deploy_home/.config/systemd/user"
-install -d -o root -g root -m 0755 "$app_root/bin"
 
 install -d -o "$deploy_user" -g "$deploy_user" -m 0700 "$deploy_home/.ssh"
 install -o "$deploy_user" -g "$deploy_user" -m 0600 "$public_key" "$deploy_home/.ssh/authorized_keys"
 
-install -o root -g root -m 0755 ops/oci/deploy "$app_root/bin/deploy"
-install -o root -g root -m 0644 \
-  ops/oci/jihyuk-portfolio.service \
-  "$deploy_home/.config/systemd/user/jihyuk-portfolio.service"
-
 loginctl enable-linger "$deploy_user"
 deploy_uid="$(id -u "$deploy_user")"
 systemctl start "user@$deploy_uid.service"
-runuser -u "$deploy_user" -- env XDG_RUNTIME_DIR="/run/user/$deploy_uid" systemctl --user daemon-reload
-runuser -u "$deploy_user" -- env XDG_RUNTIME_DIR="/run/user/$deploy_uid" systemctl --user enable jihyuk-portfolio.service

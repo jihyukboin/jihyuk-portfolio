@@ -49,6 +49,8 @@ jobs:
     environment: production
     env:
       DEPLOY_ARCHIVE: jihyuk-portfolio-${{ github.sha }}.tar.gz
+      OCI_HOST: ${{ secrets.OCI_HOST }}
+      OCI_USER: ${{ secrets.OCI_USER }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -69,19 +71,38 @@ jobs:
           printf '%s\n' "$OCI_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
           chmod 600 "$HOME/.ssh/known_hosts"
 
-      - name: Upload release source
+      - name: Synchronize production environment
         env:
-          OCI_HOST: ${{ secrets.OCI_HOST }}
-          OCI_USER: ${{ secrets.OCI_USER }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+        run: |
+          environment_file="$RUNNER_TEMP/production.env"
+          remote_environment_file="/opt/jihyuk-portfolio/shared/.production.env-$GITHUB_SHA"
+          umask 077
+          {
+            printf 'NEXT_PUBLIC_SITE_URL=%s\n' "$NEXT_PUBLIC_SITE_URL"
+            printf 'NEXT_PUBLIC_GA_MEASUREMENT_ID=%s\n' "$NEXT_PUBLIC_GA_MEASUREMENT_ID"
+          } > "$environment_file"
+          ssh "$OCI_USER@$OCI_HOST" "install -d -m 700 /opt/jihyuk-portfolio/shared"
+          scp "$environment_file" "$OCI_USER@$OCI_HOST:$remote_environment_file"
+          ssh "$OCI_USER@$OCI_HOST" \
+            "chmod 600 '$remote_environment_file' && mv -f '$remote_environment_file' /opt/jihyuk-portfolio/shared/production.env"
+          rm -f "$environment_file"
+
+      - name: Synchronize OCI service
+        run: |
+          remote_service=".config/systemd/user/.jihyuk-portfolio.service-$GITHUB_SHA"
+          scp ops/oci/jihyuk-portfolio.service "$OCI_USER@$OCI_HOST:$remote_service"
+          ssh "$OCI_USER@$OCI_HOST" \
+            "chmod 644 '$remote_service' && mv -f '$remote_service' .config/systemd/user/jihyuk-portfolio.service && XDG_RUNTIME_DIR=/run/user/\$(id -u) systemctl --user daemon-reload && XDG_RUNTIME_DIR=/run/user/\$(id -u) systemctl --user enable jihyuk-portfolio.service"
+
+      - name: Upload release source
         run: scp "$DEPLOY_ARCHIVE" "$OCI_USER@$OCI_HOST:/tmp/$DEPLOY_ARCHIVE"
 
       - name: Deploy release on OCI
-        env:
-          OCI_HOST: ${{ secrets.OCI_HOST }}
-          OCI_USER: ${{ secrets.OCI_USER }}
         run: |
           ssh "$OCI_USER@$OCI_HOST" \
-            "/opt/jihyuk-portfolio/bin/deploy '$GITHUB_SHA' '/tmp/$DEPLOY_ARCHIVE'"
+            "bash -s -- '$GITHUB_SHA' '/tmp/$DEPLOY_ARCHIVE'" < ops/oci/deploy
 
       - name: Remove SSH credentials
         if: always()
