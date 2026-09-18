@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ $# -ne 2 ]]; then
+  echo "usage: deploy <revision> <archive>" >&2
+  exit 64
+fi
+
+revision="$1"
+archive="$2"
+app_root="/opt/jihyuk-portfolio"
+release_dir="$app_root/releases/$revision"
+build_dir="$app_root/builds/$revision"
+next_link="$app_root/.current-$revision"
+runtime_dir="/run/user/$(id -u)"
+
+if [[ ! "$revision" =~ ^[0-9a-f]{40}$ ]]; then
+  echo "revision must be a full Git commit SHA" >&2
+  exit 64
+fi
+
+if [[ "$archive" != "/tmp/jihyuk-portfolio-$revision.tar.gz" || ! -f "$archive" ]]; then
+  echo "release archive is missing or has an unexpected path" >&2
+  exit 66
+fi
+
+cleanup() {
+  rm -rf -- "$build_dir"
+  rm -f -- "$archive" "$next_link"
+}
+trap cleanup EXIT
+
+mkdir -p "$app_root/builds" "$app_root/releases"
+rm -rf -- "$build_dir"
+mkdir -p "$build_dir"
+tar -xzf "$archive" -C "$build_dir"
+
+cd "$build_dir"
+npm ci
+npm run build
+
+rm -rf -- "$release_dir"
+mkdir -p "$release_dir"
+cp -a .next/standalone/. "$release_dir/"
+mkdir -p "$release_dir/.next"
+cp -a .next/static "$release_dir/.next/static"
+if [[ -d public ]]; then
+  cp -a public "$release_dir/public"
+fi
+
+previous_target=""
+if [[ -L "$app_root/current" ]]; then
+  previous_target="$(readlink -f "$app_root/current")"
+fi
+
+ln -s "$release_dir" "$next_link"
+mv -Tf "$next_link" "$app_root/current"
+XDG_RUNTIME_DIR="$runtime_dir" systemctl --user restart jihyuk-portfolio.service
+
+for attempt in {1..20}; do
+  if curl --fail --silent --show-error --max-time 2 http://127.0.0.1:3010/ >/dev/null; then
+    find "$app_root/releases" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' \
+      | sort -nr \
+      | tail -n +6 \
+      | cut -d' ' -f2- \
+      | xargs -r rm -rf --
+    exit 0
+  fi
+  sleep 1
+done
+
+echo "deployment health check failed" >&2
+if [[ -n "$previous_target" && -d "$previous_target" ]]; then
+  ln -s "$previous_target" "$next_link"
+  mv -Tf "$next_link" "$app_root/current"
+  XDG_RUNTIME_DIR="$runtime_dir" systemctl --user restart jihyuk-portfolio.service
+else
+  rm -f -- "$app_root/current"
+  XDG_RUNTIME_DIR="$runtime_dir" systemctl --user stop jihyuk-portfolio.service
+fi
+exit 1

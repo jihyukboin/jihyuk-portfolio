@@ -1,0 +1,19 @@
+[Unit]
+Description=Jihyuk Portfolio Next.js server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/jihyuk-portfolio/current
+Environment=NODE_ENV=production
+Environment=HOSTNAME=127.0.0.1
+Environment=PORT=3010
+ExecStart=/usr/bin/node /opt/jihyuk-portfolio/current/server.js
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=default.target
