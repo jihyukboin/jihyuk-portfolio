@@ -185,6 +185,20 @@ const certifications = [
     acquiredOn: "2025. 9. 19.",
     registrationNumber: "SQLD-058015681",
   },
+  {
+    name: "AWS Certified Generative AI Developer - Professional",
+    acquiredOn: "0000",
+    registrationNumber: "0000",
+  },
+];
+
+const languageTests = [
+  {
+    name: "TOEIC Speaking Test",
+    testedOn: "2026.09.14",
+    registrationNumber: "101909",
+    result: "Intermediate High (Speaking Score 140)",
+  },
 ];
 
 const sectionClass = "mt-[clamp(64px,8vw,96px)]";
@@ -195,9 +209,6 @@ const subHeadingClass =
 const twoColumnClass =
   "grid grid-cols-[minmax(220px,0.85fr)_1.55fr] gap-[clamp(32px,5vw,64px)] text-[17px] leading-[1.7] max-[720px]:grid-cols-1";
 const textLinkClass = "w-max hover:text-[#2383e2]";
-const tableHeadCellClass =
-  "w-[37%] bg-[#fcfcfb] px-[18px] py-[14px] text-left text-[#787774] [font-weight:650]";
-const tableCellClass = "px-[18px] py-[14px] text-left break-words [font-weight:560]";
 const bulletListClass = "grid content-start gap-[7px]";
 const bulletItemClass =
   "relative pl-[18px] before:absolute before:left-[2px] before:text-[#2383e2] before:content-['•']";
@@ -327,16 +338,16 @@ export default function Home() {
       </header>
 
       <section
-          className="mt-[clamp(56px,7vw,80px)] grid grid-cols-[minmax(210px,330px)_1fr] items-center gap-[clamp(40px,6vw,64px)] max-[720px]:grid-cols-1 max-[720px]:gap-[34px]"
+          className="mt-[clamp(56px,7vw,80px)] grid grid-cols-[minmax(220px,0.85fr)_1.55fr] items-center gap-[clamp(32px,5vw,64px)] max-[720px]:grid-cols-1 max-[720px]:gap-[34px]"
           aria-label="프로필 및 연락처"
         >
           <Image
-            className="h-auto w-full rounded-[14px] border border-[#e9e9e7] shadow-[0_18px_42px_rgba(35,42,52,0.1)] max-[720px]:w-[min(72vw,310px)]"
+            className="h-auto w-[231px] rounded-[14px] border border-[#e9e9e7] shadow-[0_18px_42px_rgba(35,42,52,0.1)] max-[720px]:w-[min(50.4vw,217px)]"
             src="/images/jihyuk.webp"
             alt="정지혁 프로필 사진"
             width={354}
             height={472}
-            sizes="(max-width: 700px) 72vw, 330px"
+            sizes="(max-width: 700px) 51vw, 231px"
             quality={90}
           />
           <div className="grid gap-[15px] text-[clamp(16px,1.4vw,20px)] leading-[1.45] [font-weight:620]">
@@ -366,17 +377,55 @@ export default function Home() {
 
       <section id="certifications" className={sectionClass}>
           <h2 className={sectionHeadingClass}>자격증</h2>
-          <div className="grid gap-[clamp(20px,3vw,28px)]">
+          <div className="grid gap-4 md:grid-cols-2">
             {certifications.map((certification) => (
-              <article key={certification.registrationNumber}>
-                <table className="w-full border-collapse border border-[#e9e9e7] text-[15px] leading-[1.5]">
-                  <caption className="sr-only">{certification.name} 자격증 정보</caption>
-                  <tbody>
-                    <tr><th scope="row" className={tableHeadCellClass}>자격증 이름</th><td className={tableCellClass}>{certification.name}</td></tr>
-                    <tr className="border-t border-[#e9e9e7]"><th scope="row" className={tableHeadCellClass}>취득일</th><td className={tableCellClass}>{certification.acquiredOn}</td></tr>
-                    <tr className="border-t border-[#e9e9e7]"><th scope="row" className={tableHeadCellClass}>등록 번호</th><td className={tableCellClass}>{certification.registrationNumber}</td></tr>
-                  </tbody>
-                </table>
+              <article
+                key={certification.registrationNumber}
+                className="flex min-h-[248px] flex-col rounded-2xl bg-[#f2f4f6] p-6 text-[#1d1d1f] sm:p-8"
+              >
+                <h3 className="text-xl leading-[1.35] tracking-[-0.04em] [font-weight:700] sm:text-2xl">
+                  {certification.name}
+                </h3>
+                <dl className="mt-auto grid gap-4 pt-8 text-[15px] leading-[1.6] tracking-[-0.02em] text-[#4e5968] sm:text-base">
+                  <div>
+                    <dt className="text-sm text-[#8b95a1] [font-weight:650]">취득일</dt>
+                    <dd className="mt-1 text-[#333d4b] [font-weight:650]">{certification.acquiredOn}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-[#8b95a1] [font-weight:650]">등록 번호</dt>
+                    <dd className="mt-1 break-all text-[#333d4b] [font-weight:650]">{certification.registrationNumber}</dd>
+                  </div>
+                </dl>
+              </article>
+            ))}
+          </div>
+      </section>
+
+      <section id="language-tests" className={sectionClass}>
+          <h2 className={sectionHeadingClass}>어학</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            {languageTests.map((languageTest) => (
+              <article
+                key={languageTest.registrationNumber}
+                className="flex min-h-[248px] flex-col rounded-2xl bg-[#f2f4f6] p-6 text-[#1d1d1f] sm:p-8"
+              >
+                <h3 className="text-xl leading-[1.35] tracking-[-0.04em] [font-weight:700] sm:text-2xl">
+                  {languageTest.name}
+                </h3>
+                <dl className="mt-auto grid gap-4 pt-8 text-[15px] leading-[1.6] tracking-[-0.02em] text-[#4e5968] sm:text-base">
+                  <div>
+                    <dt className="text-sm text-[#8b95a1] [font-weight:650]">취득일</dt>
+                    <dd className="mt-1 text-[#333d4b] [font-weight:650]">{languageTest.testedOn}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-[#8b95a1] [font-weight:650]">등록 번호</dt>
+                    <dd className="mt-1 text-[#333d4b] [font-weight:650]">{languageTest.registrationNumber}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-[#8b95a1] [font-weight:650]">등급 및 점수</dt>
+                    <dd className="mt-1 text-[#333d4b] [font-weight:650]">{languageTest.result}</dd>
+                  </div>
+                </dl>
               </article>
             ))}
           </div>
