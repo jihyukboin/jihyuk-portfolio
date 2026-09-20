@@ -187,8 +187,8 @@ const certifications = [
   },
   {
     name: "AWS Certified Generative AI Developer - Professional",
-    acquiredOn: "0000",
-    registrationNumber: "0000",
+    acquiredOn: "2026. 9. 19.",
+    registrationNumber: "547109981",
   },
 ];
 
