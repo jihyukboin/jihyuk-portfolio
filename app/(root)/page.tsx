@@ -178,17 +178,17 @@ const certifications = [
   {
     name: "AWS Certified Security - Specialty",
     acquiredOn: "2026. 9. 26.",
-    registrationNumber: "547693572",
+    registrationNumber: "57bfe1330cac42ffb3444b4d55a900a4",
   },
   {
     name: "AWS Certified Generative AI Developer - Professional",
     acquiredOn: "2026. 9. 19.",
-    registrationNumber: "547109981",
+    registrationNumber: "dd745a74b5484b81bff3962b4ee7cfd2",
   },
   {
     name: "AWS Certified Solutions Architect - Associate",
     acquiredOn: "2026. 3. 25.",
-    registrationNumber: "529222602",
+    registrationNumber: "b2bb8b18ba6746f0bae1b17a9f8d210c",
   },
   {
     name: "SQL 개발자 (SQLD)",
