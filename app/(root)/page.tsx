@@ -176,6 +176,16 @@ const projects: Project[] = [
 
 const certifications = [
   {
+    name: "AWS Certified Security - Specialty",
+    acquiredOn: "2026. 9. 26.",
+    registrationNumber: "547693572",
+  },
+  {
+    name: "AWS Certified Generative AI Developer - Professional",
+    acquiredOn: "2026. 9. 19.",
+    registrationNumber: "547109981",
+  },
+  {
     name: "AWS Certified Solutions Architect - Associate",
     acquiredOn: "2026. 3. 25.",
     registrationNumber: "529222602",
@@ -184,11 +194,6 @@ const certifications = [
     name: "SQL 개발자 (SQLD)",
     acquiredOn: "2025. 9. 19.",
     registrationNumber: "SQLD-058015681",
-  },
-  {
-    name: "AWS Certified Generative AI Developer - Professional",
-    acquiredOn: "2026. 9. 19.",
-    registrationNumber: "547109981",
   },
 ];
 
