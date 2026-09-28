@@ -178,21 +178,25 @@ const certifications = [
   {
     name: "AWS Certified Security - Specialty",
     acquiredOn: "2026. 9. 26.",
+    acquiredOnDateTime: "2026-09-26",
     registrationNumber: "57bfe1330cac42ffb3444b4d55a900a4",
   },
   {
     name: "AWS Certified Generative AI Developer - Professional",
     acquiredOn: "2026. 9. 19.",
+    acquiredOnDateTime: "2026-09-19",
     registrationNumber: "dd745a74b5484b81bff3962b4ee7cfd2",
   },
   {
     name: "AWS Certified Solutions Architect - Associate",
     acquiredOn: "2026. 3. 25.",
+    acquiredOnDateTime: "2026-03-25",
     registrationNumber: "b2bb8b18ba6746f0bae1b17a9f8d210c",
   },
   {
     name: "SQL 개발자 (SQLD)",
     acquiredOn: "2025. 9. 19.",
+    acquiredOnDateTime: "2025-09-19",
     registrationNumber: "SQLD-058015681",
   },
 ];
@@ -201,6 +205,7 @@ const languageTests = [
   {
     name: "TOEIC Speaking Test",
     testedOn: "2026.09.14",
+    testedOnDateTime: "2026-09-14",
     registrationNumber: "409119-1810001701",
     result: "Intermediate High (Speaking Score 140)",
   },
@@ -294,8 +299,8 @@ function ProjectSection({ project }: { project: Project }) {
             href={link.href}
             target="_blank"
             rel="noreferrer"
-            aria-label={link.label}
-            title={link.label}
+            aria-label={`${project.title} ${link.label}`}
+            title={`${project.title} ${link.label}`}
           >
             <ProjectLinkIcon icon={link.icon} label={link.label} />
           </a>
@@ -317,8 +322,35 @@ function ProjectSection({ project }: { project: Project }) {
 }
 
 export default function Home() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "");
+  const profileJsonLd = siteUrl && {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": `${siteUrl}/#profile`,
+    url: siteUrl,
+    name: "포트폴리오 - 정지혁",
+    mainEntity: {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      name: "정지혁",
+      jobTitle: "소프트웨어 엔지니어",
+      description: "웹·모바일·백엔드 서비스를 기획·개발·운영하는 소프트웨어 엔지니어",
+      image: `${siteUrl}/images/jihyuk.webp`,
+      url: siteUrl,
+      sameAs: ["https://github.com/jihyukboin"],
+    },
+  };
+
   return (
     <article className="mx-auto w-full max-w-[800px] bg-white pt-[clamp(40px,6vw,64px)] pb-[clamp(64px,8vw,96px)] text-[#37352f] max-[840px]:px-5">
+      {profileJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(profileJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+      )}
       <header>
           <h1 className="max-w-[780px] text-[clamp(34px,4vw,52px)] leading-[1.22] tracking-[-0.055em] text-[#242321] [font-weight:750]">
             👋🏻 안녕하세요, 소프트웨어 엔지니어 정지혁입니다.
@@ -356,11 +388,13 @@ export default function Home() {
             quality={90}
           />
           <div className="grid gap-[15px] text-[clamp(16px,1.4vw,20px)] leading-[1.45] [font-weight:620]">
-            <p>📧 jihyukboin@gmail.com</p>
-            <a className={`${textLinkClass} inline-flex items-center gap-2`} href="https://github.com/jihyukboin" target="_blank" rel="noreferrer">
-              <Image className="flex-none" src="/images/github.svg" alt="" width={22} height={22} sizes="22px" />
-              Github
-            </a>
+            <address className="grid gap-[15px] not-italic">
+              <p>📧 jihyukboin@gmail.com</p>
+              <a className={`${textLinkClass} inline-flex items-center gap-2`} href="https://github.com/jihyukboin" target="_blank" rel="noreferrer">
+                <Image className="flex-none" src="/images/github.svg" alt="" width={22} height={22} sizes="22px" />
+                Github
+              </a>
+            </address>
             <p>🏫 가톨릭대학교 컴퓨터정보공학 · 졸업</p>
             <p>🎓 삼성 청년 SW·AI 아카데미(SSAFY) 16기 · 교육과정 수강 중</p>
           </div>
@@ -394,7 +428,7 @@ export default function Home() {
                 <dl className="mt-auto grid gap-4 pt-8 text-[15px] leading-[1.6] tracking-[-0.02em] text-[#4e5968] sm:text-base">
                   <div>
                     <dt className="text-sm text-[#8b95a1] [font-weight:650]">취득일</dt>
-                    <dd className="mt-1 text-[#333d4b] [font-weight:650]">{certification.acquiredOn}</dd>
+                    <dd className="mt-1 text-[#333d4b] [font-weight:650]"><time dateTime={certification.acquiredOnDateTime}>{certification.acquiredOn}</time></dd>
                   </div>
                   <div>
                     <dt className="text-sm text-[#8b95a1] [font-weight:650]">등록 번호</dt>
@@ -420,7 +454,7 @@ export default function Home() {
                 <dl className="mt-auto grid gap-4 pt-8 text-[15px] leading-[1.6] tracking-[-0.02em] text-[#4e5968] sm:text-base">
                   <div>
                     <dt className="text-sm text-[#8b95a1] [font-weight:650]">취득일</dt>
-                    <dd className="mt-1 text-[#333d4b] [font-weight:650]">{languageTest.testedOn}</dd>
+                    <dd className="mt-1 text-[#333d4b] [font-weight:650]"><time dateTime={languageTest.testedOnDateTime}>{languageTest.testedOn}</time></dd>
                   </div>
                   <div>
                     <dt className="text-sm text-[#8b95a1] [font-weight:650]">등록 번호</dt>
