@@ -3,10 +3,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export type NavigationItem = {
-  label: string;
-  href: string;
-};
+import { profile } from "@/data/portfolio";
+
+import type { NavigationItem } from "./navigation";
 
 export function SiteMobileMenu({
   navigationItems,
@@ -52,7 +51,7 @@ export function SiteMobileMenu({
         aria-expanded={open}
         aria-label={open ? "모바일 메뉴 닫기" : "모바일 메뉴 열기"}
         onClick={() => setOpen((current) => !current)}
-        className="inline-flex h-9 w-9 items-center justify-center rounded-lg border-0 bg-transparent text-[rgba(26,31,41,0.78)] transition-colors hover:bg-slate-100 hover:text-[rgba(26,31,41,0.92)] focus-visible:bg-slate-100 focus-visible:text-[rgba(26,31,41,0.92)] focus-visible:outline-none"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-lg border-0 bg-transparent text-[#4e5968] transition-colors hover:bg-[#f2f4f6] hover:text-[#191f28] focus-visible:bg-[#f2f4f6] focus-visible:text-[#191f28] focus-visible:outline-none"
       >
         {open ? (
           <svg viewBox="0 0 24 24" className="size-[22px]" aria-hidden="true">
@@ -71,18 +70,18 @@ export function SiteMobileMenu({
             type="button"
             aria-label="모바일 메뉴 닫기"
             onClick={closeMenu}
-            className="fixed inset-x-0 bottom-0 top-[52px] z-[2147483646] cursor-default border-0 bg-black/20"
+            className="fixed inset-x-0 bottom-0 top-[50px] z-[2147483646] cursor-default border-0 bg-black/20"
           />
           <div
             id="mobile-menu"
             role="dialog"
             aria-label="모바일 메뉴"
-            className="fixed inset-x-0 top-[50px] z-[2147483647] max-h-[calc(100dvh-50px)] overflow-y-auto overscroll-contain border-t border-[#f1f3f5] bg-white px-4 pb-6 text-[rgba(26,31,41,0.89)] shadow-[0_8px_24px_rgba(0,0,0,0.08)] [-webkit-overflow-scrolling:touch]"
+            className="fixed inset-x-0 top-[50px] z-[2147483647] max-h-[calc(100dvh-50px)] overflow-y-auto overscroll-contain border-t border-[#e5e8eb] bg-white px-4 pb-6 text-[#191f28] shadow-[0_8px_24px_rgba(0,0,0,0.08)] [-webkit-overflow-scrolling:touch]"
           >
             <div className="flex flex-col">
               <div className="flex py-3.5">
                 <a
-                  href="https://github.com/jihyukboin"
+                  href={profile.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={closeMenu}
@@ -97,7 +96,7 @@ export function SiteMobileMenu({
                     key={item.href}
                     href={item.href}
                     onClick={closeMenu}
-                    className="flex w-full items-center border-b border-[#f1f3f5] py-3.5 text-left text-[15px] font-semibold leading-5 no-underline transition-colors hover:bg-slate-50 focus-visible:bg-slate-50 focus-visible:outline-none"
+                    className="flex w-full items-center border-b border-[#e5e8eb] py-3.5 text-left text-[15px] font-semibold leading-5 no-underline transition-colors hover:bg-[#f9fafb] focus-visible:bg-[#f9fafb] focus-visible:outline-none"
                   >
                     {item.label}
                   </Link>
