@@ -3,11 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import type { NavigationItem } from "./site-mobile-menu";
-
-const HEADER_HEIGHT = 50;
-// 섹션 상단이 뷰포트의 이 비율 지점을 지나면 해당 섹션을 활성으로 본다.
-const ACTIVATION_RATIO = 0.35;
+import { ACTIVATION_RATIO, HEADER_HEIGHT, type NavigationItem } from "./navigation";
 
 function sectionIdOf(href: string) {
   return href.slice(href.indexOf("#") + 1);
