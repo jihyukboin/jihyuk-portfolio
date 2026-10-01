@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { ScrollProgress } from "./scroll-progress";
 import { SiteMobileMenu, type NavigationItem } from "./site-mobile-menu";
+import { SiteNav } from "./site-nav";
 
 // 페이지(app/(root)/page.tsx)의 실제 섹션 순서와 동일하게 유지한다.
 const NAVIGATION_ITEMS: NavigationItem[] = [
@@ -30,19 +31,8 @@ export function SiteHeader() {
           </Link>
         </div>
 
-        <div className="hidden min-w-0 items-center justify-start min-[840px]:inline-flex min-[840px]:w-full">
-          {/* 링크 좌우 패딩(px-3)만큼 당겨 라벨 텍스트를 섹션 제목 왼쪽 끝과 맞춘다. */}
-          <nav aria-label="포트폴리오 메뉴" className="-ml-3 flex min-w-0 flex-nowrap items-center justify-start gap-0.5 overflow-visible whitespace-nowrap">
-            {NAVIGATION_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="relative inline-flex min-h-9 min-w-9 shrink-0 items-center justify-center overflow-visible whitespace-nowrap rounded-lg border-0 bg-transparent px-3 py-2 text-[17px] font-medium leading-6 text-[#23242a] no-underline transition-colors hover:bg-slate-50 focus-visible:bg-slate-50 focus-visible:outline-none"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+        <div className="hidden min-w-0 min-[840px]:flex min-[840px]:h-[50px] min-[840px]:w-full min-[840px]:self-stretch">
+          <SiteNav items={NAVIGATION_ITEMS} />
         </div>
 
         <a

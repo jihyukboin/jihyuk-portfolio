@@ -36,7 +36,10 @@ export function ProjectCard({ project }: { project: Project }) {
           </a>
         )}
       </div>
-      <p>{project.description}</p>
+      {/* YoungManRest_FE What Is 게시물 카드(회색 rounded-2xl 박스) 디자인을 참고한 설명 영역 */}
+      <p className="mt-1 rounded-2xl bg-[#f2f4f6] px-5 py-4 text-[15px] leading-[1.7] tracking-[-0.02em] text-[#4e5968] sm:px-6 sm:py-5 sm:text-base">
+        {project.description}
+      </p>
       <p className="text-[#9b9a97]">{project.role}</p>
       <h4 className="mt-[18px] text-[17px] [font-weight:750]">👩🏻‍💻 내가 기여한 부분</h4>
       <ul className={bulletListClass}>

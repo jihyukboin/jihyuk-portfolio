@@ -16,7 +16,7 @@ export type Project = {
   title: string;
 };
 
-export const cumulativeUsersText = "3,000명";
+export const cumulativeUsersText = "3,096명";
 
 export const projects: Project[] = [
   {
