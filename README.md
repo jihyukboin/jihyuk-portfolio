@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/images/jihyuk.webp" alt="정지혁 프로필" width="72" />
+  <img src="docs/media/deployment-workflow.png" alt="Next.js·React 개발부터 GitHub Actions 자동 배포, OCI 인스턴스와 Cloudflare를 거쳐 jihyuk.tech로 제공되는 배포 구조" width="1200" />
 
   # Jihyuk Portfolio
 
