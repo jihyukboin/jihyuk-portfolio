@@ -162,7 +162,7 @@ export const projects: Project[] = [
   },
   {
     title: "샌드 - 나만의 AI 퀴즈앱",
-    icon: "/images/project-icons/send.webp",
+    icon: "/images/project-icons/send.png",
     description:
       "Android·iOS에서 사용할 수 있는 대화형 퀴즈 메이커입니다. 사용자 생성 퀴즈의 편집·풀이·학습 이력을 제공합니다.",
     links: [
