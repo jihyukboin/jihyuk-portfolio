@@ -45,14 +45,14 @@ export type Project = {
   title: string;
 };
 
-export const cumulativeUsersText = "3,096명";
+export const cumulativeUsersText = "3,307명";
 
 export const projects: Project[] = [
   {
     title: "임고봇",
     featured: true,
     icon: "/images/project-icons/imgobot.webp",
-    description: `초등교사 임용시험 수험생을 위한 AI 학습 플랫폼 "임고봇"(임용고시를 돕는 AI Bot)입니다. 기존 학습 도구는 개인 학습 데이터가 저장되지 않아 개인화 서비스를 제공하지 못한다는 문제를 발견하고, 업로드한 자료로 개인화 퀴즈를 만들고 풀이 이력을 관리하는 웹·앱 서비스로 출시했습니다. 현재 누적 ${cumulativeUsersText}이 이용하고 있습니다.`,
+    description: `누적 사용자 ${cumulativeUsersText}이 이용하는 임용시험 학습 플랫폼입니다. 아웃풋 퀴즈·오답복습, 스제트, 백지복습, 플래너·그룹스터디와 AI 학습 챗봇·면접코칭을 웹·iOS·Android 앱으로 제공합니다. 수험생의 학습 요구를 기능으로 구체화하고 기획부터 개발·배포·운영까지 담당합니다.`,
     links: [
       { label: "웹 서비스", href: "https://imgobot.com", icon: "web" },
       {
@@ -69,12 +69,14 @@ export const projects: Project[] = [
     startedOn: "2024.08",
     role: "서비스 기획, 웹·iOS/Android 앱·백엔드 개발, 클라우드 인프라 구축 및 운영",
     details: [
-      "PDF/HWP 업로드 자료를 S3에 저장하고, 문서 파싱 후 개인화 퀴즈를 생성하는 학습 파이프라인 구현",
-      "원문·파싱 결과·생성 문제·풀이 이력을 MySQL에 분리 저장해 오류 구간을 추적할 수 있도록 설계",
-      "AI 유사도 채점, Cognito 인증, CloudFront·SES·Elastic Beanstalk 배포를 서비스 흐름으로 연결",
+      "학습 도구 개발: 교육과정 아웃풋 퀴즈·오답복습, 스제트 자료 편집·문제풀이, 백지복습 및 플래너·그룹스터디 구현",
+      "AI 학습 챗봇 개발: Upstage LLM API와 대화 이력·요약·기억을 결합해 대화방별 맥락을 유지하는 학습 상담 기능 구현",
+      "AI 면접코칭 개발: 면접 답변 연습, AI 피드백 및 기록 조회 기능 제공",
+      "운영 오류 추적: LLM 빈 응답·호출 실패 처리, 모델·토큰 사용 이력 기록과 구조화 로그를 통한 원인 추적",
+      "웹·앱 운영: Better Auth 기반 인증·세션과 화면·API·MySQL을 연동하고 AWS 인프라에 배포",
       "Playwright로 교육청 공고와 첨부파일 수집을 자동화해 콘텐츠 확보 시간 단축",
     ],
-    technologies: ["MySQL", "AWS (S3·CloudFront·Cognito·SES·Elastic Beanstalk)", "Playwright"],
+    technologies: ["Next.js", "TypeScript", "React Native (Expo)", "Better Auth", "MySQL", "AWS (S3·CloudFront·SES·Elastic Beanstalk)", "Upstage AI", "OpenAI API", "Playwright"],
   },
   {
     title: "쉬었음닷컴",
@@ -234,12 +236,12 @@ export const skills: SkillGroup[] = [
   {
     category: "Cloud & DevOps",
     items: ["AWS", "OCI", "Docker", "Caddy", "Cloudflare (R2)", "GitHub Actions"],
-    summary: "S3·CloudFront·Cognito·SES·Elastic Beanstalk·ECS 기반 서비스를 배포하고 운영합니다.",
+    summary: "S3·CloudFront·SES·Elastic Beanstalk·ECS 기반 서비스를 배포하고 운영합니다.",
   },
   {
     category: "AI & Automation",
     items: ["OpenAI API", "Upstage AI", "Playwright"],
-    summary: "문서 파싱, AI 유사도 채점, 자연어 입력 구조화, 브라우저 자동화를 서비스에 적용합니다.",
+    summary: "대화 이력·요약·기억을 활용한 AI 챗봇, 면접 피드백, 자연어 입력 구조화, 브라우저 자동화를 서비스에 적용합니다.",
   },
 ];
 
