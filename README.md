@@ -49,18 +49,27 @@
 ## 기술 구성
 
 ```text
-app/                          페이지, 레이아웃, 메타데이터와 공개 정보 경로
-components/portfolio/         소개·프로필·기술·프로젝트·자격증·어학 섹션
-components/layout/            헤더·푸터·메뉴·스크롤 진행 표시·프로젝트 독
-components/seo/               JSON-LD 구조화 데이터
-data/portfolio.ts             프로필·프로젝트·기술·자격증·어학 데이터
-lib/site.ts                   사이트 주소와 제목·설명
+src/app/                      라우트, 공통 레이아웃과 공개 정보 경로
+src/app/(portfolio)/          홈 페이지, 포트폴리오 레이아웃·메타데이터
+src/components/layout/        공통 헤더, 모바일 메뉴 동작, 스크롤 진행 표시
+src/components/portfolio/     포트폴리오 섹션·탐색·푸터·JSON-LD
+src/data/site.ts              사이트 소유자 정보
+src/data/portfolio.ts         프로필·프로젝트·기술·자격증·어학 데이터
+src/lib/site.ts               사이트 주소와 공통 이름
+src/lib/portfolio.ts          포트폴리오 제목·설명, 프로젝트 정렬·앵커·링크·기간
+src/lib/layout.ts             CSS 헤더 높이를 사용하는 브라우저 스크롤 계산
+scripts/start-standalone.mjs   정적 파일을 포함한 standalone 로컬 실행
+tests/e2e/                    브라우저 회귀 테스트
 public/images/                프로필 사진과 프로젝트 아이콘
 ops/oci/                      OCI 배포 스크립트와 systemd 설정
 .github/workflows/            검증 및 운영 배포 워크플로
 ```
 
-화면, 메타데이터, JSON-LD, `llms.txt`가 [data/portfolio.ts](data/portfolio.ts)를 공통으로 사용합니다. 콘텐츠를 한 곳에서 수정하면 각 출력에 함께 반영됩니다. 본문 섹션은 서버 컴포넌트로 구성하고, 스크롤 탐색과 모바일 메뉴는 클라이언트 컴포넌트로 동작합니다.
+화면, 메타데이터, JSON-LD, `llms.txt`가 [src/data/portfolio.ts](src/data/portfolio.ts)를 공통으로 사용합니다. 콘텐츠를 한 곳에서 수정하면 각 출력에 함께 반영됩니다. 페이지·레이아웃·본문·JSON-LD·헤더와 모바일 메뉴의 링크 콘텐츠는 서버 컴포넌트로 구성합니다. 스크롤 탐색·프로젝트 독·메뉴 열기와 닫기는 작은 클라이언트 컴포넌트로 동작하며, 필요한 항목이나 서버에서 렌더링한 `children`만 전달받습니다. 포트폴리오 데이터와 처리 모듈은 `server-only`로 잘못된 클라이언트 import를 빌드 시 차단합니다.
+
+공통 레이아웃에는 홈 Canonical이나 프로필 Open Graph를 정의하지 않습니다. 새 페이지는 `src/app/super-docs/page.tsx`처럼 추가하고 자체 메타데이터와 필요한 레이아웃을 정의합니다. `(portfolio)` 그룹 바깥의 페이지에는 포트폴리오 메뉴·프로젝트 독·공유 이미지가 자동 적용되지 않습니다. 공유 이미지는 `src/app/opengraph-image/route.ts`가 기존 `/opengraph-image` 주소로 제공하며, 홈 메타데이터에서 명시적으로 연결합니다. 공통 헤더를 사용할 때는 페이지에 맞는 탐색 UI를 props로 조합합니다. 섹션 스크롤을 추적하는 `PortfolioSectionNav`에 일반 페이지 경로를 추가하지 않습니다.
+
+헤더 높이와 본문 기준 폭은 `src/app/globals.css`의 `--site-header-height`, `--site-content-width`에서 관리합니다.
 
 ## 시작하기
 
@@ -98,23 +107,34 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3007
 npm run lint
 npm run typecheck
 npm run build
-npm start
+npm run start:standalone
 ```
 
-`npm start`의 기본 포트는 `3000`입니다. `3007`에서 빌드 결과를 확인하려면 `npm start -- --port 3007`을 사용합니다. `typecheck`는 Next.js 타입을 생성한 뒤 TypeScript 검사를 실행합니다.
+`start:standalone`은 운영 배포처럼 정적 파일과 `public`을 복사한 뒤 standalone 서버를 실행합니다. 기본 포트는 `3000`이며, `3007`에서 확인하려면 `PORT=3007 npm run start:standalone`을 사용합니다. `typecheck`는 Next.js 타입을 생성한 뒤 TypeScript 검사를 실행합니다.
+
+브라우저 회귀 테스트는 Chromium을 한 번 설치한 뒤 실행합니다.
+
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
+`test:e2e`는 프로덕션 빌드 후 `127.0.0.1:3108`에서 standalone 서버를 실행합니다. JavaScript 비활성 상태의 본문, 메타데이터와 공개 정보 경로, 섹션·프로젝트 탐색, 모바일 메뉴와 화면 전환, 기존 공유 앵커를 검증합니다. 테스트 서버는 실행 후 자동 종료됩니다.
 
 ## 콘텐츠 수정
 
 | 바꾸려는 내용 | 수정 위치 |
 | --- | --- |
-| 프로필·기술·프로젝트·자격증·어학 | [data/portfolio.ts](data/portfolio.ts) |
-| 섹션 배치 | [app/(root)/page.tsx](app/(root)/page.tsx) |
-| 메뉴 이름·순서 | [components/layout/navigation.ts](components/layout/navigation.ts) |
-| 사이트 제목·설명·주소 | [lib/site.ts](lib/site.ts) |
-| 공유 이미지 | [app/opengraph-image.tsx](app/opengraph-image.tsx) |
+| 프로필·기술·프로젝트·자격증·어학 | [src/data/portfolio.ts](src/data/portfolio.ts) |
+| 섹션 배치 | [src/app/(portfolio)/page.tsx](src/app/(portfolio)/page.tsx) |
+| 메뉴 이름·순서 | [src/components/portfolio/navigation.ts](src/components/portfolio/navigation.ts) |
+| 사이트 주소·공통 이름 | [src/lib/site.ts](src/lib/site.ts) |
+| 포트폴리오 제목·설명 | [src/lib/portfolio.ts](src/lib/portfolio.ts) |
+| 사이트 소유자·연락처 | [src/data/site.ts](src/data/site.ts) |
+| 공유 이미지 | [src/lib/portfolio-open-graph.tsx](src/lib/portfolio-open-graph.tsx) |
 | 프로필 사진·프로젝트 아이콘 | [public/images](public/images) |
 
-프로젝트에 `featured: true`를 지정하면 대표 프로젝트로 먼저 표시됩니다. 나머지는 `startedOn` 최신순으로 정렬하며, `endedOn`을 생략하면 운영 중으로 표시합니다. 섹션 순서를 변경할 때는 메뉴 순서도 함께 맞춥니다.
+프로젝트에 `featured: true`를 지정하면 대표 프로젝트로 먼저 표시됩니다. 나머지는 `startedOn` 최신순으로 정렬하며, `endedOn`을 생략하면 운영 중으로 표시합니다. 프로젝트 `id`는 정렬 순서와 무관한 앵커(`/#project-imgobot` 등)에 사용하므로 변경하지 않습니다. `legacyAnchorId`는 기존에 공유된 숫자 앵커를 유지하는 별칭이며 신규 프로젝트에는 추가하지 않습니다. 섹션 순서를 변경할 때는 메뉴 순서도 함께 맞춥니다.
 
 ## 운영 배포
 
@@ -123,7 +143,7 @@ main push → GitHub Actions 검증 → OCI 빌드·standalone 릴리스
           → systemd 재시작·헬스 체크 → Cloudflare 콘텐츠 캐시 갱신
 ```
 
-워크플로는 의존성 설치, lint, 타입 검사, 빌드를 통과한 뒤 `production` 환경으로 배포합니다. OCI에서는 릴리스 디렉터리를 만들고 현재 릴리스 링크를 교체하며, 서버는 `127.0.0.1:3010`에서 실행됩니다.
+워크플로는 의존성 설치, lint, 타입 검사, 빌드, 브라우저 회귀 테스트를 통과한 뒤 `production` 환경으로 배포합니다. OCI에서는 릴리스 디렉터리를 만들고 현재 릴리스 링크를 교체하며, 서버는 `127.0.0.1:3010`에서 실행됩니다.
 
 GitHub `production` 환경의 SSH 접속·사이트·Cloudflare 설정은 [배포 워크플로](.github/workflows/deploy-production.yml)를, 서버 구성과 환경변수 동기화는 [OCI 운영 문서](ops/oci/README.md)를 참고하세요.
 
