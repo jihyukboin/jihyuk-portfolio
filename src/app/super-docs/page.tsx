@@ -1,8 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { superDocs } from "@/data/super-docs";
+import { SuperDocsLanding } from "@/components/super-docs/super-docs-landing";
+import { SuperDocsStructuredData } from "@/components/super-docs/super-docs-structured-data";
 
-const title = "Super Docs - Free HWP, HWPX & DOCX Editor for macOS";
-const description =
-  "Mac에서 HWP·HWPX·DOCX 문서를 열고, 편집하고, 저장하세요. Super Docs는 오프라인으로 사용할 수 있는 무료 오픈소스 macOS 문서 편집기입니다. Apple Silicon Mac · macOS 14 이상 지원.";
+const { title, description } = superDocs;
+
+export const viewport: Viewport = {
+  themeColor: "#111111",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -34,5 +40,10 @@ export const metadata: Metadata = {
 };
 
 export default function SuperDocsPage() {
-  return null;
+  return (
+    <>
+      <SuperDocsStructuredData />
+      <SuperDocsLanding />
+    </>
+  );
 }

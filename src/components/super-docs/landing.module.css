@@ -1,0 +1,242 @@
+.page {
+  background: #111;
+  color-scheme: dark;
+  font-family:
+    "Pretendard Variable",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    "Noto Sans",
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
+
+:global(html):has(.page) {
+  background: #111;
+  color-scheme: dark;
+  scrollbar-gutter: auto;
+  scrollbar-color: #444 #111;
+}
+
+.page :is(h1, h2, h3) {
+  text-wrap: balance;
+}
+
+.page :global(.hero-bg) {
+  background:
+    radial-gradient(55% 45% at 50% 0, #3b82f647, transparent 70%),
+    radial-gradient(35% 35% at 18% 12%, #8b5cf62e, transparent 70%),
+    radial-gradient(35% 35% at 82% 12%, #3b82f624, transparent 70%);
+}
+
+.page :global(.hero-bg)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, #ffffff0f 1px, transparent 0),
+    linear-gradient(#ffffff0f 1px, transparent 0);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(70% 65% at 50% 0, #000 10%, transparent 72%);
+}
+
+.page :global(.hero-glow) {
+  background:
+    radial-gradient(45% 50% at 36%, #2563eb4d, #2563eb1f 50%, transparent 88%),
+    radial-gradient(45% 50% at 64%, #7c3aed42, #7c3aed1a 50%, transparent 88%);
+}
+
+.page :global(.animated-gradient) {
+  background-size: 200%;
+  animation: gradient-shift 8s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0;
+  }
+  50% {
+    background-position: 100%;
+  }
+}
+@media (min-width: 640px) {
+  .page p {
+    text-wrap: pretty;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page :global(.animated-gradient) {
+    animation: none;
+  }
+}
+
+.page :is(a, button, summary):focus-visible {
+  outline: 2px solid #a5b4fc;
+  outline-offset: 4px;
+}
+
+.editor {
+  background: #202022;
+}
+.editorTitlebar {
+  display: flex;
+  height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #ffffff0a;
+  padding: 0 18px;
+  font-size: 12px;
+  color: #c4c4c7;
+}
+.trafficLights {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+}
+.trafficLights i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+.trafficLights i:nth-child(2) {
+  background: #febc2e;
+}
+.trafficLights i:nth-child(3) {
+  background: #28c840;
+}
+.editorToolbar {
+  display: flex;
+  height: 48px;
+  align-items: center;
+  gap: 20px;
+  padding: 0 24px;
+  border-bottom: 1px solid #ffffff0a;
+  background: #29292b;
+  font-size: 12px;
+  color: #d4d4d4;
+}
+.toolbarSelect {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+.toolbarDivider {
+  height: 16px;
+  width: 1px;
+  background: #ffffff15;
+}
+.editorCanvas {
+  height: 400px;
+  overflow: hidden;
+  padding: 30px 72px 0;
+  background: #161618;
+}
+.documentPaper {
+  min-height: 480px;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 40px 46px;
+  background: #f8f8fa;
+  color: #24242a;
+  box-shadow: 0 4px 40px #0003;
+}
+.documentEyebrow {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  color: #818cf8;
+}
+.documentTitle {
+  margin-top: 16px;
+  font-size: 30px;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+.documentIntro {
+  margin-top: 16px;
+  font-size: 11px;
+  line-height: 1.9;
+  color: #71717a;
+}
+.documentRule {
+  margin-top: 26px;
+  border-top: 1px solid #e4e4e7;
+}
+.documentSubtitle {
+  margin-top: 22px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.documentBody {
+  margin-top: 10px;
+  font-size: 10px;
+  line-height: 1.9;
+  color: #71717a;
+}
+.documentTable {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  margin-top: 20px;
+  font-size: 10px;
+}
+.documentTable span {
+  padding: 9px 12px;
+  border: 1px solid #e4e4e7;
+}
+.documentTable span:nth-child(odd) {
+  background: #efeff5;
+}
+.editorStatus {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 18px;
+  font-size: 10px;
+  color: #737373;
+}
+
+@media (max-width: 639px) {
+  .editorTitlebar {
+    padding: 0 12px;
+    gap: 10px;
+    font-size: 10px;
+  }
+  .trafficLights {
+    gap: 5px;
+  }
+  .trafficLights i {
+    width: 8px;
+    height: 8px;
+  }
+  .editorToolbar {
+    gap: 16px;
+    padding: 0 14px;
+    font-size: 11px;
+  }
+  .toolbarSelect {
+    gap: 12px;
+  }
+  .editorCanvas {
+    height: 360px;
+    padding: 20px 18px 0;
+  }
+  .documentPaper {
+    padding: 28px 24px;
+  }
+  .documentTitle {
+    font-size: 24px;
+  }
+  .documentIntro {
+    font-size: 10px;
+  }
+}

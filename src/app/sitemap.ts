@@ -9,5 +9,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
+    {
+      url: `${siteUrl}/super-docs`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
   ];
 }
