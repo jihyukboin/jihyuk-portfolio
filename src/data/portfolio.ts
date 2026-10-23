@@ -112,7 +112,7 @@ export const projects: Project[] = [
     description:
       "투자 내역과 일상 지출을 한 곳에서 기록·분석하는 금융 서비스입니다. AI가 자연어 입력을 거래 기록으로 정리하되, 사용자 승인 후에만 반영되도록 설계했습니다.",
     links: [
-      { label: "웹 서비스", href: "https://fintrendbeacon.com", icon: "web" },
+      { label: "웹 서비스", href: "https://finance.imgobot.com", icon: "web" },
       {
         label: "Google Play",
         href: "https://play.google.com/store/apps/details?id=com.imgobot.stocknote",
