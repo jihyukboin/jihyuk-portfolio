@@ -57,7 +57,7 @@ export const projects: Project[] = [
     legacyAnchorId: "project-1",
     title: "임고봇",
     featured: true,
-    icon: "/images/project-icons/imgobot.webp?v=7987c920",
+    icon: "/images/project-icons/imgobot.7987c920.webp",
     description: `누적 사용자 ${cumulativeUsersText}이 이용하는 임용시험 학습 플랫폼입니다. 아웃풋 퀴즈·오답복습, 스제트, 백지복습, 플래너·그룹스터디와 AI 학습 챗봇·면접코칭을 웹·iOS·Android 앱으로 제공합니다. 수험생의 학습 요구를 기능으로 구체화하고 기획부터 개발·배포·운영까지 담당합니다.`,
     links: [
       { label: "웹 서비스", href: "https://imgobot.com", icon: "web" },
@@ -88,7 +88,7 @@ export const projects: Project[] = [
     id: "rested",
     legacyAnchorId: "project-2",
     title: "쉬었음닷컴",
-    icon: "/images/project-icons/rested.webp?v=81efa325",
+    icon: "/images/project-icons/rested.81efa325.webp",
     description:
       "개발자 스터디의 일정·공동 문서·코드 작성과 실행을 한 작업공간에 연결한 협업 플랫폼입니다. 웹과 iOS·Android 앱, 백엔드와 실시간 협업 서버를 함께 설계·구현했습니다.",
     links: [{ label: "웹 서비스", href: "https://쉬었음.com", icon: "web" }],
@@ -108,7 +108,7 @@ export const projects: Project[] = [
     id: "fintrendbeacon",
     legacyAnchorId: "project-7",
     title: "살래말래 - 스마트 자산관리 앱",
-    icon: "/images/project-icons/fintrendbeacon.webp?v=814f8a29",
+    icon: "/images/project-icons/fintrendbeacon.814f8a29.webp",
     description:
       "투자 내역과 일상 지출을 한 곳에서 기록·분석하는 금융 서비스입니다. AI가 자연어 입력을 거래 기록으로 정리하되, 사용자 승인 후에만 반영되도록 설계했습니다.",
     links: [
@@ -138,7 +138,7 @@ export const projects: Project[] = [
     id: "reviewinkorea",
     legacyAnchorId: "project-5",
     title: "리뷰인코리아",
-    icon: "/images/project-icons/reviewinkorea.webp?v=6803cccb",
+    icon: "/images/project-icons/reviewinkorea.6803cccb.webp",
     description:
       "방한 여행자를 위한 19개 언어 여행 리뷰 플랫폼입니다. 다국어 검색 노출 구조와 콘텐츠·배포 운영 환경을 구현했습니다.",
     links: [{ label: "웹 서비스", href: "https://reviewinkorea.com", icon: "web" }],
@@ -157,7 +157,7 @@ export const projects: Project[] = [
     title: "내일할까 - 게으름뱅이 플래너",
     moreHref:
       "https://apps.apple.com/kr/app/%EB%82%B4%EC%9D%BC%ED%95%A0%EA%B9%8C-%EA%B2%8C%EC%9C%BC%EB%A6%84%EB%B1%85%EC%9D%B4-%ED%94%8C%EB%9E%98%EB%84%88/id6777882500",
-    icon: "/images/project-icons/maybe-tomorrow.webp?v=069ee498",
+    icon: "/images/project-icons/maybe-tomorrow.069ee498.webp",
     description: "Today·Tomorrow·All Tasks 흐름으로 업무를 관리하는 SwiftUI iOS 플래너입니다. 홈 화면 위젯에서 바로 완료 처리할 수 있습니다.",
     links: [
       { label: "웹 서비스", href: "https://trendswhat.com/maybe-tomorrow", icon: "web" },
@@ -180,7 +180,7 @@ export const projects: Project[] = [
     id: "send",
     legacyAnchorId: "project-6",
     title: "샌드 - 나만의 AI 퀴즈앱",
-    icon: "/images/project-icons/send.webp?v=200ea7d8",
+    icon: "/images/project-icons/send.200ea7d8.webp",
     description:
       "Android·iOS에서 사용할 수 있는 대화형 퀴즈 메이커입니다. 사용자 생성 퀴즈의 편집·풀이·학습 이력을 제공합니다.",
     links: [
@@ -209,7 +209,7 @@ export const projects: Project[] = [
     id: "trendswhat",
     legacyAnchorId: "project-3",
     title: "트렌드왓 - 글로벌 트렌드 모아보기",
-    icon: "/images/project-icons/trendswhat.webp?v=33a512a3",
+    icon: "/images/project-icons/trendswhat.33a512a3.webp",
     description:
       "Google Trends 기반 키워드 수집부터 기사 생성·이미지 변환·발행까지 자동화한 콘텐츠 서비스입니다.",
     links: [{ label: "웹 서비스", href: "https://trendswhat.com", icon: "web" }],
