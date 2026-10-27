@@ -29,12 +29,12 @@ test.describe("서버에서 제공하는 본문", () => {
   test("JavaScript 없이 본문과 JSON-LD를 읽을 수 있다", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toContainText("정지혁");
-    await expect(page.locator("#projects > article")).toHaveCount(7);
+    await expect(page.locator("#projects > article")).toHaveCount(8);
     await expect(page.getByRole("heading", { name: "임고봇", exact: true })).toBeVisible();
     const schema = JSON.parse(await page.locator('script[type="application/ld+json"]').innerText());
     expect(schema["@graph"].map((item: { "@type": string }) => item["@type"]))
       .toEqual(["ProfilePage", "Person", "ItemList"]);
-    expect(schema["@graph"][2].itemListElement).toHaveLength(7);
+    expect(schema["@graph"][2].itemListElement).toHaveLength(8);
   });
 });
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { siteOwner } from "@/data/site";
@@ -21,6 +22,15 @@ export function SiteHeader({ navigation, mobileMenu }: SiteHeaderProps) {
             aria-label={`${siteOwner.name} 포트폴리오 홈으로 이동`}
             className="inline-flex min-h-9 w-full items-center gap-2 whitespace-nowrap text-[#191f28] no-underline transition-colors focus-visible:outline-none"
           >
+            <Image
+              src={siteOwner.image}
+              alt=""
+              width={32}
+              height={32}
+              sizes="32px"
+              loading="eager"
+              className="h-8 w-8 shrink-0 rounded-full object-cover object-top"
+            />
             <span className="inline-flex min-w-0 items-end gap-1 whitespace-nowrap leading-none">
               <span className="text-lg font-bold leading-none tracking-normal">{siteOwner.name}</span>
             </span>

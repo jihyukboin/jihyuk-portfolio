@@ -12,7 +12,7 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
     <article
       id={id}
       aria-labelledby={headingId}
-      className="relative grid scroll-mt-[96px] content-start gap-[14px] border-t border-[#e5e8eb] py-[clamp(28px,4vw,40px)] text-[16px] leading-[1.7]"
+      className="relative grid scroll-mt-[96px] content-start gap-[14px] border-t border-[#e5e8eb] py-[clamp(28px,4vw,40px)] text-[16px] leading-[1.7] first-of-type:border-t-0 first-of-type:pt-0"
     >
       {project.legacyAnchorId && (
         <span id={project.legacyAnchorId} aria-hidden="true" className="absolute top-0 scroll-mt-[96px]" />

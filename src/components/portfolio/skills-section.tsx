@@ -9,6 +9,7 @@ export function SkillsSection() {
         {skills.map((group) => (
           <article key={group.category} className={`${cardClass} ${cardPaddingClass} flex flex-col gap-4`}>
             <h3 className={cardTitleClass}>{group.category}</h3>
+            <p className={cardBodyClass}>{group.summary}</p>
             <ul className="flex flex-wrap gap-2" aria-label={`${group.category} 기술 스택`}>
               {group.items.map((item) => (
                 <li key={item} className="rounded-lg bg-white px-2.5 py-1 text-sm leading-5 text-[#333d4b] [font-weight:600]">
@@ -16,7 +17,6 @@ export function SkillsSection() {
                 </li>
               ))}
             </ul>
-            <p className={cardBodyClass}>{group.summary}</p>
           </article>
         ))}
       </div>

@@ -6,6 +6,7 @@ import { CertificationsSection } from "@/components/portfolio/certifications-sec
 import { LanguageTestsSection } from "@/components/portfolio/language-tests-section";
 import { SkillsSection } from "@/components/portfolio/skills-section";
 import { PortfolioStructuredData } from "@/components/portfolio/portfolio-structured-data";
+import { PortfolioCta } from "@/components/portfolio/portfolio-cta";
 import { profile, skills } from "@/data/portfolio";
 import { portfolioDescription, portfolioOpenGraphImage, portfolioTitle } from "@/lib/portfolio";
 import { siteName } from "@/lib/site";
@@ -52,13 +53,15 @@ export default function PortfolioPage() {
 
       <ProfileSection />
 
-      <SkillsSection />
-
       <ProjectsSection />
+
+      <SkillsSection />
 
       <CertificationsSection />
 
       <LanguageTestsSection />
+
+      <PortfolioCta />
     </article>
   );
 }
