@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
 import type { Credential } from "@/data/portfolio";
 import { cardClass, cardGridClass, cardPaddingClass, cardTitleClass, sectionClass, sectionHeadingClass } from "./portfolio-styles";
@@ -25,6 +26,16 @@ export function CredentialSection({ id, title, items, dateLabel }: CredentialSec
             aria-label={`${item.name} 진위확인 (새 창)`}
             className={`${cardClass} ${cardPaddingClass} flex min-h-[248px] flex-col transition-colors hover:bg-[#e5e8eb] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#3182f6]`}
           >
+            {item.icon && (
+              <Image
+                src={item.icon}
+                alt=""
+                width={72}
+                height={74}
+                sizes="72px"
+                className="mb-5 h-[74px] w-[72px] object-contain"
+              />
+            )}
             <h3 className={cardTitleClass}>{item.name}</h3>
             <p className="mt-2 text-[15px] text-[#8b95a1] [font-weight:600]">{item.issuer}</p>
             <dl className="mt-auto grid gap-4 pt-8 text-[15px] leading-[1.6] tracking-[-0.02em] sm:text-base">

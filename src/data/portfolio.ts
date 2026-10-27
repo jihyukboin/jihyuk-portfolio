@@ -7,7 +7,6 @@ export const profile = {
   ...siteOwner,
   jobTitle: "풀스택 개발자",
   headline: "웹·모바일·백엔드·Cloud를 연결해 실제 사용자가 있는 서비스를 만듭니다.",
-  image: "/images/jihyuk.webp",
   education: [
     { name: "가톨릭대학교", detail: "컴퓨터정보공학 · 졸업", emoji: "🏫" },
     { name: "삼성 청년 SW·AI 아카데미(SSAFY)", detail: "16기 · 이수 중", emoji: "🎓" },
@@ -83,6 +82,28 @@ export const projects: Project[] = [
       "Playwright로 교육청 공고와 첨부파일 수집을 자동화해 콘텐츠 확보 시간 단축",
     ],
     technologies: ["Next.js", "TypeScript", "React Native (Expo)", "Better Auth", "MySQL", "AWS (S3·CloudFront·SES·Elastic Beanstalk)", "Upstage AI", "OpenAI API", "Playwright"],
+  },
+  {
+    id: "super-docs",
+    title: "Super Docs - Mac 통합 문서 편집기",
+    icon: "/super-docs/app-icon.png",
+    description:
+      "Mac에서 HWP·HWPX·DOCX 문서, XLSX 스프레드시트, PPTX 프레젠테이션과 PDF·텍스트 파일을 열고 편집·저장하는 무료 오픈소스 앱입니다. 문서 작업은 오프라인으로 처리하며, Apple Silicon Mac과 macOS 14 이상을 지원합니다.",
+    links: [
+      { label: "웹사이트", href: "https://jihyuk.tech/super-docs", icon: "web" },
+      { label: "GitHub", href: "https://github.com/jihyukboin/super-docs" },
+      { label: "다운로드", href: "https://github.com/jihyukboin/super-docs/releases/latest" },
+    ],
+    startedOn: "2026.10",
+    role: "macOS 앱 기획·개발, 문서 편집 엔진 통합, 테스트 및 앱 배포·업데이트 구성",
+    details: [
+      "Swift·AppKit 기반 다중 문서 창과 WebKit 편집 화면을 연결하고, 파일 열기·저장·다른 이름으로 저장 및 단축키 구현",
+      "RHWP·DOCX Editor·BetterOffice 엔진을 통합해 HWP·HWPX·DOCX 본문·표·서식, XLSX 셀·수식, PPTX 슬라이드·개체 편집과 형식별 저장 지원",
+      "PDFKit으로 PDF 검색·주석·페이지 회전·삭제·실행 취소를 구현하고, TXT·CSV 편집 및 Markdown 실시간 미리보기 제공",
+      "저장 전 변경 사항 안내와 외부 파일 변경 감지를 적용하고, 문서 형식별 저장·재열기 및 네이티브 편집 동작 검증",
+      "GitHub Actions 기반 테스트·릴리스와 macOS 코드 서명·공증·DMG 배포, Sparkle 앱 내 업데이트 구성",
+    ],
+    technologies: ["Swift", "AppKit", "WebKit", "React", "TypeScript", "PDFKit", "Sparkle", "GitHub Actions"],
   },
   {
     id: "rested",
@@ -272,12 +293,14 @@ export type Credential = {
   dateTime: string;
   registrationNumber: string;
   verificationUrl: string;
+  icon?: string;
   result?: string;
 };
 
 export const certifications: Credential[] = [
   {
     name: "AWS Certified Security - Specialty",
+    icon: "/images/certifications/aws-security-specialty.svg",
     issuer: "Amazon Web Services",
     date: "2026.09.26",
     dateTime: "2026-09-26",
@@ -286,6 +309,7 @@ export const certifications: Credential[] = [
   },
   {
     name: "AWS Certified Generative AI Developer - Professional",
+    icon: "/images/certifications/aws-generative-ai-developer-professional.svg",
     issuer: "Amazon Web Services",
     date: "2026.09.19",
     dateTime: "2026-09-19",
@@ -294,6 +318,7 @@ export const certifications: Credential[] = [
   },
   {
     name: "AWS Certified Solutions Architect - Associate",
+    icon: "/images/certifications/aws-solutions-architect-associate.svg",
     issuer: "Amazon Web Services",
     date: "2026.03.25",
     dateTime: "2026-03-25",
@@ -302,6 +327,7 @@ export const certifications: Credential[] = [
   },
   {
     name: "SQL 개발자 (SQLD)",
+    icon: "/images/certifications/sqld.svg",
     issuer: "한국데이터산업진흥원",
     date: "2025.09.19",
     dateTime: "2025-09-19",
