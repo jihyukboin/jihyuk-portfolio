@@ -1,5 +1,5 @@
 import { certifications, cumulativeUsersText, languageTests, profile, skills } from "@/data/portfolio";
-import { formatProjectPeriod, getProjectPrimaryLink, portfolioDescription, sortedProjects } from "@/lib/portfolio";
+import { formatProjectPeriod, portfolioDescription, sortedProjects } from "@/lib/portfolio";
 import { siteUrl } from "@/lib/site";
 
 // llms.txt (https://llmstxt.org): AI 검색·답변 엔진(GEO/AEO)이 포트폴리오 내용을 정확히 인용하도록 제공하는 요약본.
@@ -24,7 +24,6 @@ export function GET() {
     "## 프로젝트",
     "",
     ...sortedProjects.flatMap((project) => {
-      const link = getProjectPrimaryLink(project);
       return [
         `### ${project.title} (${formatProjectPeriod(project)})`,
         "",
@@ -32,7 +31,7 @@ export function GET() {
         "",
         `- 역할: ${project.role}`,
         `- 사용 기술: ${project.technologies.join(", ")}`,
-        ...(link ? [`- 링크: ${link}`] : []),
+        ...project.links.map((link) => `- ${link.label}: ${link.href}`),
         "- 기여한 부분:",
         ...project.details.map((detail) => `  - ${detail}`),
         "",
