@@ -17,7 +17,14 @@ export function CredentialSection({ id, title, items, dateLabel }: CredentialSec
       <h2 className={sectionHeadingClass}>{title}</h2>
       <div className={cardGridClass}>
         {items.map((item) => (
-          <article key={item.registrationNumber} className={`${cardClass} ${cardPaddingClass} flex min-h-[248px] flex-col`}>
+          <a
+            key={item.registrationNumber}
+            href={item.verificationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${item.name} 진위확인 (새 창)`}
+            className={`${cardClass} ${cardPaddingClass} flex min-h-[248px] flex-col transition-colors hover:bg-[#e5e8eb] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#3182f6]`}
+          >
             <h3 className={cardTitleClass}>{item.name}</h3>
             <p className="mt-2 text-[15px] text-[#8b95a1] [font-weight:600]">{item.issuer}</p>
             <dl className="mt-auto grid gap-4 pt-8 text-[15px] leading-[1.6] tracking-[-0.02em] sm:text-base">
@@ -27,7 +34,7 @@ export function CredentialSection({ id, title, items, dateLabel }: CredentialSec
               </CredentialField>
               <CredentialField label="등록 번호">{item.registrationNumber}</CredentialField>
             </dl>
-          </article>
+          </a>
         ))}
       </div>
     </section>

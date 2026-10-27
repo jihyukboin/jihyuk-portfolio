@@ -271,6 +271,7 @@ export type Credential = {
   /** <time dateTime>·JSON-LD용(YYYY-MM-DD) */
   dateTime: string;
   registrationNumber: string;
+  verificationUrl: string;
   result?: string;
 };
 
@@ -281,6 +282,7 @@ export const certifications: Credential[] = [
     date: "2026.09.26",
     dateTime: "2026-09-26",
     registrationNumber: "57bfe1330cac42ffb3444b4d55a900a4",
+    verificationUrl: "https://cp.certmetrics.com/amazon/en/public/verify/credential/57bfe1330cac42ffb3444b4d55a900a4",
   },
   {
     name: "AWS Certified Generative AI Developer - Professional",
@@ -288,6 +290,7 @@ export const certifications: Credential[] = [
     date: "2026.09.19",
     dateTime: "2026-09-19",
     registrationNumber: "dd745a74b5484b81bff3962b4ee7cfd2",
+    verificationUrl: "https://cp.certmetrics.com/amazon/en/public/verify/credential/dd745a74b5484b81bff3962b4ee7cfd2",
   },
   {
     name: "AWS Certified Solutions Architect - Associate",
@@ -295,6 +298,7 @@ export const certifications: Credential[] = [
     date: "2026.03.25",
     dateTime: "2026-03-25",
     registrationNumber: "b2bb8b18ba6746f0bae1b17a9f8d210c",
+    verificationUrl: "https://cp.certmetrics.com/amazon/en/public/verify/credential/b2bb8b18ba6746f0bae1b17a9f8d210c",
   },
   {
     name: "SQL 개발자 (SQLD)",
@@ -302,6 +306,7 @@ export const certifications: Credential[] = [
     date: "2025.09.19",
     dateTime: "2025-09-19",
     registrationNumber: "SQLD-058015681",
+    verificationUrl: "https://www.dataq.or.kr/www/anno/cert/check.do",
   },
 ];
 
@@ -312,6 +317,7 @@ export const languageTests: Credential[] = [
     date: "2026.09.14",
     dateTime: "2026-09-14",
     registrationNumber: "409119-1810001701",
+    verificationUrl: "https://www.toeicswt.co.kr/result/truthInput.php",
     result: "Intermediate High (140점)",
   },
 ];
