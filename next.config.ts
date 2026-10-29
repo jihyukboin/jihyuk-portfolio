@@ -1,11 +1,15 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  output: 'standalone',
   poweredByHeader: false,
-  images: {
-    qualities: [75, 90],
+  reactCompiler: true,
+  experimental: {
+    turbopackRustReactCompiler: true
   },
+  images: {
+    qualities: [75, 90]
+  }
 };
 
 export default nextConfig;

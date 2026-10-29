@@ -1,14 +1,14 @@
-import type { Metadata, Viewport } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import { siteOwner } from "@/data/site";
-import { siteName, siteUrl } from "@/lib/site";
-import "./globals.css";
+import type { Metadata, Viewport } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
+import { siteOwner } from '@/data/site';
+import { siteName, siteUrl } from '@/lib/site';
+import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteName,
-    template: `%s | ${siteName}`,
+    template: `%s | ${siteName}`
   },
   applicationName: siteName,
   authors: [{ name: siteOwner.name, url: siteOwner.githubUrl }],
@@ -16,16 +16,21 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1
+    }
   },
-  formatDetection: { telephone: false },
+  formatDetection: { telephone: false }
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: '#ffffff'
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: LayoutProps<'/'>) {
   const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (

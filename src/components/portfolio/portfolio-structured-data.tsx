@@ -1,6 +1,16 @@
-import { certifications, languageTests, profile, skills } from "@/data/portfolio";
-import { getProjectPrimaryLink, portfolioDescription, portfolioTitle, sortedProjects } from "@/lib/portfolio";
-import { siteUrl } from "@/lib/site";
+import {
+  certifications,
+  languageTests,
+  profile,
+  skills
+} from '@/data/portfolio';
+import {
+  getProjectPrimaryLink,
+  portfolioDescription,
+  portfolioTitle,
+  sortedProjects
+} from '@/lib/portfolio';
+import { siteUrl } from '@/lib/site';
 
 /**
  * 검색 엔진·AI 답변 엔진이 인물·경력·프로젝트를 구조적으로 이해하도록 schema.org JSON-LD를 출력한다.
@@ -11,17 +21,17 @@ export function PortfolioStructuredData() {
 
   const graph = [
     {
-      "@type": "ProfilePage",
-      "@id": `${siteUrl}/#profile`,
+      '@type': 'ProfilePage',
+      '@id': `${siteUrl}/#profile`,
       url: siteUrl,
       name: portfolioTitle,
       description: portfolioDescription,
-      inLanguage: "ko-KR",
-      mainEntity: { "@id": personId },
+      inLanguage: 'ko-KR',
+      mainEntity: { '@id': personId }
     },
     {
-      "@type": "Person",
-      "@id": personId,
+      '@type': 'Person',
+      '@id': personId,
       name: profile.name,
       alternateName: profile.englishName,
       jobTitle: profile.jobTitle,
@@ -30,42 +40,50 @@ export function PortfolioStructuredData() {
       email: `mailto:${profile.email}`,
       url: siteUrl,
       sameAs: [profile.githubUrl],
-      alumniOf: { "@type": "CollegeOrUniversity", name: profile.education[0].name },
+      alumniOf: {
+        '@type': 'CollegeOrUniversity',
+        name: profile.education[0].name
+      },
       knowsAbout: skills.flatMap((group) => group.items),
-      knowsLanguage: ["ko", "en"],
-      hasCredential: [...certifications, ...languageTests].map((credential) => ({
-        "@type": "EducationalOccupationalCredential",
-        name: credential.name,
-        credentialCategory: "certification",
-        dateCreated: credential.dateTime,
-        recognizedBy: { "@type": "Organization", name: credential.issuer },
-      })),
+      knowsLanguage: ['ko', 'en'],
+      hasCredential: [...certifications, ...languageTests].map(
+        (credential) => ({
+          '@type': 'EducationalOccupationalCredential',
+          name: credential.name,
+          credentialCategory: 'certification',
+          dateCreated: credential.dateTime,
+          recognizedBy: { '@type': 'Organization', name: credential.issuer }
+        })
+      )
     },
     {
-      "@type": "ItemList",
-      "@id": `${siteUrl}/#projects`,
+      '@type': 'ItemList',
+      '@id': `${siteUrl}/#projects`,
       name: `${profile.name} 프로젝트`,
       itemListElement: sortedProjects.map((project, index) => ({
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: index + 1,
         item: {
-          "@type": "CreativeWork",
+          '@type': 'CreativeWork',
           name: project.title,
           description: project.description,
           url: getProjectPrimaryLink(project),
-          dateCreated: project.startedOn.replace(".", "-"),
-          creator: { "@id": personId },
-          keywords: project.technologies.join(", "),
-        },
-      })),
-    },
+          dateCreated: project.startedOn.replace('.', '-'),
+          creator: { '@id': personId },
+          keywords: project.technologies.join(', ')
+        }
+      }))
+    }
   ];
 
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(/</g, "\\u003c"),
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': graph
+        }).replace(/</g, '\\u003c')
       }}
     />
   );

@@ -1,6 +1,13 @@
-import { languageTests } from "@/data/portfolio";
-import { CredentialSection } from "./credential-section";
+import { languageTests } from '@/data/portfolio';
+import { CredentialSection } from './credential-section';
 
 export function LanguageTestsSection() {
-  return <CredentialSection id="language-tests" title="어학" items={languageTests} dateLabel="응시일" />;
+  return (
+    <CredentialSection
+      id="language-tests"
+      title="어학"
+      items={languageTests}
+      dateLabel="응시일"
+    />
+  );
 }

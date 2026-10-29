@@ -1,4 +1,4 @@
-import styles from "./landing.module.css";
+import styles from './landing.module.css';
 
 export function DocumentPreview() {
   return (

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRef, useState, type KeyboardEvent } from "react";
-import { formats } from "@/data/super-docs";
+import { useRef, useState, type KeyboardEvent } from 'react';
+import { formats } from '@/data/super-docs';
 
 export function FeatureTabs() {
   const [selected, setSelected] = useState(0);
@@ -9,11 +9,11 @@ export function FeatureTabs() {
 
   function onKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     let next = index;
-    if (event.key === "ArrowRight") next = (index + 1) % formats.length;
-    else if (event.key === "ArrowLeft")
+    if (event.key === 'ArrowRight') next = (index + 1) % formats.length;
+    else if (event.key === 'ArrowLeft')
       next = (index - 1 + formats.length) % formats.length;
-    else if (event.key === "Home") next = 0;
-    else if (event.key === "End") next = formats.length - 1;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = formats.length - 1;
     else return;
     event.preventDefault();
     setSelected(next);
@@ -41,7 +41,7 @@ export function FeatureTabs() {
             tabIndex={index === selected ? 0 : -1}
             onClick={() => setSelected(index)}
             onKeyDown={(event) => onKeyDown(event, index)}
-            className={`px-5 py-1.5 rounded-full text-sm transition-all duration-200 cursor-pointer active:scale-[0.97] ${index === selected ? "bg-neutral-200 text-neutral-900 shadow-md shadow-black/40" : "text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}
+            className={`px-5 py-1.5 rounded-full text-sm transition-all duration-200 cursor-pointer active:scale-[0.97] ${index === selected ? 'bg-neutral-200 text-neutral-900 shadow-md shadow-black/40' : 'text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800'}`}
           >
             {format.name}
           </button>

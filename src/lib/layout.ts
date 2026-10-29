@@ -2,6 +2,8 @@
 // 브라우저 이벤트/effect 안에서만 호출한다.
 export function getSiteHeaderHeight() {
   return Number.parseFloat(
-    getComputedStyle(document.documentElement).getPropertyValue("--site-header-height"),
+    getComputedStyle(document.documentElement).getPropertyValue(
+      '--site-header-height'
+    )
   );
 }
