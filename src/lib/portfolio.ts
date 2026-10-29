@@ -24,11 +24,8 @@ export function getProjectAnchorId(project: Pick<Project, 'id'>) {
   return `project-${project.id}`;
 }
 
-export function formatProjectPeriod({
-  startedOn,
-  endedOn
-}: Pick<Project, 'startedOn' | 'endedOn'>) {
-  return `${startedOn} ~ ${endedOn ?? '운영 중'}`;
+export function formatProjectPeriod({ startedOn }: Pick<Project, 'startedOn'>) {
+  return startedOn;
 }
 
 /** 더보기 버튼 링크: 웹 서비스가 있으면 웹, 모바일 앱만 있으면 App Store → Google Play 순 */

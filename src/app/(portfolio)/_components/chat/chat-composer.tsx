@@ -275,8 +275,8 @@ export function ChatComposer() {
             </div>
           </section>
         )}
-      <div className="flex w-full shrink-0 justify-center bg-white/35 px-5 pb-[22px] backdrop-blur-[8px]">
-        <div className="pointer-events-auto relative w-full max-w-[800px] rounded-[28px] border border-[#e5e8eb] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+      <div className="flex w-full shrink-0 justify-center bg-white/35 px-5 pt-1 pb-[22px] backdrop-blur-[8px]">
+        <div className="pointer-events-auto relative w-full max-w-[800px] rounded-[28px] border border-[#e5e8eb] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.06),0_0_24px_rgba(125,211,252,0.35)]">
           <textarea
             aria-label="채팅 메시지"
             ref={textareaRef}
@@ -286,7 +286,7 @@ export function ChatComposer() {
             maxLength={MAX_QUESTION_LENGTH}
             readOnly={chat.sending}
             aria-busy={chat.sending}
-            className={`${styles.input} block min-h-[54px] max-h-[264px] w-full resize-none overflow-y-auto rounded-[28px] bg-transparent py-3 pl-6 text-base leading-6 text-[#333d4b] outline-none ${multiline ? 'pr-6' : 'pr-16'}`}
+            className={`${styles.input} block min-h-[54px] max-h-[264px] w-full resize-none overflow-y-auto rounded-[28px] bg-transparent py-[15px] pl-6 text-base leading-6 text-[#333d4b] outline-none ${multiline ? 'pr-6' : 'pr-16'}`}
             onChange={(event) => {
               const textarea = event.currentTarget;
               if (textarea.value) {
