@@ -50,7 +50,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Browser regression checks
-        run: npx playwright test
+        run: npx playwright test --config test/playwright.config.ts
 
   deploy:
     needs: validate
@@ -129,7 +129,7 @@ jobs:
             --request POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
             --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
             --header "Content-Type: application/json" \
-            --data "{\"files\":[\"$site_url/\",\"$site_url/opengraph-image\",\"$site_url/llms.txt\",\"$site_url/robots.txt\",\"$site_url/sitemap.xml\"]}" \
+            --data "{\"files\":[\"$site_url/\",\"$site_url/images/portfolio-opengraph.png\",\"$site_url/llms.txt\",\"$site_url/robots.txt\",\"$site_url/sitemap.xml\"]}" \
             | jq --exit-status '.success == true' >/dev/null
 
       - name: Remove SSH credentials

@@ -1,20 +1,18 @@
 import {
   certifications,
-  languageTests,
-  profile,
-  skills
-} from '@/data/portfolio';
-import {
   getProjectPrimaryLink,
+  languageTests,
   portfolioDescription,
   portfolioTitle,
+  profile,
+  skills,
   sortedProjects
 } from '@/lib/portfolio';
 import { siteUrl } from '@/lib/site';
 
 /**
  * 검색 엔진·AI 답변 엔진이 인물·경력·프로젝트를 구조적으로 이해하도록 schema.org JSON-LD를 출력한다.
- * 화면에 보이는 내용과 같은 데이터(src/data/portfolio.ts)만 사용한다.
+ * 화면에 보이는 내용과 같은 데이터(src/lib/portfolio.ts)만 사용한다.
  */
 export function PortfolioStructuredData() {
   const personId = `${siteUrl}/#person`;

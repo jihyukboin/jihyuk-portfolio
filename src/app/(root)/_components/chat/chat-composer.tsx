@@ -3,7 +3,7 @@
 import { ArrowUp, Sparkle, X } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { siteOwner } from '@/data/site';
+import { siteOwner } from '@/lib/site';
 import { MAX_QUESTION_LENGTH, QUOTA_MESSAGE } from '@/lib/chat/contracts';
 import {
   ensureVisitorId,
