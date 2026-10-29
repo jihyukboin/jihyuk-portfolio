@@ -27,15 +27,17 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Place test files, configuration, and generated test results under `test/`.
 - When code or interfaces change, update affected tests and mocks to match the intended behavior; remove obsolete tests. Check test and tooling paths when moving files.
 - Test changed behavior and meaningful edge cases. Avoid tests that merely mirror implementation details.
-- Run tests relevant to the change; run the full applicable suite for shared infrastructure changes. Report checks performed and any skipped or failed checks.
+- Run checks relevant to the change; use the full applicable suite for shared infrastructure changes. Avoid repeating checks unless new changes or failures require it. Report checks performed and any skipped or failed checks.
 
 ## Validation commands
 
 - `npm run lint` and `npm run typecheck`: check code and types.
 - `npm run test:e2e`: build and run Playwright browser tests; install Chromium with `npx playwright install chromium` if needed.
 - `npm run test:chat`: build and run chat integration tests. These tests delete chat data in the database specified by `TEST_DATABASE_URL`; use a separate disposable database whose name ends in `_test`.
+- If a current production build already exists, run the relevant test runner directly to avoid rebuilding: `npx playwright test --config test/playwright.config.ts` or `node --test test/integration/chat.test.mjs`.
 - `npm run format:check`: check formatting. For documentation-only changes, check formatting without running application tests.
 
 ## Public information
 
 - Keep `public/llms.txt` up to date when portfolio profile, education, projects, skills, credentials, links, or other information it covers changes. Check it against the current content and use the public site URL.
+- Update `README.md` when changes affect its documented setup, commands, structure, behavior, or deployment; check affected instructions and paths against the current project.
