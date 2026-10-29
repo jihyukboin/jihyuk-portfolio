@@ -5,7 +5,7 @@ test('홈의 메타데이터와 공개 정보 경로가 유지된다', async ({
   request
 }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle('정지혁 | 풀스택 개발자 포트폴리오');
+  await expect(page).toHaveTitle('DX 엔지니어 정지혁 포트폴리오');
   const siteUrl = (
     process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3007'
   ).replace(/\/+$/, '');
@@ -49,7 +49,7 @@ test.describe('서버에서 제공하는 본문', () => {
     );
     await expect(page.locator('#projects > article')).toHaveCount(8);
     await expect(
-      page.getByRole('heading', { name: '임고봇', exact: true })
+      page.getByRole('heading', { name: '임고봇 (2024.08)', exact: true })
     ).toBeVisible();
     const schema = JSON.parse(
       await page.locator('script[type="application/ld+json"]').innerText()
