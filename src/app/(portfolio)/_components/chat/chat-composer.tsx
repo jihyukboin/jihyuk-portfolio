@@ -100,6 +100,16 @@ export function ChatComposer() {
           <section
             ref={panelRef}
             aria-label="채팅 대화"
+            onClick={(event) => {
+              if (
+                (event.target as HTMLElement).closest(
+                  'a, button, input, textarea, select, [contenteditable="true"]'
+                ) ||
+                window.getSelection()?.toString()
+              )
+                return;
+              textareaRef.current?.focus({ preventScroll: true });
+            }}
             style={
               panelHeight === null
                 ? undefined
