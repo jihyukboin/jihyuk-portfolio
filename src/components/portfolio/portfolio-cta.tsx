@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { profile } from "@/data/portfolio";
-import { sectionClass } from "./portfolio-styles";
+import Image from 'next/image';
+import { profile } from '@/data/portfolio';
+import { sectionClass } from './portfolio-styles';
 
 export function PortfolioCta() {
   return (
@@ -14,7 +14,10 @@ export function PortfolioCta() {
           sizes="96px"
           className="mx-auto mb-6 h-32 w-24 rounded-2xl border border-[#e5e8eb] object-cover shadow-[0_8px_24px_rgba(35,42,52,0.12)]"
         />
-        <h2 id="portfolio-cta-title" className="text-2xl font-semibold tracking-tight sm:text-3xl">
+        <h2
+          id="portfolio-cta-title"
+          className="text-2xl font-semibold tracking-tight sm:text-3xl"
+        >
           아이디어를 실제 서비스로
         </h2>
         <p className="mx-auto mt-3 max-w-lg text-sm text-[#4e5968] sm:text-base">
@@ -27,9 +30,16 @@ export function PortfolioCta() {
             href={profile.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#3182f6] px-7 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#1b64da] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#3182f6]"
+            className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#1b64da] px-7 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#1957bf] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#3182f6]"
           >
-            <Image src="/images/github.svg" alt="" width={18} height={18} sizes="18px" className="brightness-0 invert" />
+            <Image
+              src="/images/github.svg"
+              alt=""
+              width={18}
+              height={18}
+              sizes="18px"
+              className="brightness-0 invert"
+            />
             GitHub에서 더 알아보기
             <span className="sr-only"> (새 창)</span>
           </a>

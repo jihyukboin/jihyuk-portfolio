@@ -1,7 +1,14 @@
-import Image from "next/image";
-import type { Project } from "@/data/portfolio";
-import { formatProjectPeriod, getProjectPrimaryLink } from "@/lib/portfolio";
-import { bulletItemClass, bulletListClass, cardBodyClass, cardClass, projectLabelClass, subHeadingClass } from "./portfolio-styles";
+import Image from 'next/image';
+import type { Project } from '@/data/portfolio';
+import { formatProjectPeriod, getProjectPrimaryLink } from '@/lib/portfolio';
+import {
+  bulletItemClass,
+  bulletListClass,
+  cardBodyClass,
+  cardClass,
+  projectLabelClass,
+  subHeadingClass
+} from './portfolio-styles';
 
 export function ProjectCard({ id, project }: { id: string; project: Project }) {
   const moreHref = getProjectPrimaryLink(project);
@@ -12,10 +19,14 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
     <article
       id={id}
       aria-labelledby={headingId}
-      className="relative grid scroll-mt-[96px] content-start gap-[14px] border-t border-[#e5e8eb] py-[clamp(28px,4vw,40px)] text-[16px] leading-[1.7] first-of-type:border-t-0 first-of-type:pt-0"
+      className="relative grid scroll-mt-[96px] content-start gap-[14px] border-t border-[#e5e8eb] py-[clamp(28px,4vw,40px)] text-base leading-[1.7] first-of-type:border-t-0 first-of-type:pt-0"
     >
       {project.legacyAnchorId && (
-        <span id={project.legacyAnchorId} aria-hidden="true" className="absolute top-0 scroll-mt-[96px]" />
+        <span
+          id={project.legacyAnchorId}
+          aria-hidden="true"
+          className="absolute top-0 scroll-mt-[96px]"
+        />
       )}
       <div className="flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
@@ -30,8 +41,12 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
             />
           </div>
           <div className="min-w-0">
-            <h3 id={headingId} className={subHeadingClass}>{project.title}</h3>
-            <p className="text-sm leading-5 text-[#8b95a1] [font-weight:600]">{formatProjectPeriod(project)}</p>
+            <h3 id={headingId} className={subHeadingClass}>
+              {project.title}
+            </h3>
+            <p className="text-sm leading-5 text-[#596575] [font-weight:600]">
+              {formatProjectPeriod(project)}
+            </p>
           </div>
         </div>
         {moreHref && (
@@ -40,26 +55,32 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${project.title} 더보기 (새 창)`}
-            className="relative inline-flex min-h-8 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg border-0 bg-[#3182f6] px-3 py-1.5 text-sm font-semibold leading-4 text-white no-underline transition-colors hover:bg-[#1b64da] focus-visible:bg-[#1b64da] focus-visible:outline-none"
+            className="relative inline-flex min-h-8 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg border-0 bg-[#1b64da] px-3 py-1.5 text-sm font-semibold leading-4 text-white no-underline transition-colors hover:bg-[#1957bf] focus-visible:bg-[#1957bf] focus-visible:outline-none"
           >
             더보기
           </a>
         )}
       </div>
-      <p className={`${cardClass} ${cardBodyClass} mt-1 px-5 py-4 sm:px-6 sm:py-5`}>{project.description}</p>
+      <p
+        className={`${cardClass} ${cardBodyClass} mt-1 px-5 py-4 sm:px-6 sm:py-5`}
+      >
+        {project.description}
+      </p>
 
-      <h4 className={projectLabelClass}>🙋🏻 역할</h4>
+      <h4 className={projectLabelClass}>역할</h4>
       <p className="text-[#4e5968]">{project.role}</p>
 
-      <h4 className={projectLabelClass}>👩🏻‍💻 기여한 부분</h4>
+      <h4 className={projectLabelClass}>기여한 부분</h4>
       <ul className={bulletListClass}>
         {project.details.map((detail) => (
-          <li key={detail} className={bulletItemClass}>{detail}</li>
+          <li key={detail} className={bulletItemClass}>
+            {detail}
+          </li>
         ))}
       </ul>
 
-      <h4 className={projectLabelClass}>🖥️ 사용 기술</h4>
-      <p className="text-[#4e5968]">{project.technologies.join(" · ")}</p>
+      <h4 className={projectLabelClass}>사용 기술</h4>
+      <p className="text-[#4e5968]">{project.technologies.join(' · ')}</p>
     </article>
   );
 }

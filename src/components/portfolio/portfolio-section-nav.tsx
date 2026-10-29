@@ -1,25 +1,32 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-import { getSiteHeaderHeight } from "@/lib/layout";
-import { ACTIVATION_RATIO, type PortfolioNavigationItem } from "./navigation";
+import { getSiteHeaderHeight } from '@/lib/layout';
+import { ACTIVATION_RATIO, type PortfolioNavigationItem } from './navigation';
 
 /**
  * 메인 영역(800px)과 같은 폭의 섹션 탭 내비게이션.
  * 스크롤 위치에 따라 현재 섹션을 강조하고, 하단 인디케이터가 해당 탭으로 미끄러진다.
  */
-export function PortfolioSectionNav({ items }: { items: PortfolioNavigationItem[] }) {
+export function PortfolioSectionNav({
+  items
+}: {
+  items: PortfolioNavigationItem[];
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    const sections = items.map((item) => document.getElementById(item.sectionId));
+    const sections = items.map((item) =>
+      document.getElementById(item.sectionId)
+    );
     let frameId = 0;
 
     const computeActive = () => {
       frameId = 0;
-      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+      const { scrollTop, scrollHeight, clientHeight } =
+        document.documentElement;
 
       // 페이지 끝에 닿으면 마지막 섹션이 짧아도 활성화한다.
       if (scrollTop + clientHeight >= scrollHeight - 2) {
@@ -27,10 +34,12 @@ export function PortfolioSectionNav({ items }: { items: PortfolioNavigationItem[
         return;
       }
 
-      const threshold = getSiteHeaderHeight() + window.innerHeight * ACTIVATION_RATIO;
+      const threshold =
+        getSiteHeaderHeight() + window.innerHeight * ACTIVATION_RATIO;
       let next = 0;
       sections.forEach((section, index) => {
-        if (section && section.getBoundingClientRect().top <= threshold) next = index;
+        if (section && section.getBoundingClientRect().top <= threshold)
+          next = index;
       });
       setActiveIndex(next);
     };
@@ -40,13 +49,13 @@ export function PortfolioSectionNav({ items }: { items: PortfolioNavigationItem[
     };
 
     computeActive();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
 
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
     };
   }, [items]);
 
@@ -62,9 +71,11 @@ export function PortfolioSectionNav({ items }: { items: PortfolioNavigationItem[
           <Link
             key={item.href}
             href={item.href}
-            aria-current={active ? "location" : undefined}
-            className={`group relative flex h-full min-w-0 items-center justify-center whitespace-nowrap text-[17px] leading-6 no-underline transition-colors duration-200 focus-visible:outline-none ${
-              active ? "text-[#191f28] [font-weight:650]" : "text-[#8b95a1] [font-weight:500] hover:text-[#4e5968]"
+            aria-current={active ? 'location' : undefined}
+            className={`group relative flex h-full min-w-0 items-center justify-center whitespace-nowrap text-[1.0625rem] leading-6 no-underline transition-colors duration-200 focus-visible:outline-none ${
+              active
+                ? 'text-[#191f28] [font-weight:650]'
+                : 'text-[#596575] [font-weight:500] hover:text-[#4e5968]'
             }`}
           >
             {/* hover·focus 시 은은한 배경 */}
@@ -78,13 +89,19 @@ export function PortfolioSectionNav({ items }: { items: PortfolioNavigationItem[
       })}
 
       {/* 하단 트랙 라인 */}
-      <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[#e5e8eb]" />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[#e5e8eb]"
+      />
 
       {/* 활성 섹션 인디케이터 */}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute bottom-0 left-0 h-[2px] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-        style={{ width: `${100 / items.length}%`, transform: `translateX(${activeIndex * 100}%)` }}
+        style={{
+          width: `${100 / items.length}%`,
+          transform: `translateX(${activeIndex * 100}%)`
+        }}
       >
         <span className="mx-auto block h-full w-10 rounded-full bg-[#3182f6]" />
       </span>

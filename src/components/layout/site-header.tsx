@@ -1,8 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
-import type { ReactNode } from "react";
-import { siteOwner } from "@/data/site";
-import { ScrollProgress } from "./scroll-progress";
+import Image from 'next/image';
+import Link from 'next/link';
+import type { ReactNode } from 'react';
+import { siteOwner } from '@/data/site';
 
 type SiteHeaderProps = {
   navigation: ReactNode;
@@ -12,8 +11,10 @@ type SiteHeaderProps = {
 // 사이트 공통 외형. 각 페이지의 탐색 UI는 서버 컴포넌트에서 조합한다.
 export function SiteHeader({ navigation, mobileMenu }: SiteHeaderProps) {
   return (
-    <header id="site-header" className="sticky top-0 z-[2147483645] h-auto min-h-(--site-header-height) w-full bg-white/85 font-bold shadow-none backdrop-blur-[8px] [font-synthesis:auto]">
-      <ScrollProgress />
+    <header
+      id="site-header"
+      className="sticky top-0 z-[2147483645] h-auto min-h-(--site-header-height) w-full bg-white/85 font-bold shadow-none backdrop-blur-[8px] [font-synthesis:auto]"
+    >
       {/* 가운데 열을 메인 article(max-w-(--site-content-width), mx-auto)과 같은 폭·위치로 맞춘다. */}
       <div className="relative box-border flex min-h-(--site-header-height) w-full items-center justify-between px-4 min-[840px]:grid min-[840px]:grid-cols-[minmax(7rem,1fr)_minmax(0,var(--site-content-width))_minmax(7rem,1fr)]">
         <div className="mr-auto inline-flex min-w-0 items-center min-[840px]:mr-0 min-[840px]:w-28 min-[840px]:min-w-28">
@@ -32,7 +33,9 @@ export function SiteHeader({ navigation, mobileMenu }: SiteHeaderProps) {
               className="h-8 w-8 shrink-0 rounded-full object-cover object-top"
             />
             <span className="inline-flex min-w-0 items-end gap-1 whitespace-nowrap leading-none">
-              <span className="text-lg font-bold leading-none tracking-normal">{siteOwner.name}</span>
+              <span className="text-lg font-bold leading-none tracking-normal">
+                {siteOwner.name}
+              </span>
             </span>
           </Link>
         </div>
@@ -45,7 +48,7 @@ export function SiteHeader({ navigation, mobileMenu }: SiteHeaderProps) {
           href={siteOwner.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative hidden min-h-8 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg border-0 bg-[#3182f6] px-3 py-1.5 text-sm font-semibold leading-4 text-white no-underline transition-colors hover:bg-[#1b64da] focus-visible:bg-[#1b64da] focus-visible:outline-none min-[840px]:inline-flex min-[840px]:justify-self-end"
+          className="relative hidden min-h-8 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg border-0 bg-[#1b64da] px-3 py-1.5 text-sm font-semibold leading-4 text-white no-underline transition-colors hover:bg-[#1957bf] focus-visible:bg-[#1957bf] focus-visible:outline-none min-[840px]:inline-flex min-[840px]:justify-self-end"
         >
           GitHub
         </a>

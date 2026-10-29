@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
-import { getSiteHeaderHeight } from "@/lib/layout";
-import { ACTIVATION_RATIO } from "./navigation";
-import styles from "./project-dock.module.css";
+import { getSiteHeaderHeight } from '@/lib/layout';
+import { ACTIVATION_RATIO } from './navigation';
+import styles from './project-dock.module.css';
 
 export type ProjectDockItem = {
   id: string;
@@ -24,14 +24,20 @@ const ITEM_GAP = 4;
  * 헤더(backdrop-filter)의 자식으로 두면 헤더가 backdrop root가 되어 페이지 배경을 블러하지 못하므로
  * 헤더 바깥 fixed 레이어로 렌더링한다.
  */
-export function ProjectDock({ items, sectionId }: { items: ProjectDockItem[]; sectionId: string }) {
+export function ProjectDock({
+  items,
+  sectionId
+}: {
+  items: ProjectDockItem[];
+  sectionId: string;
+}) {
   const [visible, setVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const section = document.getElementById(sectionId);
-    const heading = section?.querySelector("h2");
+    const heading = section?.querySelector('h2');
     const articles = items.map((item) => document.getElementById(item.id));
     let frameId = 0;
 
@@ -45,14 +51,15 @@ export function ProjectDock({ items, sectionId }: { items: ProjectDockItem[]; se
       const headerLine = headerHeight + 1;
       setVisible(
         heading.getBoundingClientRect().top <= headerLine &&
-          section.getBoundingClientRect().bottom > headerLine,
+          section.getBoundingClientRect().bottom > headerLine
       );
 
       // 활성 프로젝트는 PortfolioSectionNav와 같은 뷰포트 35% 기준선을 쓴다.
       const threshold = headerHeight + window.innerHeight * ACTIVATION_RATIO;
       let next = 0;
       articles.forEach((article, index) => {
-        if (article && article.getBoundingClientRect().top <= threshold) next = index;
+        if (article && article.getBoundingClientRect().top <= threshold)
+          next = index;
       });
       setActiveIndex(next);
     };
@@ -62,13 +69,13 @@ export function ProjectDock({ items, sectionId }: { items: ProjectDockItem[]; se
     };
 
     compute();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
 
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
     };
   }, [items, sectionId]);
 
@@ -86,8 +93,8 @@ export function ProjectDock({ items, sectionId }: { items: ProjectDockItem[]; se
             inert={!visible}
             className={`flex origin-top flex-col items-center gap-1.5 transition-[opacity,translate,scale] motion-reduce:transition-opacity ${
               visible
-                ? "pointer-events-auto translate-y-0 scale-100 opacity-100 duration-500 ease-[cubic-bezier(0.34,1.4,0.64,1)]"
-                : "-translate-y-3 scale-90 opacity-0 duration-200 ease-[cubic-bezier(0.4,0,1,1)]"
+                ? 'pointer-events-auto translate-y-0 scale-100 opacity-100 duration-500 ease-[cubic-bezier(0.34,1.4,0.64,1)]'
+                : '-translate-y-3 scale-90 opacity-0 duration-200 ease-[cubic-bezier(0.4,0,1,1)]'
             }`}
           >
             {/* 유리 캡슐 */}
@@ -106,7 +113,7 @@ export function ProjectDock({ items, sectionId }: { items: ProjectDockItem[]; se
                   style={{
                     width: ITEM_SIZE,
                     height: ITEM_SIZE,
-                    transform: `translateX(${activeIndex * (ITEM_SIZE + ITEM_GAP)}px)`,
+                    transform: `translateX(${activeIndex * (ITEM_SIZE + ITEM_GAP)}px)`
                   }}
                 />
 
@@ -117,7 +124,7 @@ export function ProjectDock({ items, sectionId }: { items: ProjectDockItem[]; se
                       <a
                         href={`#${item.id}`}
                         aria-label={item.title}
-                        aria-current={active ? "location" : undefined}
+                        aria-current={active ? 'location' : undefined}
                         onPointerEnter={() => setHoverIndex(index)}
                         onPointerLeave={() => setHoverIndex(null)}
                         onFocus={() => setHoverIndex(index)}
@@ -128,8 +135,8 @@ export function ProjectDock({ items, sectionId }: { items: ProjectDockItem[]; se
                         <span
                           className={`block size-[30px] overflow-hidden rounded-[9px] border border-black/5 bg-white transition-[scale,opacity,filter] duration-300 ease-[cubic-bezier(0.34,1.4,0.64,1)] motion-reduce:transition-none ${
                             active
-                              ? "scale-100 opacity-100 shadow-[0_1px_3px_rgba(15,23,42,0.18)]"
-                              : "scale-[0.82] opacity-60 saturate-[0.6] group-hover:scale-95 group-hover:opacity-100 group-hover:saturate-100"
+                              ? 'scale-100 opacity-100 shadow-[0_1px_3px_rgba(15,23,42,0.18)]'
+                              : 'scale-[0.82] opacity-60 saturate-[0.6] group-hover:scale-95 group-hover:opacity-100 group-hover:saturate-100'
                           }`}
                         >
                           <Image
@@ -152,7 +159,7 @@ export function ProjectDock({ items, sectionId }: { items: ProjectDockItem[]; se
             {caption && (
               <span
                 aria-hidden="true"
-                className="max-w-[calc(100vw-32px)] truncate rounded-full border border-white/70 bg-white/60 px-3 py-1 text-[12px] leading-4 tracking-[-0.01em] text-[#333d4b] shadow-[0_4px_14px_-4px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl backdrop-saturate-[1.8] [font-weight:600]"
+                className="max-w-[calc(100vw-32px)] truncate rounded-full border border-white/70 bg-white/60 px-3 py-1 text-xs leading-4 tracking-[-0.01em] text-[#333d4b] shadow-[0_4px_14px_-4px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl backdrop-saturate-[1.8] [font-weight:600]"
               >
                 <span key={captionIndex} className={`block ${styles.caption}`}>
                   {caption}

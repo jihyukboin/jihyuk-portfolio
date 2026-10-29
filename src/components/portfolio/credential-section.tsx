@@ -1,7 +1,14 @@
-import Image from "next/image";
-import type { ReactNode } from "react";
-import type { Credential } from "@/data/portfolio";
-import { cardClass, cardGridClass, cardPaddingClass, cardTitleClass, sectionClass, sectionHeadingClass } from "./portfolio-styles";
+import Image from 'next/image';
+import type { ReactNode } from 'react';
+import type { Credential } from '@/data/portfolio';
+import {
+  cardClass,
+  cardGridClass,
+  cardPaddingClass,
+  cardTitleClass,
+  sectionClass,
+  sectionHeadingClass
+} from './portfolio-styles';
 
 type CredentialSectionProps = {
   id: string;
@@ -12,7 +19,12 @@ type CredentialSectionProps = {
 };
 
 /** 자격증·어학 섹션이 공유하는 회색 카드 목록 */
-export function CredentialSection({ id, title, items, dateLabel }: CredentialSectionProps) {
+export function CredentialSection({
+  id,
+  title,
+  items,
+  dateLabel
+}: CredentialSectionProps) {
   return (
     <section id={id} className={sectionClass}>
       <h2 className={sectionHeadingClass}>{title}</h2>
@@ -37,13 +49,21 @@ export function CredentialSection({ id, title, items, dateLabel }: CredentialSec
               />
             )}
             <h3 className={cardTitleClass}>{item.name}</h3>
-            <p className="mt-2 text-[15px] text-[#8b95a1] [font-weight:600]">{item.issuer}</p>
-            <dl className="mt-auto grid gap-4 pt-8 text-[15px] leading-[1.6] tracking-[-0.02em] sm:text-base">
-              {item.result && <CredentialField label="등급 및 점수">{item.result}</CredentialField>}
+            <p className="mt-2 text-[0.9375rem] text-[#596575] [font-weight:600]">
+              {item.issuer}
+            </p>
+            <dl className="mt-auto grid gap-4 pt-8 text-[0.9375rem] leading-[1.6] tracking-[-0.02em] sm:text-base">
+              {item.result && (
+                <CredentialField label="등급 및 점수">
+                  {item.result}
+                </CredentialField>
+              )}
               <CredentialField label={dateLabel}>
                 <time dateTime={item.dateTime}>{item.date}</time>
               </CredentialField>
-              <CredentialField label="등록 번호">{item.registrationNumber}</CredentialField>
+              <CredentialField label="등록 번호">
+                {item.registrationNumber}
+              </CredentialField>
             </dl>
           </a>
         ))}
@@ -52,11 +72,19 @@ export function CredentialSection({ id, title, items, dateLabel }: CredentialSec
   );
 }
 
-function CredentialField({ label, children }: { label: string; children: ReactNode }) {
+function CredentialField({
+  label,
+  children
+}: {
+  label: string;
+  children: ReactNode;
+}) {
   return (
     <div>
-      <dt className="text-sm text-[#8b95a1] [font-weight:650]">{label}</dt>
-      <dd className="mt-1 break-all text-[#333d4b] [font-weight:650]">{children}</dd>
+      <dt className="text-sm text-[#596575] [font-weight:650]">{label}</dt>
+      <dd className="mt-1 break-all text-[#333d4b] [font-weight:650]">
+        {children}
+      </dd>
     </div>
   );
 }

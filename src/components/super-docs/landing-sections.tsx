@@ -1,8 +1,8 @@
-import Image from "next/image";
-import { siteOwner } from "@/data/site";
-import { faqs, formats, superDocs } from "@/data/super-docs";
-import { DocumentPreview } from "./document-preview";
-import { FeatureTabs } from "./feature-tabs";
+import Image from 'next/image';
+import { siteOwner } from '@/data/site';
+import { faqs, formats, superDocs } from '@/data/super-docs';
+import { DocumentPreview } from './document-preview';
+import { FeatureTabs } from './feature-tabs';
 
 export function DownloadLink() {
   return (
@@ -73,9 +73,9 @@ export function HighlightsSection() {
     >
       <dl className="mx-auto grid max-w-4xl grid-cols-3 gap-2.5 sm:gap-8">
         {[
-          { value: "3", label: "문서 형식" },
-          { value: "무료", label: "MIT 오픈소스" },
-          { value: "오프라인", label: "인터넷 없이 편집" },
+          { value: '3', label: '문서 형식' },
+          { value: '무료', label: 'MIT 오픈소스' },
+          { value: '오프라인', label: '인터넷 없이 편집' }
         ].map(({ value, label }) => (
           <div
             key={label}
@@ -119,13 +119,13 @@ export function FeaturesSection() {
           aria-label="주요 편집 기능"
         >
           {[
-            "본문 편집",
-            "표 편집",
-            "글자 서식",
-            "여러 문서 창",
-            "시스템 파일 선택창",
-            "Mac 단축키",
-            "앱 내 업데이트",
+            '본문 편집',
+            '표 편집',
+            '글자 서식',
+            '여러 문서 창',
+            '시스템 파일 선택창',
+            'Mac 단축키',
+            '앱 내 업데이트'
           ].map((label) => (
             <li
               key={label}
@@ -271,7 +271,7 @@ export function InstallSection() {
         <ol className="grid gap-4 sm:grid-cols-3">
           {[
             {
-              title: "앱 다운로드",
+              title: '앱 다운로드',
               body: (
                 <>
                   <a
@@ -282,16 +282,16 @@ export function InstallSection() {
                   </a>
                   에서 최신 DMG 파일을 받으세요.
                 </>
-              ),
+              )
             },
             {
-              title: "Applications로 이동",
-              body: "DMG를 열고 Super Docs를 Applications 폴더로 드래그하세요.",
+              title: 'Applications로 이동',
+              body: 'DMG를 열고 Super Docs를 Applications 폴더로 드래그하세요.'
             },
             {
-              title: "첫 문서 열기",
-              body: "앱을 실행하고 ⌘O로 문서를 열거나, ⌘N으로 새 문서를 만드세요.",
-            },
+              title: '첫 문서 열기',
+              body: '앱을 실행하고 ⌘O로 문서를 열거나, ⌘N으로 새 문서를 만드세요.'
+            }
           ].map((step, index) => (
             <li
               key={step.title}
@@ -424,7 +424,7 @@ export function LandingFooter() {
         </ul>
       </nav>
       <p className="mt-6 text-xs">
-        Super Docs · 만든 사람{" "}
+        Super Docs · 만든 사람{' '}
         <a href={siteOwner.githubUrl} className="hover:underline">
           {siteOwner.name}
         </a>

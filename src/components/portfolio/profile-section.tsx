@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { profile } from "@/data/portfolio";
-import { textLinkClass } from "./portfolio-styles";
+import Image from 'next/image';
+import { profile } from '@/data/portfolio';
+import { textLinkClass } from './portfolio-styles';
 
 export function ProfileSection() {
   return (
@@ -19,13 +19,25 @@ export function ProfileSection() {
         quality={90}
         loading="eager"
       />
-      <div className="grid gap-[15px] text-[clamp(16px,1.4vw,20px)] leading-[1.45] text-[#191f28] [font-weight:620]">
+      <div className="grid gap-[15px] text-[clamp(1rem,1.4vw,1.25rem)] leading-[1.45] text-[#191f28] [font-weight:620]">
         <address className="grid gap-[15px] not-italic">
           <a className={textLinkClass} href={`mailto:${profile.email}`}>
             📧 {profile.email}
           </a>
-          <a className={`${textLinkClass} inline-flex items-center gap-2`} href={profile.githubUrl} target="_blank" rel="noopener noreferrer">
-            <Image className="flex-none" src="/images/github.svg" alt="" width={22} height={22} sizes="22px" />
+          <a
+            className={`${textLinkClass} inline-flex items-center gap-2`}
+            href={profile.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              className="flex-none"
+              src="/images/github.svg"
+              alt=""
+              width={22}
+              height={22}
+              sizes="22px"
+            />
             GitHub
           </a>
         </address>

@@ -1,17 +1,17 @@
 <div align="center">
   <img src="docs/media/deployment-workflow.png" alt="Next.js·React 개발부터 GitHub Actions 자동 배포, OCI 인스턴스와 Cloudflare를 거쳐 jihyuk.tech로 제공되는 배포 구조" width="1200" />
 
-  # Jihyuk Portfolio
+# Jihyuk Portfolio
 
-  **웹·모바일·백엔드·Cloud를 연결해 실제 사용자가 있는 서비스를 만듭니다.**
+**웹·모바일·백엔드·Cloud를 연결해 실제 사용자가 있는 서비스를 만듭니다.**
 
-  직접 기획하고 개발·운영한 서비스, 기술과 경험을 한 페이지에 담은 정지혁의 포트폴리오
+직접 기획하고 개발·운영한 서비스, 기술과 경험을 한 페이지에 담은 정지혁의 포트폴리오
 
-  `Next.js 16` · `React 19` · `TypeScript` · `Tailwind CSS 4`
+`Next.js 16` · `React 19` · `TypeScript` · `Tailwind CSS 4`
 
-  **[포트폴리오 방문 ↗](https://jihyuk.tech)**
+**[포트폴리오 방문 ↗](https://jihyuk.tech)**
 
-  [서비스 화면](#서비스-화면) · [주요 기능](#주요-기능) · [시작하기](#시작하기) · [콘텐츠 수정](#콘텐츠-수정)
+[서비스 화면](#서비스-화면) · [주요 기능](#주요-기능) · [시작하기](#시작하기) · [콘텐츠 수정](#콘텐츠-수정)
 </div>
 
 ---
@@ -20,10 +20,10 @@
 
 [![소개와 프로필, 기술을 보여 주는 데스크톱 포트폴리오](docs/media/desktop.jpg)](https://jihyuk.tech)
 
-| 프로젝트 탐색 | 모바일 |
-| --- | --- |
+| 프로젝트 탐색                                                                                                    | 모바일                                                                                                    |
+| ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | <img src="docs/media/projects.jpg" alt="프로젝트 아이콘 독과 기여 내용을 보여 주는 프로젝트 섹션" width="720" /> | <img src="docs/media/mobile.jpg" alt="모바일 화면에 맞춰 세로로 배치된 프로필과 기술 섹션" width="280" /> |
-| 프로젝트별 역할·기여·기술을 읽고 웹 서비스와 앱으로 이동합니다. | 화면 너비에 맞춰 프로필과 콘텐츠가 자연스럽게 재배치됩니다. |
+| 프로젝트별 역할·기여·기술을 읽고 웹 서비스와 앱으로 이동합니다.                                                  | 화면 너비에 맞춰 프로필과 콘텐츠가 자연스럽게 재배치됩니다.                                               |
 
 > 현재 소스를 로컬 개발 서버에서 촬영한 화면입니다.
 
@@ -36,15 +36,15 @@
 
 ## 주요 기능
 
-| 영역 | 구현 |
-| --- | --- |
-| 반응형 화면 | 데스크톱·모바일 레이아웃, 모바일 메뉴, 가변 글자 크기와 여백 |
-| 섹션 탐색 | 고정 헤더, 스크롤 위치에 따른 활성 메뉴, 페이지 스크롤 진행 표시 |
+| 영역          | 구현                                                                               |
+| ------------- | ---------------------------------------------------------------------------------- |
+| 반응형 화면   | 데스크톱·모바일 레이아웃, 모바일 메뉴, 가변 글자 크기와 여백                       |
+| 섹션 탐색     | 고정 헤더, 스크롤 위치에 따른 활성 메뉴, 페이지 스크롤 진행 표시                   |
 | 프로젝트 탐색 | 대표 프로젝트 우선·나머지 최신순 정렬, 프로젝트 구간에서 나타나는 반투명 아이콘 독 |
-| 공유와 검색 | Canonical, Open Graph·Twitter 메타데이터, 공유 이미지 생성, robots.txt·sitemap.xml |
+| 공유와 검색   | Canonical, Open Graph·Twitter 메타데이터, 공유 이미지 생성, robots.txt·sitemap.xml |
 | 구조화된 정보 | ProfilePage·Person·프로젝트 목록 JSON-LD, 같은 콘텐츠 데이터에서 생성하는 llms.txt |
-| 방문 분석 | 측정 ID를 설정한 경우에만 Google Analytics 연결 |
-| 배포 | GitHub Actions 검증, OCI standalone 배포, 헬스 체크 실패 시 이전 릴리스로 복구 |
+| 방문 분석     | 측정 ID를 설정한 경우에만 Google Analytics 연결                                    |
+| 배포          | GitHub Actions 검증, OCI standalone 배포, 헬스 체크 실패 시 이전 릴리스로 복구     |
 
 ## 기술 구성
 
@@ -123,16 +123,16 @@ npm run test:e2e
 
 ## 콘텐츠 수정
 
-| 바꾸려는 내용 | 수정 위치 |
-| --- | --- |
-| 프로필·기술·프로젝트·자격증·어학 | [src/data/portfolio.ts](src/data/portfolio.ts) |
-| 섹션 배치 | [src/app/(portfolio)/page.tsx](src/app/(portfolio)/page.tsx) |
-| 메뉴 이름·순서 | [src/components/portfolio/navigation.ts](src/components/portfolio/navigation.ts) |
-| 사이트 주소·공통 이름 | [src/lib/site.ts](src/lib/site.ts) |
-| 포트폴리오 제목·설명 | [src/lib/portfolio.ts](src/lib/portfolio.ts) |
-| 사이트 소유자·연락처 | [src/data/site.ts](src/data/site.ts) |
-| 공유 이미지 | [src/lib/portfolio-open-graph.tsx](src/lib/portfolio-open-graph.tsx) |
-| 프로필 사진·프로젝트 아이콘 | [public/images](public/images) |
+| 바꾸려는 내용                    | 수정 위치                                                                        |
+| -------------------------------- | -------------------------------------------------------------------------------- |
+| 프로필·기술·프로젝트·자격증·어학 | [src/data/portfolio.ts](src/data/portfolio.ts)                                   |
+| 섹션 배치                        | [src/app/(portfolio)/page.tsx](<src/app/(portfolio)/page.tsx>)                   |
+| 메뉴 이름·순서                   | [src/components/portfolio/navigation.ts](src/components/portfolio/navigation.ts) |
+| 사이트 주소·공통 이름            | [src/lib/site.ts](src/lib/site.ts)                                               |
+| 포트폴리오 제목·설명             | [src/lib/portfolio.ts](src/lib/portfolio.ts)                                     |
+| 사이트 소유자·연락처             | [src/data/site.ts](src/data/site.ts)                                             |
+| 공유 이미지                      | [src/lib/portfolio-open-graph.tsx](src/lib/portfolio-open-graph.tsx)             |
+| 프로필 사진·프로젝트 아이콘      | [public/images](public/images)                                                   |
 
 프로젝트에 `featured: true`를 지정하면 대표 프로젝트로 먼저 표시됩니다. 나머지는 `startedOn` 최신순으로 정렬하며, `endedOn`을 생략하면 운영 중으로 표시합니다. 프로젝트 `id`는 정렬 순서와 무관한 앵커(`/#project-imgobot` 등)에 사용하므로 변경하지 않습니다. `legacyAnchorId`는 기존에 공유된 숫자 앵커를 유지하는 별칭이며 신규 프로젝트에는 추가하지 않습니다. 섹션 순서를 변경할 때는 메뉴 순서도 함께 맞춥니다.
 

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { Home } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { navigationLinks } from "@/data/super-docs";
+import Image from 'next/image';
+import Link from 'next/link';
+import { Home } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { navigationLinks } from '@/data/super-docs';
 
 export function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,14 +15,14 @@ export function LandingHeader() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         setMenuOpen(false);
         menuButton.current?.focus();
       }
@@ -34,24 +34,24 @@ export function LandingHeader() {
       )
         setMenuOpen(false);
     };
-    const desktop = window.matchMedia("(min-width: 768px)");
+    const desktop = window.matchMedia('(min-width: 768px)');
     const onResize = () => {
       if (desktop.matches) setMenuOpen(false);
     };
-    document.addEventListener("keydown", onKeyDown);
-    document.addEventListener("pointerdown", onPointerDown);
-    desktop.addEventListener("change", onResize);
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
+    desktop.addEventListener('change', onResize);
     return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.removeEventListener("pointerdown", onPointerDown);
-      desktop.removeEventListener("change", onResize);
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
+      desktop.removeEventListener('change', onResize);
     };
   }, [menuOpen]);
 
   const glassSurface =
     scrolled || menuOpen
-      ? "bg-neutral-950/55 ring-1 ring-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl backdrop-saturate-150"
-      : "bg-transparent";
+      ? 'bg-neutral-950/55 ring-1 ring-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl backdrop-saturate-150'
+      : 'bg-transparent';
 
   return (
     <header ref={header} className="h-17 shrink-0">
@@ -107,7 +107,7 @@ export function LandingHeader() {
               ref={menuButton}
               type="button"
               className="rounded-full p-2 text-neutral-300 transition-colors duration-200 hover:bg-white/5 md:hidden"
-              aria-label={menuOpen ? "메뉴 닫기" : "메뉴 열기"}
+              aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
               aria-expanded={menuOpen}
               aria-controls="super-docs-mobile-menu"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -124,8 +124,8 @@ export function LandingHeader() {
                 <path
                   d={
                     menuOpen
-                      ? "M6 6l12 12M6 18L18 6"
-                      : "M3 6h18M3 12h18M3 18h18"
+                      ? 'M6 6l12 12M6 18L18 6'
+                      : 'M3 6h18M3 12h18M3 18h18'
                   }
                 />
               </svg>

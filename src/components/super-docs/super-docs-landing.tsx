@@ -1,4 +1,4 @@
-import { LandingHeader } from "./landing-header";
+import { LandingHeader } from './landing-header';
 import {
   DownloadSection,
   FaqSection,
@@ -8,9 +8,9 @@ import {
   HighlightsSection,
   InstallSection,
   LandingFooter,
-  WorkflowSection,
-} from "./landing-sections";
-import styles from "./landing.module.css";
+  WorkflowSection
+} from './landing-sections';
+import styles from './landing.module.css';
 
 export function SuperDocsLanding() {
   return (
