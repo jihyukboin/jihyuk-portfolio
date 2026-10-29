@@ -84,7 +84,10 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
+          : "${DATABASE_URL:?Set the production DATABASE_URL secret}"
+          : "${OPENAI_API_KEY:?Set the OPENAI_API_KEY secret}"
           environment_file="$RUNNER_TEMP/production.env"
           remote_environment_file="/opt/jihyuk-portfolio/shared/.production.env-$GITHUB_SHA"
           umask 077
@@ -92,6 +95,7 @@ jobs:
             printf 'NEXT_PUBLIC_SITE_URL=%s\n' "$NEXT_PUBLIC_SITE_URL"
             printf 'NEXT_PUBLIC_GA_MEASUREMENT_ID=%s\n' "$NEXT_PUBLIC_GA_MEASUREMENT_ID"
             printf 'OPENAI_API_KEY=%s\n' "$OPENAI_API_KEY"
+            printf 'DATABASE_URL=%s\n' "$DATABASE_URL"
           } > "$environment_file"
           ssh "$OCI_USER@$OCI_HOST" "install -d -m 700 /opt/jihyuk-portfolio/shared"
           scp "$environment_file" "$OCI_USER@$OCI_HOST:$remote_environment_file"
