@@ -1,0 +1,25 @@
+.input {
+  scrollbar-color: auto;
+}
+
+.input::-webkit-scrollbar {
+  width: 8px;
+}
+
+.input::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: #c5c5c5;
+  background-clip: padding-box;
+}
+
+.input::-webkit-scrollbar-button {
+  display: none;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .input {
+    scrollbar-width: thin;
+    scrollbar-color: #c5c5c5 transparent;
+  }
+}
