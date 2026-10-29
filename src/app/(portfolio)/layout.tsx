@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { PortfolioHeader } from '@/components/portfolio/portfolio-header';
-import { ChatComposer } from '@/components/portfolio/chat-composer';
+import { ChatComposer } from './_components/chat/chat-composer';
 
 export default function PortfolioLayout({ children }: { children: ReactNode }) {
   return (

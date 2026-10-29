@@ -88,12 +88,6 @@ export function PortfolioSectionNav({
         );
       })}
 
-      {/* 하단 트랙 라인 */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[#e5e8eb]"
-      />
-
       {/* 활성 섹션 인디케이터 */}
       <span
         aria-hidden="true"

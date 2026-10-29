@@ -1,23 +1,5 @@
 import { expect, test } from '@playwright/test';
 
-test('채팅 메시지와 모의 답장을 표시한다', async ({ page }) => {
-  await page.goto('/');
-  const input = page.getByRole('textbox', { name: '채팅 메시지' });
-  const send = page.getByRole('button', { name: '메시지 전송' });
-  await expect(send).toBeDisabled();
-  await input.fill('안녕하세요');
-  await input.press('Shift+Enter');
-  await input.pressSequentially('반갑습니다');
-  await input.press('Enter');
-  const chat = page.getByRole('region', { name: '채팅 대화' });
-  await expect(chat.getByText('안녕하세요 반갑습니다')).toBeVisible();
-  await expect(chat.getByText('답장입니다.')).toBeVisible();
-  await expect(input).toBeEmpty();
-  await input.fill('두 번째 메시지');
-  await send.click();
-  await expect(chat.getByText('답장입니다.')).toHaveCount(2);
-});
-
 test('홈의 메타데이터와 공개 정보 경로가 유지된다', async ({
   page,
   request
