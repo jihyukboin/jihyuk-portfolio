@@ -6,14 +6,6 @@ export function PortfolioCta() {
   return (
     <section aria-labelledby="portfolio-cta-title" className={sectionClass}>
       <div className="rounded-2xl bg-[#f2f4f6] p-10 text-center text-[#191f28] sm:p-14">
-        <Image
-          src={profile.image}
-          alt=""
-          width={96}
-          height={128}
-          sizes="96px"
-          className="mx-auto mb-6 h-32 w-24 rounded-2xl border border-[#e5e8eb] object-cover shadow-[0_8px_24px_rgba(35,42,52,0.12)]"
-        />
         <h2
           id="portfolio-cta-title"
           className="text-2xl font-semibold tracking-tight sm:text-3xl"

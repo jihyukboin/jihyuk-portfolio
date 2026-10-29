@@ -21,8 +21,17 @@ export function ProfileSection() {
       />
       <div className="grid gap-[15px] text-[clamp(1rem,1.4vw,1.25rem)] leading-[1.45] text-[#191f28] [font-weight:620]">
         <address className="grid gap-[15px] not-italic">
-          <a className={textLinkClass} href={`mailto:${profile.email}`}>
-            📧 {profile.email}
+          <a
+            className={`${textLinkClass} inline-flex items-center gap-2`}
+            href={`mailto:${profile.email}`}
+          >
+            <span
+              className="flex h-6 w-7 shrink-0 items-center justify-center"
+              aria-hidden="true"
+            >
+              📧
+            </span>
+            <span>{profile.email}</span>
           </a>
           <a
             className={`${textLinkClass} inline-flex items-center gap-2`}
@@ -30,20 +39,27 @@ export function ProfileSection() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image
-              className="flex-none"
-              src="/images/github.svg"
-              alt=""
-              width={22}
-              height={22}
-              sizes="22px"
-            />
+            <span className="flex h-6 w-7 shrink-0 items-center justify-center">
+              <Image src="/images/github.svg" alt="" width={22} height={22} />
+            </span>
             GitHub
           </a>
         </address>
         {profile.education.map((item) => (
-          <p key={item.name}>
-            {item.emoji} {item.name} {item.detail}
+          <p key={item.name} className="flex items-center gap-2">
+            <span
+              className="flex h-6 w-7 shrink-0 items-center justify-center"
+              aria-hidden="true"
+            >
+              {'image' in item ? (
+                <Image src={item.image} alt="" width={27} height={19} />
+              ) : (
+                item.emoji
+              )}
+            </span>
+            <span>
+              {item.name} {item.detail}
+            </span>
           </p>
         ))}
       </div>

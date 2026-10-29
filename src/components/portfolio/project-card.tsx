@@ -42,11 +42,8 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
           </div>
           <div className="min-w-0">
             <h3 id={headingId} className={subHeadingClass}>
-              {project.title}
+              {project.title} ({formatProjectPeriod(project)})
             </h3>
-            <p className="text-sm leading-5 text-[#596575] [font-weight:600]">
-              {formatProjectPeriod(project)}
-            </p>
           </div>
         </div>
         {moreHref && (
@@ -61,9 +58,8 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
           </a>
         )}
       </div>
-      <p
-        className={`${cardClass} ${cardBodyClass} mt-1 px-5 py-4 sm:px-6 sm:py-5`}
-      >
+      <h4 className={projectLabelClass}>개요</h4>
+      <p className={`${cardClass} ${cardBodyClass} px-5 py-4 sm:px-6 sm:py-5`}>
         {project.description}
       </p>
 
