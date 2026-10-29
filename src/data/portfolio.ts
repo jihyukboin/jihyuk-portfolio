@@ -37,10 +37,10 @@ export type Project = {
   links: ProjectLink[];
   /** 더보기 버튼 링크. 없으면 웹 → App Store → Google Play 순으로 links에서 고른다. */
   moreHref?: string;
-  /** 시작 연월(YYYY.MM). 종료일이 없으면 현재 운영 중으로 표시한다. */
+  /** 시작 연월(YYYY.MM). */
   startedOn: string;
   endedOn?: string;
-  /** 대표 프로젝트: 최신순 정렬과 무관하게 맨 위에 둔다. */
+  /** 대표 프로젝트 여부. */
   featured?: boolean;
   /** 역할: 맡은 업무 범위 (기술 스택은 technologies에 둔다) */
   role: string;
@@ -350,8 +350,7 @@ export const skills: SkillGroup[] = [
       'Cloudflare (R2)',
       'GitHub Actions'
     ],
-    summary:
-      'S3·CloudFront·SES·ECS 기반 서비스를 배포하고 운영합니다.'
+    summary: 'S3·CloudFront·SES·ECS 기반 서비스를 배포하고 운영합니다.'
   },
   {
     category: 'AI & Automation',
