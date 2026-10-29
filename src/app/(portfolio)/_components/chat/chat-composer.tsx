@@ -8,8 +8,11 @@ import { MAX_QUESTION_LENGTH, QUOTA_MESSAGE } from '@/lib/chat/contracts';
 import {
   ensureVisitorId,
   getPanelClosed,
+  getPanelHeight,
   serverPanelClosed,
+  serverPanelHeight,
   setPanelClosed,
+  setPanelHeight,
   subscribeChatStorage
 } from './session';
 import { useChat } from './use-chat';
@@ -25,6 +28,21 @@ export function ChatComposer() {
     serverPanelClosed
   );
   const messages = chat.data?.turns ?? [];
+  const savedPanelHeight = useSyncExternalStore(
+    subscribeChatStorage,
+    getPanelHeight,
+    serverPanelHeight
+  );
+  const [dragHeight, setDragHeight] = useState<number | null>(null);
+  const panelHeight = dragHeight ?? savedPanelHeight;
+  const panelRef = useRef<HTMLElement>(null);
+  const resizeRef = useRef<{
+    pointerId: number;
+    startY: number;
+    startHeight: number;
+    height: number;
+    maxHeight: number;
+  } | null>(null);
   const [storageError, setStorageError] = useState<string | null>(null);
   const [multiline, setMultiline] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -35,6 +53,14 @@ export function ChatComposer() {
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
     }
   }, [chat.data, chat.sending, panelClosed]);
+
+  function finishResize(event: { pointerId: number }) {
+    const resize = resizeRef.current;
+    if (!resize || resize.pointerId !== event.pointerId) return;
+    resizeRef.current = null;
+    setPanelHeight(resize.height);
+    setDragHeight(null);
+  }
 
   async function sendMessage() {
     const text = message.trim();
@@ -65,17 +91,85 @@ export function ChatComposer() {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 flex flex-col items-center">
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 flex max-h-[calc(100dvh-var(--site-header-height)-16px)] flex-col items-center">
       {!panelClosed &&
         (messages.length > 0 ||
           chat.errorMessage ||
           storageError ||
           chat.data?.quotaReached) && (
           <section
+            ref={panelRef}
             aria-label="채팅 대화"
-            className="pointer-events-auto relative mx-5 mb-1 flex max-h-[min(40dvh,400px)] w-[calc(100%-40px)] max-w-[800px] flex-col overflow-hidden rounded-[24px] border border-[#e5e8eb] bg-white/95 shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+            style={
+              panelHeight === null
+                ? undefined
+                : { height: panelHeight, maxHeight: 'none' }
+            }
+            className="pointer-events-auto relative mx-5 mb-1 flex min-h-0 max-h-[min(40dvh,400px)] w-[calc(100%-40px)] max-w-[800px] flex-col overflow-hidden rounded-[24px] border border-[#e5e8eb] bg-white/95 shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
           >
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-end bg-transparent px-2 pt-1">
+              <button
+                type="button"
+                aria-label="채팅 패널 높이 조절"
+                title="위아래로 드래그하거나 위아래 방향키로 높이를 조절합니다."
+                onPointerDown={(event) => {
+                  if (
+                    !event.isPrimary ||
+                    event.button !== 0 ||
+                    !panelRef.current
+                  )
+                    return;
+                  event.preventDefault();
+                  const rect = panelRef.current.getBoundingClientRect();
+                  resizeRef.current = {
+                    pointerId: event.pointerId,
+                    startY: event.clientY,
+                    startHeight: rect.height,
+                    height: rect.height,
+                    maxHeight: getMaxPanelHeight(rect.bottom)
+                  };
+                  event.currentTarget.setPointerCapture(event.pointerId);
+                }}
+                onPointerMove={(event) => {
+                  const resize = resizeRef.current;
+                  if (!resize || resize.pointerId !== event.pointerId) return;
+                  resize.height = Math.min(
+                    resize.maxHeight,
+                    Math.max(
+                      160,
+                      resize.startHeight + resize.startY - event.clientY
+                    )
+                  );
+                  setDragHeight(resize.height);
+                }}
+                onPointerUp={finishResize}
+                onPointerCancel={finishResize}
+                onLostPointerCapture={finishResize}
+                onKeyDown={(event) => {
+                  if (
+                    !['ArrowUp', 'ArrowDown'].includes(event.key) ||
+                    !panelRef.current
+                  )
+                    return;
+                  event.preventDefault();
+                  const rect = panelRef.current.getBoundingClientRect();
+                  setPanelHeight(
+                    Math.min(
+                      getMaxPanelHeight(rect.bottom),
+                      Math.max(
+                        160,
+                        rect.height + (event.key === 'ArrowUp' ? 24 : -24)
+                      )
+                    )
+                  );
+                }}
+                className="pointer-events-auto group absolute top-0 left-1/2 flex h-11 w-16 -translate-x-1/2 touch-none cursor-ns-resize select-none items-start justify-center rounded-full pt-2 outline-none focus-visible:ring-2 focus-visible:ring-[#3182f6]"
+              >
+                <span
+                  aria-hidden="true"
+                  className="h-[5px] w-9 rounded-full bg-[#b0b8c1] transition-colors duration-150 group-hover:bg-[#007aff] group-focus-visible:bg-[#007aff]"
+                />
+              </button>
               <button
                 type="button"
                 aria-label="채팅 패널 닫기"
@@ -92,7 +186,7 @@ export function ChatComposer() {
             </div>
             <div
               ref={messagesRef}
-              className={`${styles.input} flex min-h-0 flex-col gap-6 overflow-y-auto px-5 pt-14 pb-5`}
+              className={`${styles.input} flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-5 pt-14 pb-5`}
             >
               {messages.map(
                 ({ id, question, answer, createdAt, status, errorMessage }) => (
@@ -171,7 +265,7 @@ export function ChatComposer() {
             </div>
           </section>
         )}
-      <div className="flex w-full justify-center bg-white/35 px-5 pb-[22px] backdrop-blur-[8px]">
+      <div className="flex w-full shrink-0 justify-center bg-white/35 px-5 pb-[22px] backdrop-blur-[8px]">
         <div className="pointer-events-auto relative w-full max-w-[800px] rounded-[28px] border border-[#e5e8eb] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
           <textarea
             aria-label="채팅 메시지"
@@ -241,6 +335,16 @@ export function ChatComposer() {
       </div>
     </div>
   );
+}
+
+function getMaxPanelHeight(bottom: number) {
+  const headerHeight =
+    parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue(
+        '--site-header-height'
+      )
+    ) || 0;
+  return Math.max(160, bottom - headerHeight - 16);
 }
 
 function formatTime(dateTime: string) {

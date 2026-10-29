@@ -5,7 +5,9 @@ import { visitorIdSchema } from '@/lib/chat/contracts';
 const STORAGE_KEY = 'portfolio.chat.visitor';
 const SESSION_EVENT = 'portfolio-chat-session';
 const PANEL_CLOSED_KEY = 'portfolio.chat.panelClosed';
+const PANEL_HEIGHT_KEY = 'portfolio.chat.panelHeight';
 let panelClosedFallback: boolean | undefined;
+let panelHeightFallback: number | undefined;
 
 export function getVisitorId() {
   try {
@@ -60,4 +62,29 @@ export function setPanelClosed(closed: boolean) {
 
 export function serverPanelClosed() {
   return false;
+}
+
+export function getPanelHeight() {
+  if (panelHeightFallback !== undefined) return panelHeightFallback;
+  try {
+    const height = Number(localStorage.getItem(PANEL_HEIGHT_KEY));
+    return Number.isFinite(height) && height >= 160 ? height : null;
+  } catch {
+    return null;
+  }
+}
+
+export function setPanelHeight(height: number) {
+  panelHeightFallback = height;
+  try {
+    localStorage.setItem(PANEL_HEIGHT_KEY, String(height));
+    panelHeightFallback = undefined;
+  } catch {
+    // 저장소 사용이 제한되어도 현재 탭에서는 높이를 유지합니다.
+  }
+  window.dispatchEvent(new Event(SESSION_EVENT));
+}
+
+export function serverPanelHeight() {
+  return null;
 }
