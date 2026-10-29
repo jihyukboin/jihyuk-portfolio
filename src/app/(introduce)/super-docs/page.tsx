@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { superDocs } from '@/data/super-docs';
+import { superDocs } from '@/lib/super-docs';
 import { SuperDocsLanding } from '@/components/super-docs/super-docs-landing';
 import { SuperDocsStructuredData } from '@/components/super-docs/super-docs-structured-data';
 

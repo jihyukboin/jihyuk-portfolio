@@ -42,7 +42,7 @@
 | 섹션 탐색     | 고정 헤더, 스크롤 위치에 따른 활성 메뉴, 페이지 스크롤 진행 표시                     |
 | 프로젝트 탐색 | 시작일 오래된 순 정렬 및 반투명 프로젝트 아이콘 독                                   |
 | 공유와 검색   | Canonical, Open Graph·Twitter 메타데이터, 공유 이미지 생성, robots.txt·sitemap.xml   |
-| 구조화된 정보 | ProfilePage·Person·프로젝트 목록 JSON-LD, 같은 콘텐츠 데이터에서 생성하는 llms.txt   |
+| 구조화된 정보 | ProfilePage·Person·프로젝트 목록 JSON-LD, 정적 포트폴리오 요약 llms.txt              |
 | 방문 분석     | 측정 ID를 설정한 경우에만 Google Analytics 연결                                      |
 | 익명 채팅     | UUID별 MySQL 대화 저장·복원, GPT-5.6 Luna 응답, UTC 날짜별 맥락·일일 500만 토큰 제한 |
 | 배포          | GitHub Actions 검증, OCI standalone 배포, 헬스 체크 실패 시 이전 릴리스로 복구       |
@@ -51,29 +51,29 @@
 
 ```text
 src/app/                      라우트, 공통 레이아웃과 공개 정보 경로
-src/app/(portfolio)/          홈 페이지, 포트폴리오 레이아웃·메타데이터
+src/app/(root)/               홈 페이지, 포트폴리오 레이아웃·메타데이터
+src/app/(introduce)/          서비스 소개 페이지
 src/components/layout/        공통 헤더, 모바일 메뉴 동작, 스크롤 진행 표시
 src/components/portfolio/     포트폴리오 섹션·탐색·푸터·JSON-LD
-src/app/(portfolio)/_components/chat/ 채팅 UI·브라우저 식별자·SWR 상태
+src/app/(root)/_components/chat/ 채팅 UI·브라우저 식별자·SWR 상태
 src/app/api/chat/route.ts      익명 대화 조회·질문 HTTP 엔드포인트
 src/lib/chat/                 공통 계약과 서버 전용 DB·OpenAI 처리
 src/db/                       DB 연결·Drizzle 스키마·마이그레이션 실행
 drizzle/                      검토 후 적용하는 SQL 마이그레이션
-src/data/site.ts              사이트 소유자 정보
-src/data/portfolio.ts         프로필·프로젝트·기술·자격증·어학 데이터
-src/lib/site.ts               사이트 주소와 공통 이름
-src/lib/portfolio.ts          포트폴리오 제목·설명, 프로젝트 정렬·앵커·링크·기간
+src/lib/site.ts               사이트 소유자 정보·주소·공통 이름
+src/lib/portfolio.ts          포트폴리오 콘텐츠·메타데이터·프로젝트 처리
+src/lib/super-docs.ts         Super Docs 소개·기능·FAQ 데이터
 src/lib/layout.ts             CSS 헤더 높이를 사용하는 브라우저 스크롤 계산
 scripts/start-standalone.mjs   정적 파일을 포함한 standalone 로컬 실행
-tests/e2e/                    브라우저 회귀 테스트
+test/e2e/                     브라우저 회귀 테스트
 public/images/                프로필 사진과 프로젝트 아이콘
 ops/oci/                      OCI 배포 스크립트와 systemd 설정
 .github/workflows/            검증 및 운영 배포 워크플로
 ```
 
-화면, 메타데이터, JSON-LD, `llms.txt`가 [src/data/portfolio.ts](src/data/portfolio.ts)를 공통으로 사용합니다. 콘텐츠를 한 곳에서 수정하면 각 출력에 함께 반영됩니다. 페이지·레이아웃·본문·JSON-LD·헤더와 모바일 메뉴의 링크 콘텐츠는 서버 컴포넌트로 구성합니다. 스크롤 탐색·프로젝트 독·메뉴 열기와 닫기는 작은 클라이언트 컴포넌트로 동작하며, 필요한 항목이나 서버에서 렌더링한 `children`만 전달받습니다. 포트폴리오 데이터와 처리 모듈은 `server-only`로 잘못된 클라이언트 import를 빌드 시 차단합니다.
+화면, 메타데이터와 JSON-LD가 [src/lib/portfolio.ts](src/lib/portfolio.ts)를 공통으로 사용합니다. [public/llms.txt](public/llms.txt)는 정적 파일이므로 관련 콘텐츠 변경 시 함께 갱신합니다. 페이지·레이아웃·본문·JSON-LD·헤더와 모바일 메뉴의 링크 콘텐츠는 서버 컴포넌트로 구성합니다. 스크롤 탐색·프로젝트 독·메뉴 열기와 닫기는 작은 클라이언트 컴포넌트로 동작하며, 필요한 항목이나 서버에서 렌더링한 `children`만 전달받습니다. 포트폴리오 데이터와 처리 모듈은 `server-only`로 잘못된 클라이언트 import를 빌드 시 차단합니다.
 
-공통 레이아웃에는 홈 Canonical이나 프로필 Open Graph를 정의하지 않습니다. 새 페이지는 `src/app/super-docs/page.tsx`처럼 추가하고 자체 메타데이터와 필요한 레이아웃을 정의합니다. `(portfolio)` 그룹 바깥의 페이지에는 포트폴리오 메뉴·프로젝트 독·공유 이미지가 자동 적용되지 않습니다. 공유 이미지는 `src/app/opengraph-image/route.ts`가 기존 `/opengraph-image` 주소로 제공하며, 홈 메타데이터에서 명시적으로 연결합니다. 공통 헤더를 사용할 때는 페이지에 맞는 탐색 UI를 props로 조합합니다. 섹션 스크롤을 추적하는 `PortfolioSectionNav`에 일반 페이지 경로를 추가하지 않습니다.
+공통 레이아웃에는 홈 Canonical이나 프로필 Open Graph를 정의하지 않습니다. 새 페이지는 `src/app/(introduce)/super-docs/page.tsx`처럼 추가하고 자체 메타데이터와 필요한 레이아웃을 정의합니다. `(root)` 그룹 바깥의 페이지에는 포트폴리오 메뉴·프로젝트 독·공유 이미지가 자동 적용되지 않습니다. 공유 이미지는 `public/images/portfolio-opengraph.png`에 보관하고 홈 메타데이터에서 명시적으로 연결합니다. 공통 헤더를 사용할 때는 페이지에 맞는 탐색 UI를 props로 조합합니다. 섹션 스크롤을 추적하는 `PortfolioSectionNav`에 일반 페이지 경로를 추가하지 않습니다.
 
 헤더 높이와 본문 기준 폭은 `src/app/globals.css`의 `--site-header-height`, `--site-content-width`에서 관리합니다.
 
@@ -177,13 +177,13 @@ npm run test:e2e
 
 | 바꾸려는 내용                    | 수정 위치                                                                        |
 | -------------------------------- | -------------------------------------------------------------------------------- |
-| 프로필·기술·프로젝트·자격증·어학 | [src/data/portfolio.ts](src/data/portfolio.ts)                                   |
-| 섹션 배치                        | [src/app/(portfolio)/page.tsx](<src/app/(portfolio)/page.tsx>)                   |
+| 프로필·기술·프로젝트·자격증·어학 | [src/lib/portfolio.ts](src/lib/portfolio.ts)                                     |
+| 섹션 배치                        | [src/app/(root)/page.tsx](<src/app/(root)/page.tsx>)                             |
 | 메뉴 이름·순서                   | [src/components/portfolio/navigation.ts](src/components/portfolio/navigation.ts) |
 | 사이트 주소·공통 이름            | [src/lib/site.ts](src/lib/site.ts)                                               |
 | 포트폴리오 제목·설명             | [src/lib/portfolio.ts](src/lib/portfolio.ts)                                     |
-| 사이트 소유자·연락처             | [src/data/site.ts](src/data/site.ts)                                             |
-| 공유 이미지                      | [src/lib/portfolio-open-graph.tsx](src/lib/portfolio-open-graph.tsx)             |
+| 사이트 소유자·연락처             | [src/lib/site.ts](src/lib/site.ts)                                               |
+| 공유 이미지                      | [public/images/portfolio-opengraph.png](public/images/portfolio-opengraph.png)   |
 | 프로필 사진·프로젝트 아이콘      | [public/images](public/images)                                                   |
 
 프로젝트는 `startedOn`이 오래된 순으로 정렬합니다. 프로젝트 `id`는 정렬 순서와 무관한 앵커(`/#project-imgobot` 등)에 사용하므로 변경하지 않습니다. `legacyAnchorId`는 기존에 공유된 숫자 앵커를 유지하는 별칭이며 신규 프로젝트에는 추가하지 않습니다. 섹션 순서를 변경할 때는 메뉴 순서도 함께 맞춥니다.

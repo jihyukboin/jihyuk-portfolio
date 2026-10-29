@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Home } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { navigationLinks } from '@/data/super-docs';
+import { navigationLinks } from '@/lib/super-docs';
 
 export function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false);

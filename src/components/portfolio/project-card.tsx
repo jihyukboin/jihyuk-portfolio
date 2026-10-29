@@ -1,6 +1,9 @@
 import Image from 'next/image';
-import type { Project } from '@/data/portfolio';
-import { formatProjectPeriod, getProjectPrimaryLink } from '@/lib/portfolio';
+import {
+  formatProjectPeriod,
+  getProjectPrimaryLink,
+  type Project
+} from '@/lib/portfolio';
 import {
   bulletItemClass,
   bulletListClass,

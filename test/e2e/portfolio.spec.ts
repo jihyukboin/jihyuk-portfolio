@@ -26,6 +26,7 @@ test('홈의 메타데이터와 공개 정보 경로가 유지된다', async ({
     .locator('meta[property="og:image"]')
     .getAttribute('content');
   expect(imageUrl).toBeTruthy();
+  expect(new URL(imageUrl!).pathname).toBe('/images/portfolio-opengraph.png');
   const image = await request.get(new URL(imageUrl!).pathname);
   expect(image.ok()).toBeTruthy();
   expect(image.headers()['content-type']).toContain('image/png');
@@ -35,8 +36,12 @@ test('홈의 메타데이터와 공개 정보 경로가 유지된다', async ({
   const sitemap = await request.get('/sitemap.xml');
   expect(await sitemap.text()).toContain(`<loc>${siteUrl}</loc>`);
   const llms = await request.get('/llms.txt');
+  expect(llms.ok()).toBeTruthy();
   expect(llms.headers()['content-type']).toContain('text/plain');
-  expect(await llms.text()).toContain('임고봇');
+  const llmsText = await llms.text();
+  expect(llmsText).toContain('임고봇');
+  expect(llmsText).toContain('https://jihyuk.tech');
+  expect(llmsText).not.toContain('localhost');
 });
 
 test.describe('서버에서 제공하는 본문', () => {

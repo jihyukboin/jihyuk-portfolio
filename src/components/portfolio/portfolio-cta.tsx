@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { profile } from '@/data/portfolio';
+import { profile } from '@/lib/portfolio';
 import { sectionClass } from './portfolio-styles';
 
 export function PortfolioCta() {

@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { PortfolioHeader } from '@/components/portfolio/portfolio-header';
 import { ChatComposer } from './_components/chat/chat-composer';
 
-export default function PortfolioLayout({ children }: { children: ReactNode }) {
+export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-[100dvh] flex-col bg-white">
       <PortfolioHeader />

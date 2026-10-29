@@ -4,9 +4,9 @@ import {
   cumulativeUsersText,
   languageTests,
   profile,
-  skills
-} from '@/data/portfolio';
-import { sortedProjects } from '@/lib/portfolio';
+  skills,
+  sortedProjects
+} from '@/lib/portfolio';
 
 // English translations of portfolio prose. Dates, URLs, stacks and credentials
 // come from the shared portfolio data; keep these translations in sync with it.

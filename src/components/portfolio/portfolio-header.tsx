@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { MobileMenu } from '@/components/layout/mobile-menu';
 import { SiteHeader } from '@/components/layout/site-header';
-import { siteOwner } from '@/data/site';
+import { siteOwner } from '@/lib/site';
 import { getProjectAnchorId, sortedProjects } from '@/lib/portfolio';
 import { PORTFOLIO_NAVIGATION_ITEMS } from './navigation';
 import { PortfolioSectionNav } from './portfolio-section-nav';
