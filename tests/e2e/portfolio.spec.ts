@@ -111,7 +111,16 @@ test('고정 앵커와 이전 공유 앵커가 같은 프로젝트를 가리킨�
     .locator('#projects > article')
     .evaluateAll((articles) => articles.map((a) => a.id));
   expect(new Set(ids).size).toBe(ids.length);
-  expect(ids[0]).toBe('project-imgobot');
+  expect(ids).toEqual([
+    'project-imgobot',
+    'project-fintrendbeacon',
+    'project-send',
+    'project-reviewinkorea',
+    'project-maybe-tomorrow',
+    'project-trendswhat',
+    'project-rested',
+    'project-super-docs'
+  ]);
 });
 
 test.describe('모바일 메뉴', () => {

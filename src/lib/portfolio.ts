@@ -13,11 +13,9 @@ export const portfolioOpenGraphImage = {
 };
 
 // 프로젝트 섹션과 헤더 프로젝트 독(ProjectDock)이 같은 순서·같은 앵커를 쓰도록 한 곳에서 정의한다.
-// 대표 프로젝트(featured)를 맨 위에 두고, 나머지는 최신 프로젝트가 먼저 오도록 시작일 내림차순으로 정렬한다.
-export const sortedProjects = [...projects].sort(
-  (a, b) =>
-    Number(Boolean(b.featured)) - Number(Boolean(a.featured)) ||
-    b.startedOn.localeCompare(a.startedOn)
+// 시작일 오름차순으로 정렬한다.
+export const sortedProjects = [...projects].sort((a, b) =>
+  a.startedOn.localeCompare(b.startedOn)
 );
 
 export function getProjectAnchorId(project: Pick<Project, 'id'>) {

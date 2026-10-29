@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUp, X } from 'lucide-react';
+import { ArrowUp, Sparkle, X } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { siteOwner } from '@/data/site';
@@ -277,11 +277,22 @@ export function ChatComposer() {
         )}
       <div className="flex w-full shrink-0 justify-center bg-white/35 px-5 pt-1 pb-[22px] backdrop-blur-[8px]">
         <div className="pointer-events-auto relative w-full max-w-[800px] rounded-[28px] border border-[#e5e8eb] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.06),0_0_24px_rgba(125,211,252,0.35)]">
+          {!message && (
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 top-0 flex h-[54px] items-center gap-2 pl-6 pr-16 text-base text-[#9ca3af]"
+            >
+              <Sparkle
+                size={20}
+                className="shrink-0 fill-sky-400 text-sky-400"
+              />
+              <span className="truncate">AI에게 궁금한 것을 물어보세요</span>
+            </div>
+          )}
           <textarea
             aria-label="채팅 메시지"
             ref={textareaRef}
             value={message}
-            placeholder="무엇이든 물어보세요"
             rows={1}
             maxLength={MAX_QUESTION_LENGTH}
             readOnly={chat.sending}

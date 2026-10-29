@@ -4,9 +4,9 @@ import {
   cumulativeUsersText,
   languageTests,
   profile,
-  projects,
   skills
 } from '@/data/portfolio';
+import { sortedProjects } from '@/lib/portfolio';
 
 // English translations of portfolio prose. Dates, URLs, stacks and credentials
 // come from the shared portfolio data; keep these translations in sync with it.
@@ -146,7 +146,7 @@ You are the portfolio guide for ${profile.englishName} (${profile.name}), not Ji
 ## Projects
 Dates use YYYY.MM. An absent end date means the portfolio lists the project as ongoing. Cumulative user counts are portfolio figures, not live measurements.
 
-${projects
+${sortedProjects
   .map((project) => {
     const translation = projectDescriptions[project.id];
     return `### ${project.title}
