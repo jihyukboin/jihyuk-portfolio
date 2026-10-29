@@ -365,6 +365,243 @@ for (const viewport of [
   { width: 1440, height: 1000 },
   { width: 390, height: 844 }
 ]) {
+  test(`그래버로 높이를 조절하고 저장하며 화면 안에 유지한다 (${viewport.width}px)`, async ({
+    page
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.addInitScript(() =>
+      localStorage.setItem(
+        'portfolio.chat.visitor',
+        '3c34a901-cc43-4d72-af67-9ccf80f009c1'
+      )
+    );
+    await page.route('**/api/chat', (route) =>
+      route.fulfill({
+        json: {
+          ...emptyChat(),
+          turns: [
+            {
+              id: 'resize',
+              question: '높이 조절',
+              answer: '긴 답변입니다.\n\n'.repeat(80),
+              status: 'completed',
+              errorMessage: null,
+              createdAt: new Date().toISOString()
+            }
+          ]
+        }
+      })
+    );
+    await page.goto('/');
+    const panel = page.getByRole('region', { name: '채팅 대화', exact: true });
+    const handle = panel.getByRole('button', { name: '채팅 패널 높이 조절' });
+    await expect(handle).toBeVisible();
+    await handle.hover();
+    await expect(handle.locator('span')).toHaveCSS(
+      'background-color',
+      'rgb(0, 122, 255)'
+    );
+    const initial = (await panel.boundingBox())!;
+    const grip = (await handle.boundingBox())!;
+    await page.mouse.move(grip.x + grip.width / 2, grip.y + grip.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(
+      grip.x + grip.width / 2,
+      grip.y + grip.height / 2 - 120,
+      { steps: 6 }
+    );
+    expect((await panel.boundingBox())!.height).toBeCloseTo(
+      initial.height + 120,
+      0
+    );
+    expect(
+      await page.evaluate(() =>
+        localStorage.getItem('portfolio.chat.panelHeight')
+      )
+    ).toBeNull();
+    await page.mouse.up();
+    const expanded = (await panel.boundingBox())!.height;
+    expect(
+      Number(
+        await page.evaluate(() =>
+          localStorage.getItem('portfolio.chat.panelHeight')
+        )
+      )
+    ).toBeCloseTo(expanded, 0);
+    await page.reload();
+    await expect(handle).toBeVisible();
+    expect((await panel.boundingBox())!.height).toBeCloseTo(expanded, 0);
+
+    // 방향키로 조절한 높이도 저장합니다.
+    await handle.focus();
+    await handle.press('ArrowDown');
+    expect((await panel.boundingBox())!.height).toBeCloseTo(expanded - 24, 0);
+    const smallerGrip = (await handle.boundingBox())!;
+    await page.mouse.move(smallerGrip.x + 20, smallerGrip.y + 20);
+    await page.mouse.down();
+    await page.mouse.move(smallerGrip.x + 20, viewport.height + 300, {
+      steps: 5
+    });
+    await page.mouse.up();
+    expect((await panel.boundingBox())!.height).toBeCloseTo(160, 0);
+
+    const minGrip = (await handle.boundingBox())!;
+    await page.mouse.move(minGrip.x + 20, minGrip.y + 20);
+    await page.mouse.down();
+    await page.mouse.move(minGrip.x + 20, -500, { steps: 5 });
+    await page.mouse.up();
+    expect((await panel.boundingBox())!.y).toBeGreaterThanOrEqual(65);
+    await expect(
+      page.getByRole('textbox', { name: '채팅 메시지' })
+    ).toBeVisible();
+    await page.setViewportSize({ width: viewport.width, height: 600 });
+    expect((await panel.boundingBox())!.y).toBeGreaterThanOrEqual(65);
+    await expect(
+      panel.getByRole('button', { name: '채팅 패널 닫기' })
+    ).toBeVisible();
+    await page.reload();
+    await expect(handle).toBeVisible();
+    expect((await panel.boundingBox())!.y).toBeGreaterThanOrEqual(65);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > innerWidth
+      )
+    ).toBe(false);
+
+    const touchGrip = (await handle.boundingBox())!;
+    const beforeTouch = (await panel.boundingBox())!.height;
+    const client = await page.context().newCDPSession(page);
+    await client.send('Emulation.setTouchEmulationEnabled', {
+      enabled: true,
+      maxTouchPoints: 1
+    });
+    const x = touchGrip.x + touchGrip.width / 2;
+    const y = touchGrip.y + touchGrip.height / 2;
+    await client.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x, y }]
+    });
+    for (let distance = 20; distance <= 80; distance += 20) {
+      await client.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ x, y: y + distance }]
+      });
+    }
+    await client.send('Input.dispatchTouchEvent', {
+      type: 'touchEnd',
+      touchPoints: []
+    });
+    await client.detach();
+    expect((await panel.boundingBox())!.height).toBeCloseTo(
+      beforeTouch - 80,
+      0
+    );
+    expect(
+      Number(
+        await page.evaluate(() =>
+          localStorage.getItem('portfolio.chat.panelHeight')
+        )
+      )
+    ).toBeCloseTo(beforeTouch - 80, 0);
+  });
+
+  test(`한국어 문장 부호와 조사를 처리하고 리터럴을 보존한다 (${viewport.width}px)`, async ({
+    page
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.addInitScript(() =>
+      localStorage.setItem(
+        'portfolio.chat.visitor',
+        '3c34a901-cc43-4d72-af67-9ccf80f009c1'
+      )
+    );
+    const answer = [
+      '“ㅇㅈ”은 보통 **“인정”**의 줄임말로 사용됩니다. 동의한다는 뜻인가요?',
+      '',
+      '**인정(동의)**입니다. 한글**“강조”**입니다. **ㄱㄴㄷ**도 됩니다.',
+      '',
+      '*“기울임”*도 됩니다. ~~“취소”~~는 취소선입니다.',
+      '',
+      '3~5일, 6~8일 / 10~20% / ~범위~',
+      '',
+      '첫 번째 줄\n두 번째 줄',
+      '',
+      String.raw`\*\*이스케이프\*\* / 한글_식별자_보존 / ＊＊전각＊＊`,
+      '',
+      '`**“인정”**의 / 3~5일 / _식별자_`',
+      '',
+      '```text',
+      '**“인정”**의',
+      '3~5일, 6~8일',
+      '```',
+      '',
+      '[**“문서”**로](https://example.com/문서_(한국어))',
+      '',
+      '| 용어 | 의미 |',
+      '| --- | --- |',
+      String.raw`| **“인정”**의 뜻 | 동의 \| 찬성 |`,
+      '',
+      '아직 **닫히지 않은 강조'
+    ].join('\n');
+    await page.route('**/api/chat', (route) =>
+      route.fulfill({
+        json: {
+          ...emptyChat(),
+          turns: [
+            {
+              id: 'korean-markdown',
+              question: '한국어 렌더링 확인',
+              answer,
+              status: 'completed',
+              errorMessage: null,
+              createdAt: new Date().toISOString()
+            }
+          ]
+        }
+      })
+    );
+    await page.goto('/');
+    const panel = page.getByRole('region', { name: '채팅 대화', exact: true });
+    await expect(panel.locator('strong')).toHaveText([
+      '“인정”',
+      '인정(동의)',
+      '“강조”',
+      'ㄱㄴㄷ',
+      '“문서”',
+      '“인정”'
+    ]);
+    await expect(panel.locator('em')).toHaveText('“기울임”');
+    await expect(panel.locator('del')).toHaveText('“취소”');
+    await expect(
+      panel.getByText('3~5일, 6~8일 / 10~20% / ~범위~', { exact: true })
+    ).toHaveCount(1);
+    const lines = panel.locator('p').filter({ hasText: '첫 번째 줄' });
+    await expect(lines.locator('br')).toHaveCount(1);
+    await expect(lines).toContainText('두 번째 줄');
+    await expect(
+      panel.getByText('**이스케이프** / 한글_식별자_보존 / ＊＊전각＊＊', {
+        exact: true
+      })
+    ).toHaveCount(1);
+    await expect(panel.locator('p > code')).toHaveText(
+      '**“인정”**의 / 3~5일 / _식별자_'
+    );
+    await expect(panel.locator('pre code')).toHaveText(
+      '**“인정”**의\n3~5일, 6~8일\n'
+    );
+    await expect(panel.locator('pre strong, pre del, pre br')).toHaveCount(0);
+    await expect(panel.getByRole('link', { name: '“문서”로' })).toHaveAttribute(
+      'href',
+      encodeURI('https://example.com/문서_(한국어)')
+    );
+    await expect(
+      panel.getByRole('cell', { name: '동의 | 찬성', exact: true })
+    ).toHaveCount(1);
+    await expect(
+      panel.getByText('아직 **닫히지 않은 강조', { exact: true })
+    ).toHaveCount(1);
+  });
+
   test(`마크다운 답변을 렌더링하고 긴 콘텐츠를 패널 안에 유지한다 (${viewport.width}px)`, async ({
     page
   }) => {

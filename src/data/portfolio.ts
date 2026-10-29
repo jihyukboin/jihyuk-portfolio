@@ -92,7 +92,7 @@ export const projects: Project[] = [
       'React Native (Expo)',
       'Better Auth',
       'MySQL',
-      'AWS (S3·CloudFront·SES·Elastic Beanstalk)',
+      'AWS (S3·CloudFront·SES)',
       'Upstage AI',
       'OpenAI API',
       'Playwright'
@@ -351,7 +351,7 @@ export const skills: SkillGroup[] = [
       'GitHub Actions'
     ],
     summary:
-      'S3·CloudFront·SES·Elastic Beanstalk·ECS 기반 서비스를 배포하고 운영합니다.'
+      'S3·CloudFront·SES·ECS 기반 서비스를 배포하고 운영합니다.'
   },
   {
     category: 'AI & Automation',
