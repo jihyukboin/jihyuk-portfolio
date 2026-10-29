@@ -16,7 +16,7 @@ import {
 import { siteName } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: portfolioTitle },
+  title: { absolute: 'DX 엔지니어 정지혁 포트폴리오' },
   description: portfolioDescription,
   keywords: [
     profile.name,

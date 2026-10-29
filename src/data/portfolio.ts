@@ -9,11 +9,12 @@ export const profile = {
   headline:
     '웹·모바일·백엔드·Cloud를 연결해 실제 사용자가 있는 서비스를 만듭니다.',
   education: [
-    { name: '가톨릭대학교', detail: '컴퓨터정보공학 · 졸업', emoji: '🏫' },
+    { name: '안양고등학교', detail: '(졸업)', emoji: '🏫' },
+    { name: '가톨릭대학교', detail: '컴퓨터정보공학부 (졸업)', emoji: '🏫' },
     {
-      name: '삼성 청년 SW·AI 아카데미(SSAFY)',
-      detail: '16기 · 이수 중',
-      emoji: '🎓'
+      name: '삼성 청년 SW·AI 아카데미 - SSAFY',
+      detail: '16기 (교육 중)',
+      image: '/images/ssafy-logo.webp'
     }
   ]
 } as const;

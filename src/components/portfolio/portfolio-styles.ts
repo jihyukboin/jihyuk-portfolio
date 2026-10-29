@@ -10,7 +10,7 @@ export const subHeadingClass =
 export const textLinkClass = 'w-max transition-colors hover:text-[#1b64da]';
 export const bulletListClass = 'grid content-start gap-[7px]';
 export const bulletItemClass =
-  "relative pl-[18px] before:absolute before:left-[2px] before:text-[#1b64da] before:content-['•']";
+  "relative pl-[18px] before:absolute before:left-[2px] before:text-black before:content-['•']";
 
 // 회색 라운딩 카드 (프로젝트 설명·기술·자격증·어학 공통)
 export const cardClass = 'rounded-2xl bg-[#f2f4f6]';

@@ -42,7 +42,7 @@ export function PortfolioStructuredData() {
       sameAs: [profile.githubUrl],
       alumniOf: {
         '@type': 'CollegeOrUniversity',
-        name: profile.education[0].name
+        name: profile.education[1].name
       },
       knowsAbout: skills.flatMap((group) => group.items),
       knowsLanguage: ['ko', 'en'],
