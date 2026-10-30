@@ -71,9 +71,9 @@ ops/oci/                      OCI 배포 스크립트와 systemd 설정
 .github/workflows/            검증 및 운영 배포 워크플로
 ```
 
-화면, 메타데이터와 JSON-LD가 [src/lib/portfolio.ts](src/lib/portfolio.ts)를 공통으로 사용합니다. [public/llms.txt](public/llms.txt)는 정적 파일이므로 관련 콘텐츠 변경 시 함께 갱신합니다. 페이지·레이아웃·본문·JSON-LD·헤더와 모바일 메뉴의 링크 콘텐츠는 서버 컴포넌트로 구성합니다. 스크롤 탐색·프로젝트 독·메뉴 열기와 닫기는 작은 클라이언트 컴포넌트로 동작하며, 필요한 항목이나 서버에서 렌더링한 `children`만 전달받습니다. 포트폴리오 데이터와 처리 모듈은 `server-only`로 잘못된 클라이언트 import를 빌드 시 차단합니다.
+화면, 메타데이터와 JSON-LD가 [src/lib/portfolio.ts](src/lib/portfolio.ts)를 공통으로 사용합니다. [public/llms.txt](public/llms.txt)는 정적 파일이므로 관련 콘텐츠 변경 시 함께 갱신합니다. 페이지·레이아웃·본문·JSON-LD·헤더와 모바일 메뉴의 링크 콘텐츠는 서버 컴포넌트로 구성합니다. 스크롤 탐색·메뉴 열기와 닫기는 작은 클라이언트 컴포넌트로 동작하며, 필요한 항목이나 서버에서 렌더링한 `children`만 전달받습니다. 포트폴리오 데이터와 처리 모듈은 `server-only`로 잘못된 클라이언트 import를 빌드 시 차단합니다.
 
-공통 레이아웃에는 홈 Canonical이나 프로필 Open Graph를 정의하지 않습니다. 새 페이지는 `src/app/(introduce)/super-docs/page.tsx`처럼 추가하고 자체 메타데이터와 필요한 레이아웃을 정의합니다. `(root)` 그룹 바깥의 페이지에는 포트폴리오 메뉴·프로젝트 독·공유 이미지가 자동 적용되지 않습니다. 공유 이미지는 `public/images/portfolio-opengraph.png`에 보관하고 홈 메타데이터에서 명시적으로 연결합니다. 공통 헤더를 사용할 때는 페이지에 맞는 탐색 UI를 props로 조합합니다. 섹션 스크롤을 추적하는 `PortfolioSectionNav`에 일반 페이지 경로를 추가하지 않습니다.
+공통 레이아웃에는 홈 Canonical이나 프로필 Open Graph를 정의하지 않습니다. 새 페이지는 `src/app/(introduce)/super-docs/page.tsx`처럼 추가하고 자체 메타데이터와 필요한 레이아웃을 정의합니다. `(root)` 그룹 바깥의 페이지에는 포트폴리오 메뉴·공유 이미지가 자동 적용되지 않습니다. 공유 이미지는 `public/images/portfolio-opengraph.png`에 보관하고 홈 메타데이터에서 명시적으로 연결합니다. 공통 헤더를 사용할 때는 페이지에 맞는 탐색 UI를 props로 조합합니다. 섹션 스크롤을 추적하는 `PortfolioSectionNav`에 일반 페이지 경로를 추가하지 않습니다.
 
 헤더 높이와 본문 기준 폭은 `src/app/globals.css`의 `--site-header-height`, `--site-content-width`에서 관리합니다.
 

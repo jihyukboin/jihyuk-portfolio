@@ -54,7 +54,7 @@ export type Project = {
   title: string;
 };
 
-export const cumulativeUsersText = '3,307명';
+export const cumulativeUsersText = '3,400명';
 
 export const projects: Project[] = [
   {
@@ -63,7 +63,7 @@ export const projects: Project[] = [
     title: '임고봇',
     featured: true,
     icon: '/images/project-icons/imgobot.7987c920.webp',
-    description: `누적 사용자 ${cumulativeUsersText}이 이용하는 임용시험 학습 플랫폼입니다. 아웃풋 퀴즈·오답복습, 스제트, 백지복습, 플래너·그룹스터디와 AI 학습 챗봇·면접코칭을 웹·iOS·Android 앱으로 제공합니다. 수험생의 학습 요구를 기능으로 구체화하고 기획부터 개발·배포·운영까지 담당합니다.`,
+    description: `교사 임용시험 수험생의 학습 효율을 극대화하기 위해 기획 및 개발된 에듀테크 플랫폼입니다. 현재 누적 ${cumulativeUsersText}의 사용자가 이용중입니다.`,
     links: [
       { label: '웹 서비스', href: 'https://imgobot.com', icon: 'web' },
       {
@@ -439,7 +439,6 @@ export const portfolioOpenGraphImage = {
   alt: `${profile.name} ${profile.jobTitle} 포트폴리오`
 };
 
-// 프로젝트 섹션과 헤더 프로젝트 독(ProjectDock)이 같은 순서·같은 앵커를 쓰도록 한 곳에서 정의한다.
 // 시작일 오름차순으로 정렬한다.
 export const sortedProjects = [...projects].sort((a, b) =>
   a.startedOn.localeCompare(b.startedOn)

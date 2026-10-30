@@ -1,3 +1,4 @@
+import { blueCtaClass } from '@/components/button-styles';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
@@ -48,7 +49,7 @@ export function SiteHeader({ navigation, mobileMenu }: SiteHeaderProps) {
           href={siteOwner.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative hidden min-h-8 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg border-0 bg-[#1b64da] px-3 py-1.5 text-sm font-semibold leading-4 text-white no-underline transition-colors hover:bg-[#1957bf] focus-visible:bg-[#1957bf] focus-visible:outline-none min-[840px]:inline-flex min-[840px]:justify-self-end"
+          className={`${blueCtaClass} min-h-8 whitespace-nowrap px-3 py-1.5 text-sm leading-4 max-[839px]:hidden min-[840px]:justify-self-end`}
         >
           GitHub
         </a>

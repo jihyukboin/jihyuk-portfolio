@@ -23,4 +23,4 @@ export const cardGridClass = 'grid gap-4 md:grid-cols-2';
 
 // 프로젝트 카드 안의 소제목(역할·기여한 부분·사용 기술)
 export const projectLabelClass =
-  'mt-[18px] text-[1.0625rem] text-[#191f28] [font-weight:750]';
+  'mt-[18px] text-[1.125rem] text-[#191f28] [font-weight:750]';
