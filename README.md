@@ -195,7 +195,7 @@ main push → GitHub Actions 검증 → OCI 빌드·standalone 릴리스
           → systemd 재시작·헬스 체크 → Cloudflare 콘텐츠 캐시 갱신
 ```
 
-워크플로는 의존성 설치, lint, 타입 검사, 빌드, 브라우저 회귀 테스트를 통과한 뒤 `production` 환경으로 배포합니다. OCI에서는 릴리스 디렉터리를 만들고 현재 릴리스 링크를 교체하며, 서버는 `127.0.0.1:3010`에서 실행됩니다.
+워크플로는 의존성 설치, lint, 타입 검사, 빌드를 통과한 뒤 `production` 환경으로 배포합니다. Chromium 설치와 브라우저 회귀 테스트는 자동 배포에서 실행하지 않으며, 필요한 경우 로컬에서 수동으로 실행합니다. OCI에서는 릴리스 디렉터리를 만들고 현재 릴리스 링크를 교체하며, 서버는 `127.0.0.1:3010`에서 실행됩니다.
 
 GitHub `production` 환경의 SSH 접속·사이트·Cloudflare 설정은 [배포 워크플로](.github/workflows/deploy-production.yml)를, 서버 구성과 환경변수 동기화는 [OCI 운영 문서](ops/oci/README.md)를 참고하세요.
 
