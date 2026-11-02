@@ -69,6 +69,22 @@ test.describe('서버에서 제공하는 본문', () => {
   });
 });
 
+test('미완성 프로젝트 스토리와 더보기 버튼을 공개하지 않는다', async ({
+  page
+}) => {
+  await page.goto('/');
+  await expect(page.locator('#projects > article')).toHaveCount(8);
+  await expect(
+    page.getByRole('heading', { name: '스토리', exact: true })
+  ).toHaveCount(0);
+  await expect(page.getByText('스토리입니다.', { exact: false })).toHaveCount(
+    0
+  );
+  await expect(page.getByRole('button', { name: /스토리 더보기/ })).toHaveCount(
+    0
+  );
+});
+
 test('섹션 메뉴가 현재 위치를 추적하고 프로젝트 추가 탐색 바는 없다', async ({
   page
 }) => {

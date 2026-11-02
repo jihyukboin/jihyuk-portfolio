@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { Globe } from 'lucide-react';
-import { ProjectStory } from './project-story';
 import { formatProjectPeriod, type Project } from '@/lib/portfolio';
 import {
   bulletListClass,
@@ -122,8 +121,6 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
       <p className={`${cardClass} px-5 py-4 sm:px-6 sm:py-5`}>
         {project.technologies.join(' · ')}
       </p>
-
-      <ProjectStory id={id} title={project.title} />
     </article>
   );
 }
