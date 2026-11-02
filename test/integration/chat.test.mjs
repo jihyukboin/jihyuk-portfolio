@@ -18,7 +18,7 @@ if (!databaseUrl || !new URL(databaseUrl).pathname.endsWith('_test')) {
 const day = new Date().toISOString().slice(0, 10);
 const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
 const limit = 5_000_000;
-const reservation = 100 + 2048;
+const reservation = 100 + 10_000;
 const appUrl = 'http://127.0.0.1:3117';
 let db;
 let app;
@@ -245,7 +245,7 @@ test('같은 날의 맥락·대화 복원·방문자 격리·실제 토큰 정�
   assert.equal(generated[0].previous_response_id, null);
   assert.equal(generated[1].previous_response_id, 'resp_test_1');
   assert.equal(generated[1].model, 'gpt-5.6-luna');
-  assert.equal(generated[1].max_output_tokens, 2048);
+  assert.equal(generated[1].max_output_tokens, 10_000);
   assert.equal(generated[1].instructions, counted[1].instructions);
   assert.equal(
     counted[1].previous_response_id,

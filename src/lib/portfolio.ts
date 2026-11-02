@@ -236,7 +236,7 @@ export const projects: Project[] = [
     links: [
       {
         label: '웹 서비스',
-        href: 'https://trendswhat.com/maybe-tomorrow',
+        href: 'https://jihyuk.tech/maybe-tomorrow',
         icon: 'web'
       },
       {

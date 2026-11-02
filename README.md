@@ -52,7 +52,7 @@
 ```text
 src/app/                      라우트, 공통 레이아웃과 공개 정보 경로
 src/app/(root)/               홈 페이지, 포트폴리오 레이아웃·메타데이터
-src/app/(introduce)/          서비스 소개 페이지
+src/app/(introduce)/          서비스 소개 페이지 (super-docs, maybe-tomorrow)
 src/components/layout/        공통 헤더, 모바일 메뉴 동작, 스크롤 진행 표시
 src/components/portfolio/     포트폴리오 섹션·탐색·푸터·JSON-LD
 src/app/(root)/_components/chat/ 채팅 UI·브라우저 식별자·SWR 상태
@@ -67,6 +67,7 @@ src/lib/layout.ts             CSS 헤더 높이를 사용하는 브라우저 스
 scripts/start-standalone.mjs   정적 파일을 포함한 standalone 로컬 실행
 test/e2e/                     브라우저 회귀 테스트
 public/images/                프로필 사진과 프로젝트 아이콘
+public/maybe-tomorrow/        내일할까 스크린샷과 App Store 배지
 ops/oci/                      OCI 배포 스크립트와 systemd 설정
 .github/workflows/            검증 및 운영 배포 워크플로
 ```
@@ -88,6 +89,8 @@ git clone https://github.com/jihyukboin/jihyuk-portfolio.git
 cd jihyuk-portfolio
 npm ci
 ```
+
+`package.json`의 `allowScripts`에는 검토한 네이티브 의존성 설치 스크립트를 버전별로 승인해 두었습니다. npm이 의존성 업데이트 후 미승인 스크립트 경고를 표시하면 `npm install-scripts ls`로 확인하고, 해당 스크립트를 검토한 뒤 `npm install-scripts approve <패키지명>`으로 승인을 갱신합니다.
 
 ### 2. 실행
 
@@ -140,7 +143,7 @@ npm run db:studio
 
 맥락은 Responses API의 `previous_response_id`로 연결합니다. 방문자마다 UTC 날짜별로 별도 대화방을 만들기 때문에 UTC 00:00(한국 오전 9시)에 새 체인이 시작됩니다. 당일 대화만 UI에 복원하며 지난 날짜의 기록은 MySQL에 보존합니다. 대화 상태 관리 방식은 [OpenAI 공식 문서](https://developers.openai.com/api/docs/guides/conversation-state)를 따릅니다. 매 요청에 포트폴리오 원본 데이터로 만든 안내 지침을 다시 전달합니다.
 
-무료 사용량 제한은 방문자별이 아닌 서비스 전체 하루 5,000,000토큰입니다. 이전 맥락을 포함하는 입력 토큰을 API로 먼저 계산하고 최대 출력 2,048토큰을 더해 MySQL 트랜잭션으로 예약합니다. 응답의 `usage.total_tokens`로 정산하며 입력·캐시된 입력·추론을 별도로 중복 가산하지 않습니다. 같은 방문자의 요청은 직렬화하고 요청 UUID로 중복 생성을 방지합니다. SDK 자동 재시도는 비활성화합니다.
+무료 사용량 제한은 방문자별이 아닌 서비스 전체 하루 5,000,000토큰입니다. 이전 맥락을 포함하는 입력 토큰을 API로 먼저 계산하고 최대 출력 10,000토큰을 더해 MySQL 트랜잭션으로 예약합니다. 응답의 `usage.total_tokens`로 정산하며 입력·캐시된 입력·추론을 별도로 중복 가산하지 않습니다. 같은 방문자의 요청은 직렬화하고 요청 UUID로 중복 생성을 방지합니다. SDK 자동 재시도는 비활성화합니다.
 
 명시적인 API 거절은 예약을 반환합니다. 연결 유실이나 서버 중단으로 실제 사용량을 확인할 수 없으면 예약량 전체를 보수적으로 사용 처리합니다. 다음 조회·전송에서 중단된 요청을 복구하며, 이전 날짜의 사용량은 새 날짜로 이월하지 않습니다. 앱의 한도는 OpenAI 계정의 무료 적용 여부·다른 앱의 사용량과 별개입니다.
 
