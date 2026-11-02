@@ -10,6 +10,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1
     },
     {
+      url: `${siteUrl}/maybe-tomorrow`,
+      changeFrequency: 'monthly',
+      priority: 0.8
+    },
+    {
       url: `${siteUrl}/super-docs`,
       changeFrequency: 'monthly',
       priority: 0.8

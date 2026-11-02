@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const CHAT_MODEL = 'gpt-5.6-luna';
 export const DAILY_TOKEN_LIMIT = 5_000_000;
-export const MAX_OUTPUT_TOKENS = 2048;
+export const MAX_OUTPUT_TOKENS = 10_000;
 export const MAX_QUESTION_LENGTH = 4000;
 export const QUOTA_MESSAGE =
   '오늘의 무료 사용량이 모두 소진되었습니다. 다음 초기화까지 자세한 내용은 이메일로 문의해주세요. jihyukboin@gmail.com';
