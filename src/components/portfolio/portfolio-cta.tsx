@@ -1,3 +1,4 @@
+import { blueCtaClass } from '@/components/button-styles';
 import Image from 'next/image';
 import { profile } from '@/lib/portfolio';
 import { sectionClass } from './portfolio-styles';
@@ -22,7 +23,7 @@ export function PortfolioCta() {
             href={profile.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#1b64da] px-7 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#1957bf] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#3182f6]"
+            className={`${blueCtaClass} gap-2.5 px-7 py-3 text-sm`}
           >
             <Image
               src="/images/github.svg"

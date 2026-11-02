@@ -280,7 +280,7 @@ export function ChatComposer() {
           {!message && (
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-0 flex h-[54px] items-center gap-2 pl-6 pr-16 text-base text-[#9ca3af]"
+              className={`${styles.placeholder} pointer-events-none absolute inset-x-0 top-0 flex h-[54px] items-center gap-2 pl-6 pr-16 text-base text-[#9ca3af]`}
             >
               <Sparkle
                 size={20}

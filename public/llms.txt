@@ -12,13 +12,13 @@
 - 이메일: jihyukboin@gmail.com
 - GitHub: https://github.com/jihyukboin
 - 포트폴리오: https://jihyuk.tech
-- 대표 성과: 학습 플랫폼 임고봇 누적 사용자 3,307명
+- 대표 성과: 학습 플랫폼 임고봇 누적 사용자 3,400명
 
 ## 프로젝트
 
 ### 임고봇 (2024.08)
 
-누적 사용자 3,307명이 이용하는 임용시험 학습 플랫폼입니다. 아웃풋 퀴즈·오답복습, 스제트, 백지복습, 플래너·그룹스터디와 AI 학습 챗봇·면접코칭을 웹·iOS·Android 앱으로 제공합니다. 수험생의 학습 요구를 기능으로 구체화하고 기획부터 개발·배포·운영까지 담당합니다.
+교사 임용시험 수험생의 학습 효율을 극대화하기 위해 기획 및 개발된 에듀테크 플랫폼입니다. 현재 누적 3,400명의 사용자가 이용중입니다.
 
 - 역할: 서비스 기획, 웹·iOS/Android 앱·백엔드 개발, 클라우드 인프라 구축 및 운영
 - 사용 기술: Next.js, TypeScript, React Native (Expo), Better Auth, MySQL, AWS (S3·CloudFront·SES), Upstage AI, OpenAI API, Playwright

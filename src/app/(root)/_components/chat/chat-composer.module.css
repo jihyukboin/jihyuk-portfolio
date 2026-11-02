@@ -3,6 +3,10 @@
   scrollbar-color: auto;
 }
 
+.placeholder:has(+ textarea:focus) {
+  display: none;
+}
+
 .input::-webkit-scrollbar {
   width: 8px;
 }

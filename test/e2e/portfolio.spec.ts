@@ -54,7 +54,10 @@ test.describe('서버에서 제공하는 본문', () => {
     );
     await expect(page.locator('#projects > article')).toHaveCount(8);
     await expect(
-      page.getByRole('heading', { name: '임고봇 (2024.08)', exact: true })
+      page.getByRole('heading', {
+        name: '임고봇 (2024.08)',
+        exact: true
+      })
     ).toBeVisible();
     const schema = JSON.parse(
       await page.locator('script[type="application/ld+json"]').innerText()
@@ -66,7 +69,25 @@ test.describe('서버에서 제공하는 본문', () => {
   });
 });
 
-test('섹션 메뉴와 프로젝트 독이 현재 위치를 추적한다', async ({ page }) => {
+test('미완성 프로젝트 스토리와 더보기 버튼을 공개하지 않는다', async ({
+  page
+}) => {
+  await page.goto('/');
+  await expect(page.locator('#projects > article')).toHaveCount(8);
+  await expect(
+    page.getByRole('heading', { name: '스토리', exact: true })
+  ).toHaveCount(0);
+  await expect(page.getByText('스토리입니다.', { exact: false })).toHaveCount(
+    0
+  );
+  await expect(page.getByRole('button', { name: /스토리 더보기/ })).toHaveCount(
+    0
+  );
+});
+
+test('섹션 메뉴가 현재 위치를 추적하고 프로젝트 추가 탐색 바는 없다', async ({
+  page
+}) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
@@ -79,20 +100,19 @@ test('섹션 메뉴와 프로젝트 독이 현재 위치를 추적한다', async
     navigation.getByRole('link', { name: '기술', exact: true })
   ).toHaveAttribute('aria-current', 'location');
   await navigation.getByRole('link', { name: '프로젝트', exact: true }).click();
-  const dock = page.getByRole('navigation', { name: '프로젝트 바로가기' });
-  await expect(dock).toBeVisible();
-  const planner = dock.getByRole('link', {
-    name: '내일할까 - 게으름뱅이 플래너',
-    exact: true
-  });
-  await planner.click();
-  await expect(page).toHaveURL(/#project-maybe-tomorrow$/);
-  await expect(planner).toHaveAttribute('aria-current', 'location');
+  await expect(
+    navigation.getByRole('link', { name: '프로젝트', exact: true })
+  ).toHaveAttribute('aria-current', 'location');
+  await expect(
+    page.getByRole('navigation', {
+      name: '프로젝트 바로가기',
+      includeHidden: true
+    })
+  ).toHaveCount(0);
   await navigation.getByRole('link', { name: '어학', exact: true }).click();
   await expect(
     navigation.getByRole('link', { name: '어학', exact: true })
   ).toHaveAttribute('aria-current', 'location');
-  await expect(dock).not.toBeVisible();
   expect(errors).toEqual([]);
 });
 
