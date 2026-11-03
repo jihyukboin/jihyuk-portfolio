@@ -201,6 +201,22 @@ npm run test:e2e
 
 프로젝트는 `startedOn`이 오래된 순으로 정렬합니다. 프로젝트 `id`는 정렬 순서와 무관한 앵커(`/#project-imgobot` 등)에 사용하므로 변경하지 않습니다. `legacyAnchorId`는 기존에 공유된 숫자 앵커를 유지하는 별칭이며 신규 프로젝트에는 추가하지 않습니다. 섹션 순서를 변경할 때는 메뉴 순서도 함께 맞춥니다.
 
+## 폰트와 초기 로딩
+
+홈과 Super Docs는 Pretendard 1.3.9의 공통 문자 서브셋을 먼저 사용합니다. `src`의 TypeScript·TSX·Markdown에 포함된 문자와 ASCII를 모아 가변 굵기를 유지하며, 그 밖의 글자는 기존 동적 서브셋에서 필요한 부분만 내려받습니다. 내일할까는 시스템 본문 폰트와 기존 Pretendard 헤더를 유지합니다. 폰트 CSS는 각 경로에서 가져오고, `globals.css`의 Tailwind 클래스 탐색은 `src`로 한정합니다.
+
+공통 폰트 파일은 저장소에 포함되어 있어 일반 빌드에는 Python이 필요하지 않습니다. 본문 수정 후 폰트 최적화를 갱신하려면 다음 명령을 실행합니다. 갱신 전에도 새 글자는 기존 동적 서브셋으로 표시됩니다.
+
+```bash
+python3 -m venv /tmp/portfolio-font-tools
+/tmp/portfolio-font-tools/bin/pip install 'fonttools[woff]==4.68.0'
+curl --fail --location --output /tmp/pretendard-variable-1.3.9.woff2 \
+  https://raw.githubusercontent.com/orioncactus/pretendard/v1.3.9/packages/pretendard/dist/web/variable/woff2/PretendardVariable.woff2
+/tmp/portfolio-font-tools/bin/python scripts/subset-font.py /tmp/pretendard-variable-1.3.9.woff2
+```
+
+채팅 Markdown 렌더러와 전용 CSS는 답변이 표시될 때 불러옵니다. 프로젝트 스토리 Markdown은 기존처럼 서버에서 렌더링합니다. Google Analytics 초기화와 외부 스크립트는 `lazyOnload`로 페이지의 `load` 이벤트 이후 브라우저 유휴 시간에 실행합니다.
+
 ## 운영 배포
 
 ```text
@@ -211,6 +227,8 @@ main push → GitHub Actions 검증 → OCI 빌드·standalone 릴리스
 워크플로는 main 대상 PR에서도 검증하며, 의존성 설치, Oxlint, 포맷 검사, 단위 테스트, 타입 검사를 포함한 빌드를 통과한 뒤 main push 또는 main 수동 실행에서만 `production` 환경으로 배포합니다. Chromium 설치와 브라우저 회귀 테스트는 자동 배포에서 실행하지 않으며, 필요한 경우 로컬에서 수동으로 실행합니다. OCI에서는 릴리스 디렉터리를 만들고 현재 릴리스 링크를 교체하며, 서버는 `127.0.0.1:3010`에서 실행됩니다.
 
 GitHub `production` 환경의 SSH 접속·사이트·Cloudflare 설정은 [배포 워크플로](.github/workflows/deploy-production.yml)를, 서버 구성과 환경변수 동기화는 [OCI 운영 문서](ops/oci/README.md)를 참고하세요.
+
+`src/app/(introduce)/`의 `/maybe-tomorrow`, `/super-docs` HTML은 Cloudflare 엣지에서 오리진 TTL에 따라 캐시하며, 배포 후 두 URL의 캐시를 갱신합니다. RSC와 쿼리 문자열이 있는 요청은 해당 캐시 규칙에서 제외합니다.
 
 ---
 

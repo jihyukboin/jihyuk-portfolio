@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { siteUrl } from '@/lib/site';
 import { MaybeTomorrowLanding } from './_components/maybe-tomorrow-landing';
+import '../../fonts/pretendard/1.3.9/pretendardvariable-dynamic-subset.css';
 
 const TITLE = '내일할까 - 게으름뱅이 플래너';
 const DESCRIPTION =

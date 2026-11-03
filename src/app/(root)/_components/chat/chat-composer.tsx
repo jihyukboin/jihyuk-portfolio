@@ -2,7 +2,14 @@
 
 import { ArrowUp, Sparkle, X } from 'lucide-react';
 import Image from 'next/image';
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import dynamic from 'next/dynamic';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore
+} from 'react';
 import { siteOwner } from '@/lib/site';
 import { MAX_QUESTION_LENGTH, QUOTA_MESSAGE } from '@/lib/chat/contracts';
 import {
@@ -16,8 +23,11 @@ import {
   subscribeChatStorage
 } from './session';
 import { useChat } from './use-chat';
-import { ChatMarkdown } from './chat-markdown';
 import styles from './chat-composer.module.css';
+
+const ChatMarkdown = dynamic(() =>
+  import('./chat-markdown').then((module) => module.ChatMarkdown)
+);
 
 export function ChatComposer() {
   const [message, setMessage] = useState('');
@@ -48,11 +58,18 @@ export function ChatComposer() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const scrollToLatestMessage = useCallback(() => {
     if (messagesRef.current) {
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
     }
-  }, [chat.data, chat.sending, panelClosed]);
+  }, []);
+
+  useEffect(scrollToLatestMessage, [
+    chat.data,
+    chat.sending,
+    panelClosed,
+    scrollToLatestMessage
+  ]);
 
   function finishResize(event: { pointerId: number }) {
     const resize = resizeRef.current;
@@ -199,7 +216,10 @@ export function ChatComposer() {
               className={`${styles.input} flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-5 pt-14 pb-5`}
             >
               {messages.map(
-                ({ id, question, answer, createdAt, status, errorMessage }) => (
+                (
+                  { id, question, answer, createdAt, status, errorMessage },
+                  index
+                ) => (
                   <div key={id} className="flex flex-col gap-6">
                     <div className="flex max-w-full items-end gap-2 self-end">
                       <time
@@ -226,7 +246,15 @@ export function ChatComposer() {
                           className="min-w-0 rounded-[20px] bg-[#f2f4f6] px-4 py-3 text-[#333d4b]"
                         >
                           {answer ? (
-                            <ChatMarkdown>{answer}</ChatMarkdown>
+                            <ChatMarkdown
+                              onReady={
+                                index === messages.length - 1
+                                  ? scrollToLatestMessage
+                                  : undefined
+                              }
+                            >
+                              {answer}
+                            </ChatMarkdown>
                           ) : status === 'pending' ? (
                             '답변을 작성하고 있습니다…'
                           ) : (

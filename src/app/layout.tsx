@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from 'next/script';
 import { siteName, siteOwner, siteUrl } from '@/lib/site';
 import './globals.css';
 
@@ -36,7 +36,21 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html lang="ko" className="h-full antialiased">
       <body>
         {children}
-        {gaMeasurementId && <GoogleAnalytics gaId={gaMeasurementId} />}
+        {gaMeasurementId && (
+          <>
+            <Script id="google-analytics-init" strategy="lazyOnload">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){window.dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', ${JSON.stringify(gaMeasurementId)});`}
+            </Script>
+            <Script
+              id="google-analytics"
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+              strategy="lazyOnload"
+            />
+          </>
+        )}
       </body>
     </html>
   );
