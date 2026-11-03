@@ -11,14 +11,14 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node scripts/db-migrate.mjs",
     "db:studio": "drizzle-kit studio",
-    "lint": "eslint . --max-warnings 0",
+    "lint": "oxlint --type-aware --deny-warnings .",
     "typecheck": "next typegen && tsc --noEmit",
     "test:e2e": "npm run build && playwright test --config test/playwright.config.ts",
     "test:chat": "npm run build && node --test test/integration/chat.test.mjs",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint:fix": "npm run lint -- --fix",
-    "lint:ci": "eslint . --max-warnings 0 --cache --cache-strategy content --cache-location .eslintcache"
+    "lint:ci": "npm run lint"
   },
   "dependencies": {
     "@next/env": "^16.4.4",
@@ -46,13 +46,11 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.31.11",
-    "eslint": "^9.39.5",
-    "eslint-config-next": "16.4.4",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-github-action": "^0.4.0",
+    "oxlint": "^1.90.0",
+    "oxlint-tsgolint": "^7.0.2005",
     "prettier": "^3.9.10",
     "tailwindcss": "^4.3.4",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "allowScripts": {
     "esbuild@0.18.20": true,

@@ -75,7 +75,7 @@ export function LandingHeader() {
             aria-label="Super Docs 메뉴"
             className={`relative flex h-14 min-w-0 flex-1 items-center justify-between rounded-full px-3 sm:px-4 transition-all duration-300 ${glassSurface}`}
           >
-            <a
+            <Link
               href="/super-docs"
               aria-label="Super Docs 홈"
               className="flex shrink-0 items-center rounded-full"
@@ -90,7 +90,7 @@ export function LandingHeader() {
               <span className="ml-2 text-base sm:text-lg text-neutral-100">
                 Super Docs
               </span>
-            </a>
+            </Link>
             <ul className="hidden items-center gap-1 md:flex">
               {navigationLinks.map(({ label, href }) => (
                 <li key={href}>

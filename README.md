@@ -162,6 +162,10 @@ npm run test:chat
 
 ### 3. 검증과 빌드
 
+TypeScript 7.0.2와 Next.js 16.4.4를 사용합니다. Next.js의 기본 CLI 타입 검사로 빌드하며, 린트는 Oxlint와 oxlint-tsgolint가 담당합니다. React Hooks·Next.js·접근성·타입 기반 규칙을 검사하고 포맷은 Prettier로 검사합니다. 기존 ESLint 규칙과 완전히 같지는 않으며 GitHub Actions YAML 전용 린트는 포함하지 않습니다.
+
+린트 예외는 Node 테스트 러너의 Promise 관리, 표의 키보드 스크롤, 채팅 영역 클릭 시 입력창으로 포커스를 옮기는 보조 동작에 한정합니다. 시맨틱 태그 선호 규칙은 기존 ARIA 구조를 허용하도록 끕니다.
+
 ```bash
 npm run lint
 npm run typecheck
@@ -204,7 +208,7 @@ main push → GitHub Actions 검증 → OCI 빌드·standalone 릴리스
           → systemd 재시작·헬스 체크 → Cloudflare 콘텐츠 캐시 갱신
 ```
 
-워크플로는 의존성 설치, lint, 타입 검사, 빌드를 통과한 뒤 `production` 환경으로 배포합니다. Chromium 설치와 브라우저 회귀 테스트는 자동 배포에서 실행하지 않으며, 필요한 경우 로컬에서 수동으로 실행합니다. OCI에서는 릴리스 디렉터리를 만들고 현재 릴리스 링크를 교체하며, 서버는 `127.0.0.1:3010`에서 실행됩니다.
+워크플로는 main 대상 PR에서도 검증하며, 의존성 설치, Oxlint, 포맷 검사, 단위 테스트, 타입 검사를 포함한 빌드를 통과한 뒤 main push 또는 main 수동 실행에서만 `production` 환경으로 배포합니다. Chromium 설치와 브라우저 회귀 테스트는 자동 배포에서 실행하지 않으며, 필요한 경우 로컬에서 수동으로 실행합니다. OCI에서는 릴리스 디렉터리를 만들고 현재 릴리스 링크를 교체하며, 서버는 `127.0.0.1:3010`에서 실행됩니다.
 
 GitHub `production` 환경의 SSH 접속·사이트·Cloudflare 설정은 [배포 워크플로](.github/workflows/deploy-production.yml)를, 서버 구성과 환경변수 동기화는 [OCI 운영 문서](ops/oci/README.md)를 참고하세요.
 
