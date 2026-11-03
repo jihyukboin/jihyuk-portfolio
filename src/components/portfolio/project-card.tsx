@@ -1,7 +1,14 @@
 import Image from 'next/image';
 import { Globe } from 'lucide-react';
 import { ProjectStory } from './project-story';
-import { formatProjectPeriod, type Project } from '@/lib/portfolio';
+import { ProjectStoryMarkdown } from './project-story-markdown';
+import { getProjectStory } from '@/content/projects';
+import {
+  cumulativeUsersText,
+  formatProjectPeriod,
+  type Project
+} from '@/lib/portfolio';
+import { getImgobotUserCount } from '@/lib/imgobot-stats';
 import {
   bulletListClass,
   cardClass,
@@ -9,8 +16,22 @@ import {
   subHeadingClass
 } from './portfolio-styles';
 
-export function ProjectCard({ id, project }: { id: string; project: Project }) {
+export async function ProjectCard({
+  id,
+  project
+}: {
+  id: string;
+  project: Project;
+}) {
+  const description =
+    project.id === 'imgobot'
+      ? project.description.replace(
+          cumulativeUsersText,
+          `${(await getImgobotUserCount()).toLocaleString('ko-KR')}명`
+        )
+      : project.description;
   const headingId = `${id}-title`;
+  const story = await getProjectStory(project.id);
   const platformLinks = (['web', 'appStore', 'googlePlay'] as const).flatMap(
     (icon) => project.links.filter((link) => link.icon === icon)
   );
@@ -102,9 +123,7 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
         </div>
       </div>
       <h4 className={projectLabelClass}>개요</h4>
-      <p className={`${cardClass} px-5 py-4 sm:px-6 sm:py-5`}>
-        {project.description}
-      </p>
+      <p className={`${cardClass} px-5 py-4 sm:px-6 sm:py-5`}>{description}</p>
 
       <h4 className={projectLabelClass}>역할</h4>
       <p className={`${cardClass} px-5 py-4 sm:px-6 sm:py-5`}>{project.role}</p>
@@ -123,7 +142,11 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
         {project.technologies.join(' · ')}
       </p>
 
-      <ProjectStory id={id} title={project.title} />
+      {story && (
+        <ProjectStory id={id} title={project.title}>
+          <ProjectStoryMarkdown>{story}</ProjectStoryMarkdown>
+        </ProjectStory>
+      )}
     </article>
   );
 }

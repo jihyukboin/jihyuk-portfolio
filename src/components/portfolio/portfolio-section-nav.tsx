@@ -8,7 +8,7 @@ import { ACTIVATION_RATIO, type PortfolioNavigationItem } from './navigation';
 
 /**
  * 메인 영역(800px)과 같은 폭의 섹션 탭 내비게이션.
- * 스크롤 위치에 따라 현재 섹션을 강조하고, 하단 인디케이터가 해당 탭으로 미끄러진다.
+ * 스크롤 위치에 따라 현재 섹션을 강조한다.
  */
 export function PortfolioSectionNav({
   items
@@ -87,18 +87,6 @@ export function PortfolioSectionNav({
           </Link>
         );
       })}
-
-      {/* 활성 섹션 인디케이터 */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-0 h-[2px] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-        style={{
-          width: `${100 / items.length}%`,
-          transform: `translateX(${activeIndex * 100}%)`
-        }}
-      >
-        <span className="mx-auto block h-full w-10 rounded-full bg-[#3182f6]" />
-      </span>
     </nav>
   );
 }

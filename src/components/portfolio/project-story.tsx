@@ -2,10 +2,18 @@
 
 import { blueCtaClass } from '@/components/button-styles';
 import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { cardClass, projectLabelClass } from './portfolio-styles';
 
-export function ProjectStory({ id, title }: { id: string; title: string }) {
+export function ProjectStory({
+  id,
+  title,
+  children
+}: {
+  id: string;
+  title: string;
+  children: ReactNode;
+}) {
   const [expanded, setExpanded] = useState(false);
   const contentId = `${id}-story`;
 
@@ -16,9 +24,7 @@ export function ProjectStory({ id, title }: { id: string; title: string }) {
         <div
           className={`${cardClass} relative overflow-hidden px-5 py-4 sm:px-6 sm:py-5 ${expanded ? '' : 'h-60'}`}
         >
-          <p className="whitespace-pre-line">
-            {Array(20).fill('스토리입니다.').join('\n')}
-          </p>
+          {children}
           {!expanded && (
             <div
               aria-hidden="true"
