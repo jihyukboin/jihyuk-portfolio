@@ -13,3 +13,7 @@ The `jihyuk_portfolio` database uses `utf8mb4_0900_ai_ci`. Its dedicated `jihyuk
 The standalone release includes `drizzle/`. Server startup applies pending migrations before accepting requests and exits on connection or migration failure. No production test database or `TEST_DATABASE_URL` is required.
 
 After a successful OCI release, the workflow purges `/`, `/robots.txt`, and `/sitemap.xml` through Cloudflare. Add `CLOUDFLARE_API_TOKEN` (zone-scoped `Cache Purge` permission) and `CLOUDFLARE_ZONE_ID` to the same GitHub `production` environment.
+
+## Validation and build
+
+Pull requests targeting main run Oxlint, Prettier, server-side unit tests, and a Next.js build (including TypeScript 7 checking). Only main pushes and manual main runs deploy. PR runs cancel superseded validation; production deployments run serially. Node.js 24 and npm lockfile installs are used in CI. The Next.js cache is refreshed per commit with a lockfile-scoped fallback. OCI builds again with production environment values and native dependencies; postbuild prepares static assets once before the standalone release is copied.

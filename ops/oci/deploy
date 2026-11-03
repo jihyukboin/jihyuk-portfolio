@@ -44,17 +44,12 @@ tar -xzf "$archive" -C "$build_dir"
 
 cd "$build_dir"
 ln -s "$environment_file" .env.production
-npm ci
+npm ci --no-audit --no-fund
 npm run build
 
 rm -rf -- "$release_dir"
 mkdir -p "$release_dir"
 cp -a .next/standalone/. "$release_dir/"
-mkdir -p "$release_dir/.next"
-cp -a .next/static "$release_dir/.next/static"
-if [[ -d public ]]; then
-  cp -a public "$release_dir/public"
-fi
 
 previous_target=""
 if [[ -L "$app_root/current" ]]; then

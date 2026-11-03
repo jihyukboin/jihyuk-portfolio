@@ -306,7 +306,10 @@ test('동시 요청이 남은 예산을 중복 사용하지 않는다', async ()
   );
   mode.delay = 250;
   const results = await Promise.all([post(randomUUID()), post(randomUUID())]);
-  assert.deepEqual(results.map((result) => result.status).sort(), [200, 429]);
+  assert.deepEqual(
+    results.map((result) => result.status).sort((a, b) => a - b),
+    [200, 429]
+  );
   const rejected = await results.find((result) => result.status === 429).json();
   assert.match(rejected.error.message, /jihyukboin@gmail.com/);
   assert.equal(generated.length, 1);
