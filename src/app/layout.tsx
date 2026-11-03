@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { siteOwner } from '@/data/site';
-import { siteName, siteUrl } from '@/lib/site';
+import { siteName, siteOwner, siteUrl } from '@/lib/site';
 import './globals.css';
 
 export const metadata: Metadata = {

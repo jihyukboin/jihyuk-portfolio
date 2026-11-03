@@ -7,16 +7,17 @@ import { LanguageTestsSection } from '@/components/portfolio/language-tests-sect
 import { SkillsSection } from '@/components/portfolio/skills-section';
 import { PortfolioStructuredData } from '@/components/portfolio/portfolio-structured-data';
 import { PortfolioCta } from '@/components/portfolio/portfolio-cta';
-import { profile, skills } from '@/data/portfolio';
 import {
   portfolioDescription,
   portfolioOpenGraphImage,
-  portfolioTitle
+  portfolioTitle,
+  profile,
+  skills
 } from '@/lib/portfolio';
 import { siteName } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: portfolioTitle },
+  title: { absolute: 'DX 엔지니어 정지혁 포트폴리오' },
   description: portfolioDescription,
   keywords: [
     profile.name,

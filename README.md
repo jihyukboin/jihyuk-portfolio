@@ -42,7 +42,7 @@
 | 섹션 탐색     | 고정 헤더, 스크롤 위치에 따른 활성 메뉴, 페이지 스크롤 진행 표시                     |
 | 프로젝트 탐색 | 시작일 오래된 순 정렬 및 반투명 프로젝트 아이콘 독                                   |
 | 공유와 검색   | Canonical, Open Graph·Twitter 메타데이터, 공유 이미지 생성, robots.txt·sitemap.xml   |
-| 구조화된 정보 | ProfilePage·Person·프로젝트 목록 JSON-LD, 같은 콘텐츠 데이터에서 생성하는 llms.txt   |
+| 구조화된 정보 | ProfilePage·Person·프로젝트 목록 JSON-LD, 정적 포트폴리오 요약 llms.txt              |
 | 방문 분석     | 측정 ID를 설정한 경우에만 Google Analytics 연결                                      |
 | 익명 채팅     | UUID별 MySQL 대화 저장·복원, GPT-5.6 Luna 응답, UTC 날짜별 맥락·일일 500만 토큰 제한 |
 | 배포          | GitHub Actions 검증, OCI standalone 배포, 헬스 체크 실패 시 이전 릴리스로 복구       |
@@ -51,29 +51,30 @@
 
 ```text
 src/app/                      라우트, 공통 레이아웃과 공개 정보 경로
-src/app/(portfolio)/          홈 페이지, 포트폴리오 레이아웃·메타데이터
+src/app/(root)/               홈 페이지, 포트폴리오 레이아웃·메타데이터
+src/app/(introduce)/          서비스 소개 페이지 (super-docs, maybe-tomorrow)
 src/components/layout/        공통 헤더, 모바일 메뉴 동작, 스크롤 진행 표시
 src/components/portfolio/     포트폴리오 섹션·탐색·푸터·JSON-LD
-src/app/(portfolio)/_components/chat/ 채팅 UI·브라우저 식별자·SWR 상태
+src/app/(root)/_components/chat/ 채팅 UI·브라우저 식별자·SWR 상태
 src/app/api/chat/route.ts      익명 대화 조회·질문 HTTP 엔드포인트
 src/lib/chat/                 공통 계약과 서버 전용 DB·OpenAI 처리
 src/db/                       DB 연결·Drizzle 스키마·마이그레이션 실행
 drizzle/                      검토 후 적용하는 SQL 마이그레이션
-src/data/site.ts              사이트 소유자 정보
-src/data/portfolio.ts         프로필·프로젝트·기술·자격증·어학 데이터
-src/lib/site.ts               사이트 주소와 공통 이름
-src/lib/portfolio.ts          포트폴리오 제목·설명, 프로젝트 정렬·앵커·링크·기간
+src/lib/site.ts               사이트 소유자 정보·주소·공통 이름
+src/lib/portfolio.ts          포트폴리오 콘텐츠·메타데이터·프로젝트 처리
+src/lib/super-docs.ts         Super Docs 소개·기능·FAQ 데이터
 src/lib/layout.ts             CSS 헤더 높이를 사용하는 브라우저 스크롤 계산
 scripts/start-standalone.mjs   정적 파일을 포함한 standalone 로컬 실행
-tests/e2e/                    브라우저 회귀 테스트
+test/e2e/                     브라우저 회귀 테스트
 public/images/                프로필 사진과 프로젝트 아이콘
+public/maybe-tomorrow/        내일할까 스크린샷과 App Store 배지
 ops/oci/                      OCI 배포 스크립트와 systemd 설정
 .github/workflows/            검증 및 운영 배포 워크플로
 ```
 
-화면, 메타데이터, JSON-LD, `llms.txt`가 [src/data/portfolio.ts](src/data/portfolio.ts)를 공통으로 사용합니다. 콘텐츠를 한 곳에서 수정하면 각 출력에 함께 반영됩니다. 페이지·레이아웃·본문·JSON-LD·헤더와 모바일 메뉴의 링크 콘텐츠는 서버 컴포넌트로 구성합니다. 스크롤 탐색·프로젝트 독·메뉴 열기와 닫기는 작은 클라이언트 컴포넌트로 동작하며, 필요한 항목이나 서버에서 렌더링한 `children`만 전달받습니다. 포트폴리오 데이터와 처리 모듈은 `server-only`로 잘못된 클라이언트 import를 빌드 시 차단합니다.
+화면, 메타데이터와 JSON-LD가 [src/lib/portfolio.ts](src/lib/portfolio.ts)를 공통으로 사용합니다. [public/llms.txt](public/llms.txt)는 정적 파일이므로 관련 콘텐츠 변경 시 함께 갱신합니다. 페이지·레이아웃·본문·JSON-LD·헤더와 모바일 메뉴의 링크 콘텐츠는 서버 컴포넌트로 구성합니다. 스크롤 탐색·메뉴 열기와 닫기는 작은 클라이언트 컴포넌트로 동작하며, 필요한 항목이나 서버에서 렌더링한 `children`만 전달받습니다. 포트폴리오 데이터와 처리 모듈은 `server-only`로 잘못된 클라이언트 import를 빌드 시 차단합니다.
 
-공통 레이아웃에는 홈 Canonical이나 프로필 Open Graph를 정의하지 않습니다. 새 페이지는 `src/app/super-docs/page.tsx`처럼 추가하고 자체 메타데이터와 필요한 레이아웃을 정의합니다. `(portfolio)` 그룹 바깥의 페이지에는 포트폴리오 메뉴·프로젝트 독·공유 이미지가 자동 적용되지 않습니다. 공유 이미지는 `src/app/opengraph-image/route.ts`가 기존 `/opengraph-image` 주소로 제공하며, 홈 메타데이터에서 명시적으로 연결합니다. 공통 헤더를 사용할 때는 페이지에 맞는 탐색 UI를 props로 조합합니다. 섹션 스크롤을 추적하는 `PortfolioSectionNav`에 일반 페이지 경로를 추가하지 않습니다.
+공통 레이아웃에는 홈 Canonical이나 프로필 Open Graph를 정의하지 않습니다. 새 페이지는 `src/app/(introduce)/super-docs/page.tsx`처럼 추가하고 자체 메타데이터와 필요한 레이아웃을 정의합니다. `(root)` 그룹 바깥의 페이지에는 포트폴리오 메뉴·공유 이미지가 자동 적용되지 않습니다. 공유 이미지는 `public/images/portfolio-opengraph.png`에 보관하고 홈 메타데이터에서 명시적으로 연결합니다. 공통 헤더를 사용할 때는 페이지에 맞는 탐색 UI를 props로 조합합니다. 섹션 스크롤을 추적하는 `PortfolioSectionNav`에 일반 페이지 경로를 추가하지 않습니다.
 
 헤더 높이와 본문 기준 폭은 `src/app/globals.css`의 `--site-header-height`, `--site-content-width`에서 관리합니다.
 
@@ -88,6 +89,8 @@ git clone https://github.com/jihyukboin/jihyuk-portfolio.git
 cd jihyuk-portfolio
 npm ci
 ```
+
+`package.json`의 `allowScripts`에는 검토한 네이티브 의존성 설치 스크립트를 버전별로 승인해 두었습니다. npm이 의존성 업데이트 후 미승인 스크립트 경고를 표시하면 `npm install-scripts ls`로 확인하고, 해당 스크립트를 검토한 뒤 `npm install-scripts approve <패키지명>`으로 승인을 갱신합니다.
 
 ### 2. 실행
 
@@ -140,7 +143,7 @@ npm run db:studio
 
 맥락은 Responses API의 `previous_response_id`로 연결합니다. 방문자마다 UTC 날짜별로 별도 대화방을 만들기 때문에 UTC 00:00(한국 오전 9시)에 새 체인이 시작됩니다. 당일 대화만 UI에 복원하며 지난 날짜의 기록은 MySQL에 보존합니다. 대화 상태 관리 방식은 [OpenAI 공식 문서](https://developers.openai.com/api/docs/guides/conversation-state)를 따릅니다. 매 요청에 포트폴리오 원본 데이터로 만든 안내 지침을 다시 전달합니다.
 
-무료 사용량 제한은 방문자별이 아닌 서비스 전체 하루 5,000,000토큰입니다. 이전 맥락을 포함하는 입력 토큰을 API로 먼저 계산하고 최대 출력 2,048토큰을 더해 MySQL 트랜잭션으로 예약합니다. 응답의 `usage.total_tokens`로 정산하며 입력·캐시된 입력·추론을 별도로 중복 가산하지 않습니다. 같은 방문자의 요청은 직렬화하고 요청 UUID로 중복 생성을 방지합니다. SDK 자동 재시도는 비활성화합니다.
+무료 사용량 제한은 방문자별이 아닌 서비스 전체 하루 5,000,000토큰입니다. 이전 맥락을 포함하는 입력 토큰을 API로 먼저 계산하고 최대 출력 10,000토큰을 더해 MySQL 트랜잭션으로 예약합니다. 응답의 `usage.total_tokens`로 정산하며 입력·캐시된 입력·추론을 별도로 중복 가산하지 않습니다. 같은 방문자의 요청은 직렬화하고 요청 UUID로 중복 생성을 방지합니다. SDK 자동 재시도는 비활성화합니다.
 
 명시적인 API 거절은 예약을 반환합니다. 연결 유실이나 서버 중단으로 실제 사용량을 확인할 수 없으면 예약량 전체를 보수적으로 사용 처리합니다. 다음 조회·전송에서 중단된 요청을 복구하며, 이전 날짜의 사용량은 새 날짜로 이월하지 않습니다. 앱의 한도는 OpenAI 계정의 무료 적용 여부·다른 앱의 사용량과 별개입니다.
 
@@ -177,13 +180,13 @@ npm run test:e2e
 
 | 바꾸려는 내용                    | 수정 위치                                                                        |
 | -------------------------------- | -------------------------------------------------------------------------------- |
-| 프로필·기술·프로젝트·자격증·어학 | [src/data/portfolio.ts](src/data/portfolio.ts)                                   |
-| 섹션 배치                        | [src/app/(portfolio)/page.tsx](<src/app/(portfolio)/page.tsx>)                   |
+| 프로필·기술·프로젝트·자격증·어학 | [src/lib/portfolio.ts](src/lib/portfolio.ts)                                     |
+| 섹션 배치                        | [src/app/(root)/page.tsx](<src/app/(root)/page.tsx>)                             |
 | 메뉴 이름·순서                   | [src/components/portfolio/navigation.ts](src/components/portfolio/navigation.ts) |
 | 사이트 주소·공통 이름            | [src/lib/site.ts](src/lib/site.ts)                                               |
 | 포트폴리오 제목·설명             | [src/lib/portfolio.ts](src/lib/portfolio.ts)                                     |
-| 사이트 소유자·연락처             | [src/data/site.ts](src/data/site.ts)                                             |
-| 공유 이미지                      | [src/lib/portfolio-open-graph.tsx](src/lib/portfolio-open-graph.tsx)             |
+| 사이트 소유자·연락처             | [src/lib/site.ts](src/lib/site.ts)                                               |
+| 공유 이미지                      | [public/images/portfolio-opengraph.png](public/images/portfolio-opengraph.png)   |
 | 프로필 사진·프로젝트 아이콘      | [public/images](public/images)                                                   |
 
 프로젝트는 `startedOn`이 오래된 순으로 정렬합니다. 프로젝트 `id`는 정렬 순서와 무관한 앵커(`/#project-imgobot` 등)에 사용하므로 변경하지 않습니다. `legacyAnchorId`는 기존에 공유된 숫자 앵커를 유지하는 별칭이며 신규 프로젝트에는 추가하지 않습니다. 섹션 순서를 변경할 때는 메뉴 순서도 함께 맞춥니다.
@@ -195,7 +198,7 @@ main push → GitHub Actions 검증 → OCI 빌드·standalone 릴리스
           → systemd 재시작·헬스 체크 → Cloudflare 콘텐츠 캐시 갱신
 ```
 
-워크플로는 의존성 설치, lint, 타입 검사, 빌드, 브라우저 회귀 테스트를 통과한 뒤 `production` 환경으로 배포합니다. OCI에서는 릴리스 디렉터리를 만들고 현재 릴리스 링크를 교체하며, 서버는 `127.0.0.1:3010`에서 실행됩니다.
+워크플로는 의존성 설치, lint, 타입 검사, 빌드를 통과한 뒤 `production` 환경으로 배포합니다. Chromium 설치와 브라우저 회귀 테스트는 자동 배포에서 실행하지 않으며, 필요한 경우 로컬에서 수동으로 실행합니다. OCI에서는 릴리스 디렉터리를 만들고 현재 릴리스 링크를 교체하며, 서버는 `127.0.0.1:3010`에서 실행됩니다.
 
 GitHub `production` 환경의 SSH 접속·사이트·Cloudflare 설정은 [배포 워크플로](.github/workflows/deploy-production.yml)를, 서버 구성과 환경변수 동기화는 [OCI 운영 문서](ops/oci/README.md)를 참고하세요.
 

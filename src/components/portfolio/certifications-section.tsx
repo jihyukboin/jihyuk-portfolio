@@ -1,4 +1,4 @@
-import { certifications } from '@/data/portfolio';
+import { certifications } from '@/lib/portfolio';
 import { CredentialSection } from './credential-section';
 
 export function CertificationsSection() {

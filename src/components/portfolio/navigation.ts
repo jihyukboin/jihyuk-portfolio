@@ -4,7 +4,7 @@ export type PortfolioNavigationItem = {
   sectionId: string;
 };
 
-// 헤더·모바일 메뉴·푸터가 공유한다. src/app/(portfolio)/page.tsx의 섹션 순서와 맞춘다.
+// 헤더·모바일 메뉴·푸터가 공유한다. src/app/(root)/page.tsx의 섹션 순서와 맞춘다.
 export const PORTFOLIO_NAVIGATION_ITEMS: PortfolioNavigationItem[] = [
   { label: '소개', href: '/#introduction', sectionId: 'introduction' },
   { label: '프로젝트', href: '/#projects', sectionId: 'projects' },

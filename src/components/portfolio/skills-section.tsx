@@ -1,4 +1,4 @@
-import { skills } from '@/data/portfolio';
+import { skills } from '@/lib/portfolio';
 import {
   cardBodyClass,
   cardClass,

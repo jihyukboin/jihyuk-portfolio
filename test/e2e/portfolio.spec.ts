@@ -5,7 +5,7 @@ test('홈의 메타데이터와 공개 정보 경로가 유지된다', async ({
   request
 }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle('정지혁 | 풀스택 개발자 포트폴리오');
+  await expect(page).toHaveTitle('DX 엔지니어 정지혁 포트폴리오');
   const siteUrl = (
     process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3007'
   ).replace(/\/+$/, '');
@@ -26,6 +26,7 @@ test('홈의 메타데이터와 공개 정보 경로가 유지된다', async ({
     .locator('meta[property="og:image"]')
     .getAttribute('content');
   expect(imageUrl).toBeTruthy();
+  expect(new URL(imageUrl!).pathname).toBe('/images/portfolio-opengraph.png');
   const image = await request.get(new URL(imageUrl!).pathname);
   expect(image.ok()).toBeTruthy();
   expect(image.headers()['content-type']).toContain('image/png');
@@ -35,8 +36,12 @@ test('홈의 메타데이터와 공개 정보 경로가 유지된다', async ({
   const sitemap = await request.get('/sitemap.xml');
   expect(await sitemap.text()).toContain(`<loc>${siteUrl}</loc>`);
   const llms = await request.get('/llms.txt');
+  expect(llms.ok()).toBeTruthy();
   expect(llms.headers()['content-type']).toContain('text/plain');
-  expect(await llms.text()).toContain('임고봇');
+  const llmsText = await llms.text();
+  expect(llmsText).toContain('임고봇');
+  expect(llmsText).toContain('https://jihyuk.tech');
+  expect(llmsText).not.toContain('localhost');
 });
 
 test.describe('서버에서 제공하는 본문', () => {
@@ -49,7 +54,10 @@ test.describe('서버에서 제공하는 본문', () => {
     );
     await expect(page.locator('#projects > article')).toHaveCount(8);
     await expect(
-      page.getByRole('heading', { name: '임고봇', exact: true })
+      page.getByRole('heading', {
+        name: '임고봇 (2024.08)',
+        exact: true
+      })
     ).toBeVisible();
     const schema = JSON.parse(
       await page.locator('script[type="application/ld+json"]').innerText()
@@ -61,7 +69,25 @@ test.describe('서버에서 제공하는 본문', () => {
   });
 });
 
-test('섹션 메뉴와 프로젝트 독이 현재 위치를 추적한다', async ({ page }) => {
+test('미완성 프로젝트 스토리와 더보기 버튼을 공개하지 않는다', async ({
+  page
+}) => {
+  await page.goto('/');
+  await expect(page.locator('#projects > article')).toHaveCount(8);
+  await expect(
+    page.getByRole('heading', { name: '스토리', exact: true })
+  ).toHaveCount(0);
+  await expect(page.getByText('스토리입니다.', { exact: false })).toHaveCount(
+    0
+  );
+  await expect(page.getByRole('button', { name: /스토리 더보기/ })).toHaveCount(
+    0
+  );
+});
+
+test('섹션 메뉴가 현재 위치를 추적하고 프로젝트 추가 탐색 바는 없다', async ({
+  page
+}) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
@@ -74,20 +100,19 @@ test('섹션 메뉴와 프로젝트 독이 현재 위치를 추적한다', async
     navigation.getByRole('link', { name: '기술', exact: true })
   ).toHaveAttribute('aria-current', 'location');
   await navigation.getByRole('link', { name: '프로젝트', exact: true }).click();
-  const dock = page.getByRole('navigation', { name: '프로젝트 바로가기' });
-  await expect(dock).toBeVisible();
-  const planner = dock.getByRole('link', {
-    name: '내일할까 - 게으름뱅이 플래너',
-    exact: true
-  });
-  await planner.click();
-  await expect(page).toHaveURL(/#project-maybe-tomorrow$/);
-  await expect(planner).toHaveAttribute('aria-current', 'location');
+  await expect(
+    navigation.getByRole('link', { name: '프로젝트', exact: true })
+  ).toHaveAttribute('aria-current', 'location');
+  await expect(
+    page.getByRole('navigation', {
+      name: '프로젝트 바로가기',
+      includeHidden: true
+    })
+  ).toHaveCount(0);
   await navigation.getByRole('link', { name: '어학', exact: true }).click();
   await expect(
     navigation.getByRole('link', { name: '어학', exact: true })
   ).toHaveAttribute('aria-current', 'location');
-  await expect(dock).not.toBeVisible();
   expect(errors).toEqual([]);
 });
 

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { ReactNode } from 'react';
-import type { Credential } from '@/data/portfolio';
+import type { Credential } from '@/lib/portfolio';
 import {
   cardClass,
   cardGridClass,

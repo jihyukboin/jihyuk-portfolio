@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { siteOwner } from '@/data/site';
-import { faqs, formats, superDocs } from '@/data/super-docs';
+import { siteOwner } from '@/lib/site';
+import { faqs, formats, superDocs } from '@/lib/super-docs';
 import { DocumentPreview } from './document-preview';
 import { FeatureTabs } from './feature-tabs';
 

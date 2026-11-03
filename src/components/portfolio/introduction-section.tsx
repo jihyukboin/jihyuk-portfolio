@@ -1,4 +1,4 @@
-import { cumulativeUsersText, profile } from '@/data/portfolio';
+import { cumulativeUsersText, profile } from '@/lib/portfolio';
 
 export function IntroductionSection() {
   return (

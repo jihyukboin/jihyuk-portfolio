@@ -1,7 +1,8 @@
+import { blueCtaClass } from '@/components/button-styles';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { siteOwner } from '@/data/site';
+import { siteOwner } from '@/lib/site';
 
 type SiteHeaderProps = {
   navigation: ReactNode;
@@ -13,7 +14,7 @@ export function SiteHeader({ navigation, mobileMenu }: SiteHeaderProps) {
   return (
     <header
       id="site-header"
-      className="sticky top-0 z-[2147483645] h-auto min-h-(--site-header-height) w-full bg-white/85 font-bold shadow-none backdrop-blur-[8px] [font-synthesis:auto]"
+      className="sticky top-0 z-[2147483645] h-auto min-h-(--site-header-height) w-full bg-white/35 font-bold shadow-none backdrop-blur-[1px] [font-synthesis:auto]"
     >
       {/* 가운데 열을 메인 article(max-w-(--site-content-width), mx-auto)과 같은 폭·위치로 맞춘다. */}
       <div className="relative box-border flex min-h-(--site-header-height) w-full items-center justify-between px-4 min-[840px]:grid min-[840px]:grid-cols-[minmax(7rem,1fr)_minmax(0,var(--site-content-width))_minmax(7rem,1fr)]">
@@ -48,7 +49,7 @@ export function SiteHeader({ navigation, mobileMenu }: SiteHeaderProps) {
           href={siteOwner.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative hidden min-h-8 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg border-0 bg-[#1b64da] px-3 py-1.5 text-sm font-semibold leading-4 text-white no-underline transition-colors hover:bg-[#1957bf] focus-visible:bg-[#1957bf] focus-visible:outline-none min-[840px]:inline-flex min-[840px]:justify-self-end"
+          className={`${blueCtaClass} min-h-8 whitespace-nowrap px-3 py-1.5 text-sm leading-4 max-[839px]:hidden min-[840px]:justify-self-end`}
         >
           GitHub
         </a>

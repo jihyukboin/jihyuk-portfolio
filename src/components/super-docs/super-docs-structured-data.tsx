@@ -1,5 +1,5 @@
 import { siteUrl } from '@/lib/site';
-import { faqs, superDocs } from '@/data/super-docs';
+import { faqs, superDocs } from '@/lib/super-docs';
 
 export function SuperDocsStructuredData() {
   const url = `${siteUrl}/super-docs`;

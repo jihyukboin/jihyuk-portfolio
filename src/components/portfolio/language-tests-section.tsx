@@ -1,4 +1,4 @@
-import { languageTests } from '@/data/portfolio';
+import { languageTests } from '@/lib/portfolio';
 import { CredentialSection } from './credential-section';
 
 export function LanguageTestsSection() {

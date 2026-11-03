@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, type KeyboardEvent } from 'react';
-import { formats } from '@/data/super-docs';
+import { formats } from '@/lib/super-docs';
 
 export function FeatureTabs() {
   const [selected, setSelected] = useState(0);
