@@ -12,7 +12,17 @@ The `jihyuk_portfolio` database uses `utf8mb4_0900_ai_ci`. Its dedicated `jihyuk
 
 The standalone release includes `drizzle/`. Server startup applies pending migrations before accepting requests and exits on connection or migration failure. No production test database or `TEST_DATABASE_URL` is required.
 
-After a successful OCI release, the workflow purges `/`, `/robots.txt`, and `/sitemap.xml` through Cloudflare. Add `CLOUDFLARE_API_TOKEN` (zone-scoped `Cache Purge` permission) and `CLOUDFLARE_ZONE_ID` to the same GitHub `production` environment.
+After a successful OCI release, the workflow purges `/`, `/maybe-tomorrow`, `/super-docs`, `/images/portfolio-opengraph.png`, `/llms.txt`, `/robots.txt`, and `/sitemap.xml` through Cloudflare. Add `CLOUDFLARE_API_TOKEN` (zone-scoped `Cache Purge` permission) and `CLOUDFLARE_ZONE_ID` to the same GitHub `production` environment.
+
+## Introduction page cache
+
+All current pages under `src/app/(introduce)/` (`/maybe-tomorrow` and `/super-docs`) are statically generated. The Cloudflare Cache Rule `Cache introduction page HTML` makes their HTML eligible for edge caching with this expression:
+
+```text
+(http.host eq "jihyuk.tech" and http.request.uri.path in {"/maybe-tomorrow" "/super-docs"} and http.request.uri.query eq "" and not has_key(http.request.headers, "rsc"))
+```
+
+Edge TTL uses the origin cache-control header and bypasses cache if it is absent. Browser TTL respects the origin TTL. Only query-free HTML requests match, so RSC and query-string variants remain outside this rule and URL-based deployment purges cover every HTML entry it creates. When adding an introduction page, update both the rule's path list and the workflow's purge URLs.
 
 ## Validation and build
 

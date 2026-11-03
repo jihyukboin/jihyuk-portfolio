@@ -1,4 +1,5 @@
 import Markdown, { type Components } from 'react-markdown';
+import { useEffect } from 'react';
 import remarkBreaks from 'remark-breaks';
 import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
 import remarkCjkFriendlyGfmStrikethrough from 'remark-cjk-friendly-gfm-strikethrough/parseOnly';
@@ -35,7 +36,15 @@ const components: Components = {
   )
 };
 
-export function ChatMarkdown({ children }: { children: string }) {
+export function ChatMarkdown({
+  children,
+  onReady
+}: {
+  children: string;
+  onReady?: () => void;
+}) {
+  useEffect(() => onReady?.(), [children, onReady]);
+
   return (
     <div className={styles.markdown}>
       <Markdown remarkPlugins={remarkPlugins} components={components} skipHtml>

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { PortfolioHeader } from '@/components/portfolio/portfolio-header';
 import { ChatComposer } from './_components/chat/chat-composer';
+import '../fonts/pretendard/1.3.9/pretendard.css';
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
