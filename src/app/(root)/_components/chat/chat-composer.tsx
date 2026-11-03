@@ -115,7 +115,7 @@ export function ChatComposer() {
                 ? undefined
                 : { height: panelHeight, maxHeight: 'none' }
             }
-            className="pointer-events-auto relative mx-5 mb-1 flex min-h-0 max-h-[min(40dvh,400px)] w-[calc(100%-40px)] max-w-[800px] flex-col overflow-hidden rounded-[24px] border border-[#e5e8eb] bg-white/95 shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+            className="pointer-events-auto relative mx-5 mb-1 flex min-h-0 max-h-[min(40dvh,400px)] w-[calc(100%-40px)] max-w-[800px] flex-col overflow-hidden rounded-[24px] border border-[#e5e8eb] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
           >
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-end bg-transparent px-2 pt-1">
               <button
@@ -275,7 +275,7 @@ export function ChatComposer() {
             </div>
           </section>
         )}
-      <div className="flex w-full shrink-0 justify-center bg-white/35 px-5 pt-1 pb-[22px] backdrop-blur-[8px]">
+      <div className="flex w-full shrink-0 justify-center bg-white px-5 pt-1 pb-[22px]">
         <div className="pointer-events-auto relative w-full max-w-[800px] rounded-[28px] border border-[#e5e8eb] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.06),0_0_24px_rgba(125,211,252,0.35)]">
           {!message && (
             <div

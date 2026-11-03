@@ -102,9 +102,13 @@
 }
 
 .markdown img {
+  display: inline-block;
+  width: 3.5rem;
+  height: 3.5rem;
   max-width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
+  object-fit: contain;
+  vertical-align: middle;
+  border-radius: 0.75rem;
 }
 
 .tableScroll {
