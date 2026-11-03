@@ -1,6 +1,14 @@
 import Image from 'next/image';
 import { Globe } from 'lucide-react';
-import { formatProjectPeriod, type Project } from '@/lib/portfolio';
+import { ProjectStory } from './project-story';
+import { ProjectStoryMarkdown } from './project-story-markdown';
+import { getProjectStory } from '@/content/projects';
+import {
+  cumulativeUsersText,
+  formatProjectPeriod,
+  type Project
+} from '@/lib/portfolio';
+import { getImgobotUserCount } from '@/lib/imgobot-stats';
 import {
   bulletListClass,
   cardClass,
@@ -8,8 +16,22 @@ import {
   subHeadingClass
 } from './portfolio-styles';
 
-export function ProjectCard({ id, project }: { id: string; project: Project }) {
+export async function ProjectCard({
+  id,
+  project
+}: {
+  id: string;
+  project: Project;
+}) {
+  const description =
+    project.id === 'imgobot'
+      ? project.description.replace(
+          cumulativeUsersText,
+          `${(await getImgobotUserCount()).toLocaleString('ko-KR')}명`
+        )
+      : project.description;
   const headingId = `${id}-title`;
+  const story = await getProjectStory(project.id);
   const platformLinks = (['web', 'appStore', 'googlePlay'] as const).flatMap(
     (icon) => project.links.filter((link) => link.icon === icon)
   );
@@ -18,7 +40,7 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
     <article
       id={id}
       aria-labelledby={headingId}
-      className="relative grid scroll-mt-0 content-start gap-[14px] pt-[clamp(40px,5vw,56px)] text-[19px] font-normal not-italic leading-[30px] tracking-[-0.6px] text-[#000000] first-of-type:pt-0"
+      className="relative grid grid-cols-1 scroll-mt-0 content-start gap-[14px] pt-[clamp(40px,5vw,56px)] text-[19px] font-normal not-italic leading-[30px] tracking-[-0.6px] text-[#000000] first-of-type:pt-0"
     >
       {project.legacyAnchorId && (
         <span
@@ -101,9 +123,7 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
         </div>
       </div>
       <h4 className={projectLabelClass}>개요</h4>
-      <p className={`${cardClass} px-5 py-4 sm:px-6 sm:py-5`}>
-        {project.description}
-      </p>
+      <p className={`${cardClass} px-5 py-4 sm:px-6 sm:py-5`}>{description}</p>
 
       <h4 className={projectLabelClass}>역할</h4>
       <p className={`${cardClass} px-5 py-4 sm:px-6 sm:py-5`}>{project.role}</p>
@@ -121,6 +141,12 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
       <p className={`${cardClass} px-5 py-4 sm:px-6 sm:py-5`}>
         {project.technologies.join(' · ')}
       </p>
+
+      {story && (
+        <ProjectStory id={id} title={project.title}>
+          <ProjectStoryMarkdown>{story}</ProjectStoryMarkdown>
+        </ProjectStory>
+      )}
     </article>
   );
 }

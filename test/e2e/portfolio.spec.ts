@@ -69,22 +69,6 @@ test.describe('서버에서 제공하는 본문', () => {
   });
 });
 
-test('미완성 프로젝트 스토리와 더보기 버튼을 공개하지 않는다', async ({
-  page
-}) => {
-  await page.goto('/');
-  await expect(page.locator('#projects > article')).toHaveCount(8);
-  await expect(
-    page.getByRole('heading', { name: '스토리', exact: true })
-  ).toHaveCount(0);
-  await expect(page.getByText('스토리입니다.', { exact: false })).toHaveCount(
-    0
-  );
-  await expect(page.getByRole('button', { name: /스토리 더보기/ })).toHaveCount(
-    0
-  );
-});
-
 test('섹션 메뉴가 현재 위치를 추적하고 프로젝트 추가 탐색 바는 없다', async ({
   page
 }) => {
@@ -147,6 +131,64 @@ test('고정 앵커와 이전 공유 앵커가 같은 프로젝트를 가리킨�
     'project-super-docs'
   ]);
 });
+
+for (const width of [320, 390, 1440]) {
+  test(`긴 프로젝트 제목과 스토리 버튼이 화면 너비 안에 유지된다 (${width}px)`, async ({
+    page
+  }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+
+    const project = page.locator('#project-super-docs');
+    await expect(project.getByRole('heading', { level: 3 })).toContainText(
+      'Super Docs - Mac 통합 문서 편집기'
+    );
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > window.innerWidth
+      )
+    ).toBe(false);
+    const imgobot = page.locator('#project-imgobot');
+    await expect(
+      page.getByRole('heading', { name: '스토리', exact: true })
+    ).toHaveCount(1);
+    await expect(
+      page
+        .locator('#projects > article:not(#project-imgobot)')
+        .getByRole('button', {
+          name: /자세한 스토리 더보기/
+        })
+    ).toHaveCount(0);
+    const button = imgobot.getByRole('button', {
+      name: /자세한 스토리 더보기/
+    });
+    await button.click();
+    await expect(
+      imgobot.getByRole('heading', {
+        name: '친구의 고민에서 발견한 문제',
+        exact: true
+      })
+    ).toBeVisible();
+    await expect(
+      imgobot.getByRole('heading', {
+        name: '유저의 피드백으로 완성한 두 번째 도약: AI 면접관',
+        exact: true
+      })
+    ).toBeVisible();
+    await expect(imgobot).not.toContainText('스토리입니다.');
+    await expect(
+      imgobot.getByRole('button', { name: '접기', exact: true })
+    ).toHaveAttribute('aria-expanded', 'true');
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > window.innerWidth
+      )
+    ).toBe(false);
+    await imgobot.getByRole('button', { name: '접기', exact: true }).click();
+    await expect(button).toHaveAttribute('aria-expanded', 'false');
+  });
+}
 
 test.describe('모바일 메뉴', () => {
   test.use({ viewport: { width: 390, height: 844 } });

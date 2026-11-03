@@ -1,5 +1,6 @@
 import 'server-only';
 import { siteOwner } from '@/lib/site';
+import { defaultImgobotUserCount } from '@/lib/imgobot-stats';
 
 // 포트폴리오 화면·메타데이터·구조화 데이터(JSON-LD)의 콘텐츠 원본.
 
@@ -54,7 +55,7 @@ export type Project = {
   title: string;
 };
 
-export const cumulativeUsersText = '3,400명';
+export const cumulativeUsersText = `${defaultImgobotUserCount.toLocaleString('ko-KR')}명`;
 
 export const projects: Project[] = [
   {
@@ -347,7 +348,7 @@ export const skills: SkillGroup[] = [
       'AWS',
       'OCI',
       'Docker',
-      'Caddy',
+      'Nginx',
       'Cloudflare (R2)',
       'GitHub Actions'
     ],

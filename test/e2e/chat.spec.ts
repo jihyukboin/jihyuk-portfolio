@@ -615,6 +615,13 @@ for (const viewport of [
     const answer = [
       '## 프로젝트 안내',
       '',
+      '![임고봇 로고](/images/project-icons/imgobot.7987c920.webp)',
+      '',
+      '| 채널 | 링크 |',
+      '| --- | --- |',
+      '| 웹 | [임고봇 웹 서비스](https://imgobot.com) |',
+      '| 앱 | [Google Play](https://play.google.com/store/apps/details?id=com.imgobot.app) |',
+      '',
       '**강조 문장**과 *기울임*, ~~취소선~~, `inlineCode`를 표시합니다.',
       '',
       '- 첫 번째 항목',
@@ -666,6 +673,35 @@ for (const viewport of [
     await expect(
       panel.getByRole('heading', { level: 2, name: '프로젝트 안내' })
     ).toHaveCount(1);
+    const logo = panel.getByRole('img', { name: '임고봇 로고' });
+    await expect(logo).toBeVisible();
+    await expect(logo).toHaveAttribute(
+      'src',
+      '/images/project-icons/imgobot.7987c920.webp'
+    );
+    await expect
+      .poll(() =>
+        logo.evaluate(
+          (element) =>
+            element instanceof HTMLImageElement &&
+            element.complete &&
+            element.naturalWidth > 0
+        )
+      )
+      .toBe(true);
+    const logoSize = await logo.boundingBox();
+    expect(logoSize?.width).toBe(56);
+    expect(logoSize?.height).toBe(56);
+    const projectLinks = panel.getByRole('table').filter({ hasText: '채널' });
+    await expect(
+      projectLinks.getByRole('link', { name: '임고봇 웹 서비스' })
+    ).toHaveAttribute('href', 'https://imgobot.com');
+    await expect(
+      projectLinks.getByRole('link', { name: 'Google Play' })
+    ).toHaveAttribute(
+      'href',
+      'https://play.google.com/store/apps/details?id=com.imgobot.app'
+    );
     await expect(panel.locator('strong')).toHaveText('강조 문장');
     await expect(panel.locator('em')).toHaveText('기울임');
     await expect(panel.locator('del')).toHaveText('취소선');
@@ -702,7 +738,7 @@ for (const viewport of [
         );
       })(),
       tableScrolls: (() => {
-        const wrapper = element.querySelector('table')!.parentElement!;
+        const wrapper = element.querySelectorAll('table')[1]!.parentElement!;
         return (
           wrapper.scrollWidth > wrapper.clientWidth &&
           getComputedStyle(wrapper).overflowX === 'auto'
