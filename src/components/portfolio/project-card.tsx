@@ -19,7 +19,7 @@ export function ProjectCard({ id, project }: { id: string; project: Project }) {
     <article
       id={id}
       aria-labelledby={headingId}
-      className="relative grid scroll-mt-0 content-start gap-[14px] pt-[clamp(40px,5vw,56px)] text-[19px] font-normal not-italic leading-[30px] tracking-[-0.6px] text-[#000000] first-of-type:pt-0"
+      className="relative grid grid-cols-1 scroll-mt-0 content-start gap-[14px] pt-[clamp(40px,5vw,56px)] text-[19px] font-normal not-italic leading-[30px] tracking-[-0.6px] text-[#000000] first-of-type:pt-0"
     >
       {project.legacyAnchorId && (
         <span

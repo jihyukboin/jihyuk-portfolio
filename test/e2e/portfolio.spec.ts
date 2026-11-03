@@ -132,6 +132,38 @@ test('고정 앵커와 이전 공유 앵커가 같은 프로젝트를 가리킨�
   ]);
 });
 
+for (const width of [320, 390, 1440]) {
+  test(`긴 프로젝트 제목과 스토리 버튼이 화면 너비 안에 유지된다 (${width}px)`, async ({
+    page
+  }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+
+    const project = page.locator('#project-super-docs');
+    await expect(project.getByRole('heading', { level: 3 })).toContainText(
+      'Super Docs - Mac 통합 문서 편집기'
+    );
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > window.innerWidth
+      )
+    ).toBe(false);
+    const button = project.getByRole('button', {
+      name: /자세한 스토리 더보기/
+    });
+    await button.click();
+    await expect(
+      project.getByRole('button', { name: '접기', exact: true })
+    ).toHaveAttribute('aria-expanded', 'true');
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > window.innerWidth
+      )
+    ).toBe(false);
+  });
+}
+
 test.describe('모바일 메뉴', () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
